@@ -31,6 +31,8 @@ class Applicant(BaseModel):
     city = ForeignKeyField(City, related_name='city_of_applicant')
     status = CharField(default='New')
 
+
+    @staticmethod
     def check_app_code():
         update_query = Applicant.select().where(Applicant.application_code == 0)
 
@@ -43,7 +45,7 @@ class Applicant(BaseModel):
 class Mentor(BaseModel):
     first_name = CharField()
     last_name = CharField()
-    school = ForeignKeyField(School,related_name = 'school_of_mentor')
+    school = ForeignKeyField(School, related_name='school_of_mentor')
 
 class Interview(BaseModel):
     applicant_code = ForeignKeyField(Applicant, related_name='applicant_to_interview')
