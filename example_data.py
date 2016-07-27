@@ -14,3 +14,21 @@ cities = [{'name': 'Budapest', 'school': codecool_budapest}, {'name': 'Lillafür
 for city in cities:
     City.create(name=city['name'], school=city['school'])'''
 
+
+
+random_query = City.select().order_by(fn.Random())
+one_city = random_query.get()
+
+"""applicant_1 = Applicant.create(
+    application_code ='None',
+    first_name = 'Dani',
+    last_name = 'Kincses',
+    gender ='male',
+    email_address ='danikincs@gmail.com',
+    city = one_city,
+    status = 'New')"""
+
+query = Applicant.select(Applicant.first_name, Applicant.last_name, Applicant.city.name).get()
+print(query.first_name)
+
+
