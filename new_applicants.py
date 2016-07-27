@@ -10,26 +10,19 @@ for i in range(0, 5):
     one_city = random_query.get()
     cities.append(one_city)
 
-applicants = [{'application_code': 'None', 'first_name': 'Dóri', 'last_name': 'Medgyasszay',
+'''applicants = [{'application_code': 0, 'first_name': 'Dóri', 'last_name': 'Medgyasszay',
                'gender': 'female', 'email_address': 'dorim@gmail.com', 'city': cities[0], 'status': 'New'},
-              {'application_code': 'None', 'first_name': 'Márk', 'last_name': 'Makai',
+              {'application_code': 0, 'first_name': 'Márk', 'last_name': 'Makai',
                'gender': 'male', 'email_address': 'makaimark@gmail.com', 'city': cities[1], 'status': 'New'},
-              {'application_code': 'None', 'first_name': 'Dani', 'last_name': 'Salamon',
+              {'application_code': 0, 'first_name': 'Dani', 'last_name': 'Salamon',
                'gender': 'male', 'email_address': 'dani@gmail.com', 'city': cities[2], 'status': 'New'},
-              {'application_code': 'None', 'first_name': 'Gábor', 'last_name': 'Seres',
+              {'application_code': 0, 'first_name': 'Gábor', 'last_name': 'Seres',
                'gender': 'male', 'email_address': 'sgabi@gmail.com', 'city': cities[3], 'status': 'New'},
-              {'application_code': 'None', 'first_name': 'Dani', 'last_name': 'Kincses',
+              {'application_code': 0, 'first_name': 'Dani', 'last_name': 'Kincses',
                'gender': 'male', 'email_address': 'danikincs@gmail.com', 'city': cities[4], 'status': 'New'}
               ]
 
 for applicant in applicants:
-    Applicant.create(**applicant)
-    query = Applicant.update(application_code=random.randint(10000, 99999)).where(Applicant.application_code == 'None')
-    query.execute()
+    Applicant.create(**applicant)'''
 
-'''update_query = Applicant.select().where(Applicant.application_code == 'None')
-
-for applicant in update_query:
-    print(applicant.first_name)
-    query = Applicant.update(application_code = random.randint(10000,99999))
-    query.execute()'''
+Applicant.check_app_code()
