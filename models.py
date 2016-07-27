@@ -22,7 +22,7 @@ class City(BaseModel):
     school = ForeignKeyField(School, related_name='city_of_school')
 
 class Applicant(BaseModel):
-    application_code = CharField(unique=True)
+    application_code = CharField()
     first_name = CharField()
     last_name = CharField()
     gender = CharField()

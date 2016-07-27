@@ -2,6 +2,7 @@
 # You can run it anytime to generate new data!
 
 from models import *
+import random
 
 cities = []
 for i in range(0, 5):
@@ -23,4 +24,12 @@ applicants = [{'application_code': 'None', 'first_name': 'Dóri', 'last_name': '
 
 for applicant in applicants:
     Applicant.create(**applicant)
+    query = Applicant.update(application_code=random.randint(10000, 99999)).where(Applicant.application_code == 'None')
+    query.execute()
 
+'''update_query = Applicant.select().where(Applicant.application_code == 'None')
+
+for applicant in update_query:
+    print(applicant.first_name)
+    query = Applicant.update(application_code = random.randint(10000,99999))
+    query.execute()'''
