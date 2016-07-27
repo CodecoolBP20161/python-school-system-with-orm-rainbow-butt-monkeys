@@ -21,7 +21,7 @@ for city in cities:
 '''query = Applicant.select(Applicant.first_name, Applicant.last_name, Applicant.city.name).get()
 print(query.first_name)'''
 
-
+'''
 codecool_bp = School.select().where(School.location == "Budapest")
 codecool_miskolc = School.select().where(School.location == "Miskolc")
 codecool_krakow = School.select().where(School.location == "Krakow")
@@ -29,6 +29,9 @@ codecool_krakow = School.select().where(School.location == "Krakow")
 mentors = [{'first_name': 'Miki', 'last_name': 'Beöthy', 'school': codecool_bp},
            {'first_name': 'Tomi', 'last_name': 'Tompa', 'school': codecool_bp},
            {'first_name': 'Dani', 'last_name': 'Salamon', 'school': codecool_bp},
-           {'first_name': 'Mateus', 'last_name': 'Grabowski', 'school': codecool_krakow}           ]
+           {'first_name': 'Mateus', 'last_name': 'Grabowski', 'school': codecool_krakow}]
 
+for mentor in mentors:
+    Mentor.create(**mentor)
+'''
 
