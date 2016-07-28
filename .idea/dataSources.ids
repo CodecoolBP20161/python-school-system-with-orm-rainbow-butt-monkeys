@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="PostgreSQL - school_system_project@localhost" uuid="deb7b0e7-02e4-4441-a690-1217b0a916bd">
+    <database-info product="PostgreSQL" version="9.5.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
+      <identifier-quote-string>&quot;</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact"/>
+    <database-model serializer="dbm" rdbms="POSTGRES" format-version="2.5">
+      <database id="1" name="school_system_project"/>
+      <schema id="2" parent="1" name="public">
+        <object-id>2200</object-id>
+        <comment>standard public schema</comment>
+        <introspection-state-number>2341</introspection-state-number>
+        <introspection-timestamp>2016-07-27.14:45:47.653</introspection-timestamp>
+      </schema>
+      <sequence id="3" parent="2" name="applicant_id_seq">
+        <object-id>18236</object-id>
+        <state-number>2336</state-number>
+      </sequence>
+      <sequence id="4" parent="2" name="city_id_seq">
+        <object-id>18100</object-id>
+        <state-number>2273</state-number>
+      </sequence>
+      <sequence id="5" parent="2" name="interview_id_seq">
+        <object-id>18254</object-id>
+        <state-number>2339</state-number>
+      </sequence>
+      <sequence id="6" parent="2" name="interviewslot_id_seq">
+        <object-id>18222</object-id>
+        <state-number>2334</state-number>
+      </sequence>
+      <sequence id="7" parent="2" name="mentor_id_seq">
+        <object-id>18170</object-id>
+        <state-number>2318</state-number>
+      </sequence>
+      <sequence id="8" parent="2" name="school_id_seq">
+        <object-id>18089</object-id>
+        <state-number>2272</state-number>
+      </sequence>
+      <table id="9" parent="2" name="applicant">
+        <object-id>18238</object-id>
+        <state-number>2339</state-number>
+      </table>
+      <table id="10" parent="2" name="city">
+        <object-id>18102</object-id>
+        <state-number>2336</state-number>
+      </table>
+      <table id="11" parent="2" name="interview">
+        <object-id>18256</object-id>
+        <state-number>2339</state-number>
+      </table>
+      <table id="12" parent="2" name="interviewslot">
+        <object-id>18224</object-id>
+        <state-number>2334</state-number>
+      </table>
+      <table id="13" parent="2" name="mentor">
+        <object-id>18172</object-id>
+        <state-number>2339</state-number>
+      </table>
+      <table id="14" parent="2" name="school">
+        <object-id>18091</object-id>
+        <state-number>2318</state-number>
+      </table>
+      <column id="15" parent="9" name="id">
+        <state-number>2336</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+        <default-expression>nextval(&apos;applicant_id_seq&apos;::regclass)</default-expression>
+      </column>
+      <column id="16" parent="9" name="application_code">
+        <state-number>2336</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+      </column>
+      <column id="17" parent="9" name="first_name">
+        <state-number>2336</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="18" parent="9" name="last_name">
+        <state-number>2336</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="19" parent="9" name="gender">
+        <state-number>2336</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="20" parent="9" name="email_address">
+        <state-number>2336</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="21" parent="9" name="city_id">
+        <state-number>2336</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+      </column>
+      <column id="22" parent="9" name="status">
+        <state-number>2336</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <index id="23" parent="9" name="applicant_pkey">
+        <object-id>18245</object-id>
+        <columns>id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="24" parent="9" name="applicant_email_address">
+        <object-id>18252</object-id>
+        <columns>email_address</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="25" parent="9" name="applicant_city_id">
+        <object-id>18253</object-id>
+        <columns>city_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="26" parent="9" name="applicant_pkey">
+        <columns>id</columns>
+        <underlying-index>applicant_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="27" parent="9" name="applicant_city_id_fkey">
+        <columns>city_id</columns>
+        <ref-key>~.city.city_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="28" parent="10" name="id">
+        <state-number>2273</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+        <default-expression>nextval(&apos;city_id_seq&apos;::regclass)</default-expression>
+      </column>
+      <column id="29" parent="10" name="name">
+        <state-number>2273</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="30" parent="10" name="school_id">
+        <state-number>2273</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+      </column>
+      <index id="31" parent="10" name="city_pkey">
+        <object-id>18106</object-id>
+        <columns>id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="32" parent="10" name="city_school_id">
+        <object-id>18113</object-id>
+        <columns>school_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="33" parent="10" name="city_pkey">
+        <columns>id</columns>
+        <underlying-index>city_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="34" parent="10" name="city_school_id_fkey">
+        <columns>school_id</columns>
+        <ref-key>~.school.school_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="35" parent="11" name="id">
+        <state-number>2339</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+        <default-expression>nextval(&apos;interview_id_seq&apos;::regclass)</default-expression>
+      </column>
+      <column id="36" parent="11" name="applicant_code_id">
+        <state-number>2339</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+      </column>
+      <column id="37" parent="11" name="mentor_id">
+        <state-number>2339</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+      </column>
+      <column id="38" parent="11" name="date">
+        <state-number>2339</state-number>
+        <mandatory>1</mandatory>
+        <data-type>date</data-type>
+      </column>
+      <index id="39" parent="11" name="interview_pkey">
+        <object-id>18260</object-id>
+        <columns>id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="40" parent="11" name="interview_applicant_code_id">
+        <object-id>18272</object-id>
+        <columns>applicant_code_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="41" parent="11" name="interview_mentor_id">
+        <object-id>18273</object-id>
+        <columns>mentor_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="42" parent="11" name="interview_pkey">
+        <columns>id</columns>
+        <underlying-index>interview_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="43" parent="11" name="interview_applicant_code_id_fkey">
+        <columns>applicant_code_id</columns>
+        <ref-key>~.applicant.applicant_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="44" parent="11" name="interview_mentor_id_fkey">
+        <columns>mentor_id</columns>
+        <ref-key>~.mentor.mentor_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="45" parent="12" name="id">
+        <state-number>2334</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+        <default-expression>nextval(&apos;interviewslot_id_seq&apos;::regclass)</default-expression>
+      </column>
+      <column id="46" parent="12" name="mentor_id">
+        <state-number>2334</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+      </column>
+      <column id="47" parent="12" name="start">
+        <state-number>2334</state-number>
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="48" parent="12" name="end">
+        <state-number>2334</state-number>
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="49" parent="12" name="is_reserved">
+        <state-number>2334</state-number>
+        <mandatory>1</mandatory>
+        <data-type>boolean</data-type>
+      </column>
+      <index id="50" parent="12" name="interviewslot_pkey">
+        <object-id>18228</object-id>
+        <columns>id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="51" parent="12" name="interviewslot_mentor_id">
+        <object-id>18235</object-id>
+        <columns>mentor_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="52" parent="12" name="interviewslot_pkey">
+        <columns>id</columns>
+        <underlying-index>interviewslot_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="53" parent="12" name="interviewslot_mentor_id_fkey">
+        <columns>mentor_id</columns>
+        <ref-key>~.mentor.mentor_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="54" parent="13" name="id">
+        <state-number>2318</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+        <default-expression>nextval(&apos;mentor_id_seq&apos;::regclass)</default-expression>
+      </column>
+      <column id="55" parent="13" name="first_name">
+        <state-number>2318</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="56" parent="13" name="last_name">
+        <state-number>2318</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="57" parent="13" name="school_id">
+        <state-number>2318</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+      </column>
+      <index id="58" parent="13" name="mentor_pkey">
+        <object-id>18179</object-id>
+        <columns>id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="59" parent="13" name="mentor_school_id">
+        <object-id>18186</object-id>
+        <columns>school_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="60" parent="13" name="mentor_pkey">
+        <columns>id</columns>
+        <underlying-index>mentor_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="61" parent="13" name="mentor_school_id_fkey">
+        <columns>school_id</columns>
+        <ref-key>~.school.school_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="62" parent="14" name="id">
+        <state-number>2272</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+        <default-expression>nextval(&apos;school_id_seq&apos;::regclass)</default-expression>
+      </column>
+      <column id="63" parent="14" name="location">
+        <state-number>2272</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="64" parent="14" name="name">
+        <state-number>2272</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <index id="65" parent="14" name="school_pkey">
+        <object-id>18098</object-id>
+        <columns>id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="66" parent="14" name="school_pkey">
+        <columns>id</columns>
+        <underlying-index>school_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+    </database-model>
+  </data-source>
+</component>

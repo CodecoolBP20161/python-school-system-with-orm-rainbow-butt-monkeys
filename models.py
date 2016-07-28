@@ -31,6 +31,7 @@ class Applicant(BaseModel):
     city = ForeignKeyField(City, related_name='city_of_applicant')
     status = CharField(default='New')
 
+
     @staticmethod
     def check_app_code():
         update_query = Applicant.select().where(Applicant.application_code == 0)
@@ -47,9 +48,23 @@ class Mentor(BaseModel):
     school = ForeignKeyField(School, related_name='school_of_mentor')
 
 class Interview(BaseModel):
-    applicant_code = ForeignKeyField(Applicant, related_name='applicant_to_interview')
+    applicant = ForeignKeyField(Applicant, related_name='applicant_to_interview')
     mentor = ForeignKeyField(Mentor, related_name='mentor_of_interview')
     date = DateField()
+
+    @staticmethod
+    def give_interview_slot():
+        interview_query = Applicant.select().where(Applicant.status == 'New')
+
+
+        for applicant in interview_query:
+            free_slot = InterviewSlot.select().where(InterviewSlot.is_reserved == False).get()
+            Interview.create(applicant =applicant.id, mentor = free_slot.mentor,date =  free_slot.start)
+            applicant.status = 'in progress'
+            applicant.save()
+            free_slot.is_reserved = True
+            free_slot.save()
+
 
 class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='free_mentor')
