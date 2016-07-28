@@ -45,13 +45,14 @@ for mentor in mentors:
 
 
 mentors = Mentor.select()
-interview_slots = [{'mentor': mentors[0], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00', 'is_reserved': False},
+interview_slots = [{'mentor': mentors[4], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00', 'is_reserved': False},
                    {'mentor': mentors[1], 'start': '2016-08-01 14:00:00', 'end': '2016-08-01 15:00:00','is_reserved': False},
                    {'mentor': mentors[2], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00','is_reserved': False},
                    {'mentor': mentors[2], 'start': '2016-08-04 12:00:00', 'end': '2016-08-04 13:00:00','is_reserved': False},
                     {'mentor': mentors[3], 'start': '2016-08-07 12:00:00', 'end': '2016-08-07 13:00:00','is_reserved': False},
                    {'mentor': mentors[3], 'start': '2016-08-09 12:00:00', 'end': '2016-08-09 13:00:00','is_reserved': False},
-                   {'mentor': mentors[0], 'start': '2016-08-07 12:00:00', 'end': '2016-08-07 13:00:00','is_reserved': False}]
+                   {'mentor': mentors[0], 'start': '2016-08-07 12:00:00', 'end': '2016-08-07 13:00:00','is_reserved': False},
+                   {'mentor': mentors[1], 'start': '2016-08-01 14:00:00', 'end': '2016-08-01 15:00:00','is_reserved': False}]
 
 for slot in interview_slots:
     InterviewSlot.create(**slot)

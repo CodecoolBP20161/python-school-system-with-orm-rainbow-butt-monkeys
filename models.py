@@ -33,7 +33,7 @@ class Applicant(BaseModel):
     email_address = CharField(unique=True)
     city = CharField()
     status = CharField(default='New')
-    school = ForeignKeyField(City, related_name='school_of_applicant', default=None, null=True)
+    school = ForeignKeyField(School, related_name='school_of_applicant', default=None, null=True)
 
 
     @staticmethod
@@ -75,12 +75,16 @@ class Interview(BaseModel):
 
 
         for applicant in interview_query:
-            free_slot = InterviewSlot.select().join(Mentor).join(Applicant, on=Applicant.school==Mentor.school).where(InterviewSlot.is_reserved == False, Applicant.city == Mentor.city).order_by(InterviewSlot.start.asc()).get()
-            Interview.create(applicant =applicant.id, mentor = free_slot.mentor, date =  free_slot.start)
-            applicant.status = 'in progress'
-            applicant.save()
-            free_slot.is_reserved = True
-            free_slot.save()
+            interview_slot_query = InterviewSlot.select().where(InterviewSlot.is_reserved == False).order_by(InterviewSlot.start)
+            for slot in interview_slot_query:
+                if slot.mentor.school == applicant.school:
+                    Interview.create(applicant=applicant.id, mentor=slot.mentor, date=slot.start)
+                    applicant.status = 'in progress'
+                    applicant.save()
+                    slot.is_reserved = True
+                    slot.save()
+                    break
+
 
 class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='free_mentor')
