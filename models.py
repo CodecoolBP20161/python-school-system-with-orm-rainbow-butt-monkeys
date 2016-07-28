@@ -14,42 +14,59 @@ class BaseModel(Model):
     class Meta:
         database = db
 
+
 class School(BaseModel):
     location = CharField()
     name = CharField()
 
+
 class City(BaseModel):
     name = CharField()
     school = ForeignKeyField(School, related_name='city_of_school')
+
 
 class Applicant(BaseModel):
     application_code = IntegerField(default=0)
     first_name = CharField()
     last_name = CharField()
     gender = CharField()
-    email_address= CharField(unique=True)
-    city = ForeignKeyField(City, related_name='city_of_applicant')
+    email_address = CharField(unique=True)
+    city = CharField()
     status = CharField(default='New')
+    school = ForeignKeyField(City, related_name='school_of_applicant', default=None, null=True)
 
     @staticmethod
     def check_app_code():
-        update_query = Applicant.select().where(Applicant.application_code == 0)
+        update_query_for_code = Applicant.select().where(Applicant.application_code == 0)
 
-        for applicant in update_query:
+        for applicant in update_query_for_code:
             random.seed(applicant.id)
             random_code = random.randint(10000, 99999)
             applicant.application_code = random_code
             applicant.save()
+
+    @staticmethod
+    def check_for_school():
+        update_query_for_school = Applicant.select().where(Applicant.status == 'New')
+
+        for applicant in update_query_for_school:
+            for city in City.select():
+                if applicant.city == city.name:
+                    applicant.school = city.school
+                    applicant.save()
+
 
 class Mentor(BaseModel):
     first_name = CharField()
     last_name = CharField()
     school = ForeignKeyField(School, related_name='school_of_mentor')
 
+
 class Interview(BaseModel):
     applicant_code = ForeignKeyField(Applicant, related_name='applicant_to_interview')
     mentor = ForeignKeyField(Mentor, related_name='mentor_of_interview')
     date = DateField()
+
 
 class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='free_mentor')
