@@ -34,10 +34,11 @@ applicants = [{'first_name': 'Dóri', 'last_name': 'Medgyasszay',
 for applicant in applicants:
     Applicant.create(**applicant)
 
-mentors = [{'first_name': 'Miki', 'last_name': 'Beöthy', 'school': codecool_bp},
-           {'first_name': 'Tomi', 'last_name': 'Tompa', 'school': codecool_bp},
-           {'first_name': 'Dani', 'last_name': 'Salamon', 'school': codecool_bp},
-           {'first_name': 'Mateus', 'last_name': 'Grabowski', 'school': codecool_krakow}]
+mentors = [{'first_name': 'Miki', 'last_name': 'Beöthy', 'city': 'Budapest','school': codecool_bp},
+           {'first_name': 'Tomi', 'last_name': 'Tompa','city': 'Budapest', 'school': codecool_bp},
+           {'first_name': 'Dani', 'last_name': 'Salamon','city': 'Budapest', 'school': codecool_bp},
+           {'first_name': 'Mateus', 'last_name': 'Grabowski','city': 'Krakow', 'school': codecool_krakow},
+           {'first_name': 'Mentor', 'last_name': 'Miskolci', 'city': 'Miskolc', 'school': codecool_miskolc}]
 
 for mentor in mentors:
     Mentor.create(**mentor)
@@ -48,7 +49,9 @@ interview_slots = [{'mentor': mentors[0], 'start': '2016-08-01 12:00:00', 'end':
                    {'mentor': mentors[1], 'start': '2016-08-01 14:00:00', 'end': '2016-08-01 15:00:00','is_reserved': False},
                    {'mentor': mentors[2], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00','is_reserved': False},
                    {'mentor': mentors[2], 'start': '2016-08-04 12:00:00', 'end': '2016-08-04 13:00:00','is_reserved': False},
-                    {'mentor': mentors[1], 'start': '2016-08-07 12:00:00', 'end': '2016-08-07 13:00:00','is_reserved': False}]
+                    {'mentor': mentors[3], 'start': '2016-08-07 12:00:00', 'end': '2016-08-07 13:00:00','is_reserved': False},
+                   {'mentor': mentors[3], 'start': '2016-08-09 12:00:00', 'end': '2016-08-09 13:00:00','is_reserved': False},
+                   {'mentor': mentors[0], 'start': '2016-08-07 12:00:00', 'end': '2016-08-07 13:00:00','is_reserved': False}]
 
 for slot in interview_slots:
     InterviewSlot.create(**slot)

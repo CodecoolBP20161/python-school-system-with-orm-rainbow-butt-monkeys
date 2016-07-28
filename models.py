@@ -60,6 +60,7 @@ class Applicant(BaseModel):
 class Mentor(BaseModel):
     first_name = CharField()
     last_name = CharField()
+    city = CharField()
     school = ForeignKeyField(School, related_name='school_of_mentor')
 
 
@@ -74,8 +75,8 @@ class Interview(BaseModel):
 
 
         for applicant in interview_query:
-            free_slot = InterviewSlot.select().where(InterviewSlot.is_reserved == False).get()
-            Interview.create(applicant =applicant.id, mentor = free_slot.mentor,date =  free_slot.start)
+            free_slot = InterviewSlot.select().join(Mentor).join(Applicant, on=Applicant.school==Mentor.school).where(InterviewSlot.is_reserved == False, Applicant.city == Mentor.city).order_by(InterviewSlot.start.asc()).get()
+            Interview.create(applicant =applicant.id, mentor = free_slot.mentor, date =  free_slot.start)
             applicant.status = 'in progress'
             applicant.save()
             free_slot.is_reserved = True
