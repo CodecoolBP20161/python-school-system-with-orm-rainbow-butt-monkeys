@@ -50,7 +50,7 @@ class Mentor(BaseModel):
 class Interview(BaseModel):
     applicant = ForeignKeyField(Applicant, related_name='applicant_to_interview')
     mentor = ForeignKeyField(Mentor, related_name='mentor_of_interview')
-    date = DateField()
+    date = DateTimeField()
 
     @staticmethod
     def give_interview_slot():
