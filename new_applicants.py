@@ -18,5 +18,6 @@ applicants = [{'first_name': 'Dóri', 'last_name': 'Medgyasszay',
 for applicant in applicants:
     Applicant.create(**applicant)
 
+
 Applicant.check_app_code()
 Applicant.check_for_school()
