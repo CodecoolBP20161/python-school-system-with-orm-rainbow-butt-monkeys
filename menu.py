@@ -18,7 +18,7 @@ def menu():
 
 def mentor_view():
     try:
-        choice = int(input('Please choose an option: \n 1. Interview Details\n 2. Back to Main Menu\n 0. Quit\n'))
+        choice = int(input('Please choose an option: \n 1. Interview Details\n 0. Quit\n'))
         if choice == 1:
             mentor_id = int(input("Please enter your id."))
             Mentor.interview_details(mentor_id)
@@ -33,7 +33,7 @@ def mentor_view():
 def applicant_view():
     try:
         choice = int(input('Please choose an option: \n 1. Application Details\n 2. Interview Details'
-                           '\n 3. Back to Main Menu \n 0. Quit\n'))
+                           '\n 0. Quit\n'))
         if choice == 1:
             app_code = input("Please write your application code:")
             Applicant.application_details(app_code)
