@@ -72,14 +72,16 @@ class Interview(BaseModel):  # Stores reserved interview slots
     def give_interview_slot():
         interview_query = Applicant.select().where(Applicant.status == 'New')
 
-
         for applicant in interview_query:
-            free_slot = InterviewSlot.select().where(InterviewSlot.is_reserved == False).get()
-            Interview.create(applicant =applicant.id, mentor = free_slot.mentor,date =  free_slot.start)
-            applicant.status = 'in progress'
-            applicant.save()
-            free_slot.is_reserved = True
-            free_slot.save()
+            interview_slot_query = InterviewSlot.select().where(InterviewSlot.is_reserved == False).order_by(InterviewSlot.start)
+            for slot in interview_slot_query:
+                if slot.mentor.school == applicant.school:
+                    Interview.create(applicant=applicant.id, mentor = slot.mentor, date = slot.start)
+                    applicant.status = 'In progress'
+                    applicant.save()
+                    slot.is_reserved = True
+                    slot.save()
+                    break
 
 class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='free_mentor')
