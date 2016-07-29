@@ -1,6 +1,5 @@
 from models import *
-from applicant_view import *
-from mentor_view import *
+
 
 def menu():
     try:

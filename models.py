@@ -68,7 +68,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             ))
 
         for i in app_details_querry:  # Print out the informations we need
-            print(", Your School:", i.school.name, ", Your Status:", i.status)
+            print(" Your School:", i.school.name, ", Your Status:", i.status)
 
 class Mentor(BaseModel):  # normal data, and their school
     first_name = CharField()
