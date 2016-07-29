@@ -11,9 +11,5 @@ def application_details(app_code):
             Applicant.application_code == app_code
         ))
 
-
     for i in details_querry:
-        print(i.school.name, ", Your Status:", i.status)
-
-
-application_details(27611)
+        print(", Your School:", i.school.name, ", Your Status:", i.status)
