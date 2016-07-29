@@ -54,11 +54,34 @@ class Applicant(BaseModel):  # Main class, stores the data required.
                     applicant.school = city.school
                     applicant.save()
 
+    @staticmethod
+    def application_details(
+            app_code):  # search for the Applicant school name, and status by the given Application code.
+        app_details_querry = (
+            Applicant.select(
+                Applicant,
+                School
+            )
+                .join(School)
+                .where(
+                Applicant.application_code == app_code
+            ))
+
+        for i in app_details_querry:  # Print out the informations we need
+            print(", Your School:", i.school.name, ", Your Status:", i.status)
 
 class Mentor(BaseModel):  # normal data, and their school
     first_name = CharField()
     last_name = CharField()
     school = ForeignKeyField(School, related_name='school_of_mentor')
+
+
+    @staticmethod
+    def interview_details(mentor_id):
+        interview_query = Interview.select(Interview, Applicant).join(Applicant).where(Interview.mentor == mentor_id)
+        for interview in interview_query:
+            print("\nDate of interview: ", interview.date, "\nName of applicant: ", interview.applicant.first_name, "",
+                  interview.applicant.last_name, "\nApplication code: ", interview.applicant.application_code)
 
 
 class Interview(BaseModel):  # Stores reserved interview slots
@@ -80,6 +103,24 @@ class Interview(BaseModel):  # Stores reserved interview slots
                     slot.is_reserved = True
                     slot.save()
                     break
+
+    @staticmethod
+    def interview_details(app_code):  # search for the Applicant school name, Her/His mentor's full name, and the date.
+        interview_details_querry = (
+            Applicant.select(
+                Applicant,
+                Interview,
+                Mentor
+            )
+                .join(Interview)
+                .join(Mentor)
+                .where(
+                Applicant.application_code == app_code
+            ).naive())
+
+        for i in interview_details_querry:
+            print("Your School:", i.school.name, ", Your Mentor:", i.last_name, i.first_name,
+                  ", Your Interview date:", i.date)
 
 
 class InterviewSlot(BaseModel):
