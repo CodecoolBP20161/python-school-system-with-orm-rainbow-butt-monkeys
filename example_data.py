@@ -59,3 +59,5 @@ interview_slots = [{'mentor': mentors[0], 'start': '2016-08-01 12:00:00', 'end':
 
 for slot in interview_slots:
     InterviewSlot.create(**slot)
+
+print("The tables are filled with data now.")
