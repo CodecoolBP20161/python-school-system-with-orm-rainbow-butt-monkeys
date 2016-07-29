@@ -9,23 +9,23 @@ import random
 db = PostgresqlDatabase(config.dbname, user=config.name)
 
 
-class BaseModel(Model):
+class BaseModel(Model):  # Main Class with the database connection.
     """A base model that will use our Postgresql database"""
     class Meta:
         database = db
 
 
-class School(BaseModel):
+class School(BaseModel):  # School class only for information.
     location = CharField()
     name = CharField()
 
 
-class City(BaseModel):
+class City(BaseModel):  # Ensure connection between School and Applicant.
     name = CharField()
     school = ForeignKeyField(School, related_name='city_of_school')
 
 
-class Applicant(BaseModel):
+class Applicant(BaseModel):  # Main class, stores the data required.
     application_code = IntegerField(default=0)
     first_name = CharField()
     last_name = CharField()
@@ -37,7 +37,7 @@ class Applicant(BaseModel):
 
 
     @staticmethod
-    def check_app_code():
+    def check_app_code():  # Generate a uniqe code for every new applicant.
         update_query_for_code = Applicant.select().where(Applicant.application_code == 0)
 
         for applicant in update_query_for_code:
@@ -47,7 +47,7 @@ class Applicant(BaseModel):
             applicant.save()
 
     @staticmethod
-    def check_for_school():
+    def check_for_school():  # Assign a school to every applicant, based on their city.
         update_query_for_school = Applicant.select().where(Applicant.status == 'New')
 
         for applicant in update_query_for_school:
@@ -57,13 +57,13 @@ class Applicant(BaseModel):
                     applicant.save()
 
 
-class Mentor(BaseModel):
+class Mentor(BaseModel):  # normal data, and their school
     first_name = CharField()
     last_name = CharField()
     school = ForeignKeyField(School, related_name='school_of_mentor')
 
 
-class Interview(BaseModel):
+class Interview(BaseModel):  # Stores reserved interview slots
     applicant = ForeignKeyField(Applicant, related_name='applicant_to_interview')
     mentor = ForeignKeyField(Mentor, related_name='mentor_of_interview')
     date = DateTimeField()
