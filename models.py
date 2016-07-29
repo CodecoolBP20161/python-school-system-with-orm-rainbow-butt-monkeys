@@ -33,7 +33,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     email_address = CharField(unique=True)
     city = CharField()
     status = CharField(default='New')
-    school = ForeignKeyField(City, related_name='school_of_applicant', default=None, null=True)
+    school = ForeignKeyField(School, related_name='school_of_applicant', default=None, null=True)
 
 
     @staticmethod
