@@ -35,7 +35,6 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     status = CharField(default='New')
     school = ForeignKeyField(School, related_name='school_of_applicant', default=None, null=True)
 
-
     @staticmethod
     def check_app_code():  # Generate a uniqe code for every new applicant.
         update_query_for_code = Applicant.select().where(Applicant.application_code == 0)
@@ -81,6 +80,7 @@ class Interview(BaseModel):  # Stores reserved interview slots
                     slot.is_reserved = True
                     slot.save()
                     break
+
 
 class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='free_mentor')

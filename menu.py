@@ -41,7 +41,8 @@ def applicant_view():
             app_code = input("Please write your application code:")
             application_details(app_code)
         elif choice == 2:
-            print('TWO')
+            app_code = input("Please write your application code:")
+            interview_details(app_code)
         elif choice == 0:
             exit()
         else:
