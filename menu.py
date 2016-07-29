@@ -1,5 +1,6 @@
 from models import *
 from applicant_view import *
+from mentor_view import *
 
 def menu():
     try:
@@ -20,7 +21,8 @@ def mentor_view():
     try:
         choice = int(input('Please choose an option: \n 1. Interview Details\n 2. Back to Main Menu\n 0. Quit\n'))
         if choice == 1:
-            print('ONE')
+            mentor_id = int(input("Please enter your id."))
+            interview_details(mentor_id)
         elif choice == 2:
             print('TWO')
         elif choice == 0:
