@@ -41,7 +41,6 @@ class Applicant(BaseModel):  # Main class, stores the data required.
         update_query_for_code = Applicant.select().where(Applicant.application_code == 0)
 
         for applicant in update_query_for_code:
-            random.seed(applicant.id)
             random_code = random.randint(10000, 99999)
             applicant.application_code = random_code
             applicant.save()
