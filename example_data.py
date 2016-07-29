@@ -36,7 +36,7 @@ for applicant in applicants:
 
 mentors = [{'first_name': 'Miki', 'last_name': 'Beöthy', 'school': codecool_bp},
            {'first_name': 'Tomi', 'last_name': 'Tompa', 'school': codecool_bp},
-           {'first_name': 'Dani', 'last_name': 'Salamon', 'school': codecool_bp},
+           {'first_name': 'Dani', 'last_name': 'Salamon', 'school': codecool_miskolc},
            {'first_name': 'Mateus', 'last_name': 'Grabowski', 'school': codecool_krakow}]
 
 for mentor in mentors:
@@ -46,7 +46,7 @@ for mentor in mentors:
 mentors = Mentor.select()
 interview_slots = [{'mentor': mentors[0], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00', 'is_reserved': False},
                    {'mentor': mentors[1], 'start': '2016-08-01 14:00:00', 'end': '2016-08-01 15:00:00','is_reserved': False},
-                   {'mentor': mentors[2], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00','is_reserved': False},
+                   {'mentor': mentors[3], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00','is_reserved': False},
                    {'mentor': mentors[2], 'start': '2016-08-04 12:00:00', 'end': '2016-08-04 13:00:00','is_reserved': False},
                     {'mentor': mentors[1], 'start': '2016-08-07 12:00:00', 'end': '2016-08-07 13:00:00','is_reserved': False}]
 
