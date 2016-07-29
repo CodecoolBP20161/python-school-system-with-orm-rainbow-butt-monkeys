@@ -6,3 +6,4 @@ from models import *
 
 Applicant.check_app_code()
 Applicant.check_for_school()
+Interview.give_interview_slot()
