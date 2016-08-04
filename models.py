@@ -9,23 +9,23 @@ import random
 db = PostgresqlDatabase(config.dbname, user=config.name)
 
 
-class BaseModel(Model):
+class BaseModel(Model):  # Main Class with the database connection.
     """A base model that will use our Postgresql database"""
     class Meta:
         database = db
 
 
-class School(BaseModel):
+class School(BaseModel):  # School class only for information.
     location = CharField()
     name = CharField()
 
 
-class City(BaseModel):
+class City(BaseModel):  # Ensure connection between School and Applicant.
     name = CharField()
     school = ForeignKeyField(School, related_name='city_of_school')
 
 
-class Applicant(BaseModel):
+class Applicant(BaseModel):  # Main class, stores the data required.
     application_code = IntegerField(default=0)
     first_name = CharField()
     last_name = CharField()
@@ -35,19 +35,17 @@ class Applicant(BaseModel):
     status = CharField(default='New')
     school = ForeignKeyField(School, related_name='school_of_applicant', default=None, null=True)
 
-
     @staticmethod
-    def check_app_code():
+    def check_app_code():  # Generate a uniqe code for every new applicant.
         update_query_for_code = Applicant.select().where(Applicant.application_code == 0)
 
         for applicant in update_query_for_code:
-            random.seed(applicant.id)
             random_code = random.randint(10000, 99999)
             applicant.application_code = random_code
             applicant.save()
 
     @staticmethod
-    def check_for_school():
+    def check_for_school():  # Assign a school to every applicant, based on their city.
         update_query_for_school = Applicant.select().where(Applicant.status == 'New')
 
         for applicant in update_query_for_school:
@@ -56,15 +54,38 @@ class Applicant(BaseModel):
                     applicant.school = city.school
                     applicant.save()
 
+    @staticmethod
+    def application_details(
+            app_code):  # search for the Applicant school name, and status by the given Application code.
+        app_details_querry = (
+            Applicant.select(
+                Applicant,
+                School
+            )
+                .join(School)
+                .where(
+                Applicant.application_code == app_code
+            ))
 
-class Mentor(BaseModel):
+        for i in app_details_querry:  # Print out the informations we need
+            print(" Your School:", i.school.name, ", Your Status:", i.status)
+
+class Mentor(BaseModel):  # normal data, and their school
     first_name = CharField()
     last_name = CharField()
     city = CharField()
     school = ForeignKeyField(School, related_name='school_of_mentor')
 
 
-class Interview(BaseModel):
+    @staticmethod
+    def interview_details(mentor_id):
+        interview_query = Interview.select(Interview, Applicant).join(Applicant).where(Interview.mentor == mentor_id)
+        for interview in interview_query:
+            print("\nDate of interview: ", interview.date, "\nName of applicant: ", interview.applicant.first_name, "",
+                  interview.applicant.last_name, "\nApplication code: ", interview.applicant.application_code)
+
+
+class Interview(BaseModel):  # Stores reserved interview slots
     applicant = ForeignKeyField(Applicant, related_name='applicant_to_interview')
     mentor = ForeignKeyField(Mentor, related_name='mentor_of_interview')
     date = DateTimeField()
@@ -73,17 +94,34 @@ class Interview(BaseModel):
     def give_interview_slot():
         interview_query = Applicant.select().where(Applicant.status == 'New')
 
-
         for applicant in interview_query:
             interview_slot_query = InterviewSlot.select().where(InterviewSlot.is_reserved == False).order_by(InterviewSlot.start)
             for slot in interview_slot_query:
                 if slot.mentor.school == applicant.school:
-                    Interview.create(applicant=applicant.id, mentor=slot.mentor, date=slot.start)
-                    applicant.status = 'in progress'
+                    Interview.create(applicant=applicant.id, mentor = slot.mentor, date = slot.start)
+                    applicant.status = 'In progress'
                     applicant.save()
                     slot.is_reserved = True
                     slot.save()
                     break
+
+    @staticmethod
+    def interview_details(app_code):  # search for the Applicant school name, Her/His mentor's full name, and the date.
+        interview_details_querry = (
+            Applicant.select(
+                Applicant,
+                Interview,
+                Mentor
+            )
+                .join(Interview)
+                .join(Mentor)
+                .where(
+                Applicant.application_code == app_code
+            ).naive())
+
+        for i in interview_details_querry:
+            print("Your School:", i.school.name, ", Your Mentor:", i.last_name, i.first_name,
+                  ", Your Interview date:", i.date)
 
 
 class InterviewSlot(BaseModel):

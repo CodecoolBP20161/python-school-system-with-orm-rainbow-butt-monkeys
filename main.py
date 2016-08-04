@@ -6,6 +6,7 @@ logger.addHandler(logging.StreamHandler())
 
 # Write here your console application
 
+
 Interview.give_interview_slot()
 '''
 query = Interview.select()
@@ -19,3 +20,11 @@ free_slot = InterviewSlot.select().join(Mentor, on=Mentor.id==InterviewSlot.ment
 print(applicant.__dict__)
 print(free_slot.__dict__)
 '''
+
+Applicant.check_app_code()
+print('Add application codes to the Applicants.')
+Applicant.check_for_school()
+print('Assign school to the Applicants.')
+Interview.give_interview_slot()
+print('Reserve an interview slot to the Applicants.')
+
