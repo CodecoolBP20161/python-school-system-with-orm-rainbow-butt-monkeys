@@ -14,22 +14,27 @@ cities = [{'name': 'Budapest', 'school': codecool_bp}, {'name': 'Lillafüred', '
 for city in cities:
     City.create(name=city['name'], school=city['school'])
 
-
+'''
 codecool_bp = School.select().where(School.location == "Budapest")
 codecool_miskolc = School.select().where(School.location == "Miskolc")
-codecool_krakow = School.select().where(School.location == "Krakow")
+codecool_krakow = School.select().where(School.location == "Krakow")'''
 
 # Fill Applicant table with data:
 applicants = [{'first_name': 'Dóri', 'last_name': 'Medgyasszay',
-               'gender': 'female', 'email_address': 'dorim@gmail.com', 'city': 'Sopron', 'status': 'New'},
+               'gender': 'female', 'email_address': 'dorim@gmail.com', 'city': 'Sopron', 'status': 'New',
+               'registration_time': '2016.07.29'},
               {'first_name': 'Márk', 'last_name': 'Makai',
-               'gender': 'male', 'email_address': 'makaimark@gmail.com', 'city': 'Balatonlelle', 'status': 'New'},
+               'gender': 'male', 'email_address': 'makaimark@gmail.com', 'city': 'Balatonlelle', 'status': 'New',
+               'registration_time': '2016.07.30'},
               {'first_name': 'Dani', 'last_name': 'Salamon',
-               'gender': 'male', 'email_address': 'dani@gmail.com', 'city': 'Budapest', 'status': 'New'},
+               'gender': 'male', 'email_address': 'dani@gmail.com', 'city': 'Budapest', 'status': 'New',
+               'registration_time': '2016.08.09'},
               {'first_name': 'Gábor', 'last_name': 'Seres',
-               'gender': 'male', 'email_address': 'sgabi@gmail.com', 'city': 'Pusztaszentjakab', 'status': 'New'},
+               'gender': 'male', 'email_address': 'sgabi@gmail.com', 'city': 'Pusztaszentjakab', 'status': 'New',
+               'registration_time': '2016.08.15'},
               {'first_name': 'Dani', 'last_name': 'Kincses',
-               'gender': 'male', 'email_address': 'danikincs@gmail.com', 'city': 'Warsav', 'status': 'New'}
+               'gender': 'male', 'email_address': 'danikincs@gmail.com', 'city': 'Warsav', 'status': 'New',
+               'registration_time': '2016.07.12'}
               ]
 
 for applicant in applicants:
