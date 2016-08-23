@@ -34,7 +34,47 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     city = CharField()
     status = CharField(default='New')
     school = ForeignKeyField(School, related_name='school_of_applicant', default=None, null=True)
+    registration_time = DateField()
 
+    @staticmethod
+    def filter_status(input_status):
+        for applicant in Applicant.select().where(Applicant.status == input_status):
+            print(applicant.first_name, applicant.last_name)
+
+    @staticmethod
+    def filter_reg_time(reg_time):
+        for applicant in Applicant.select().where(Applicant.registration_time == reg_time):
+            print(applicant.first_name, applicant.last_name)
+
+    @staticmethod
+    def filter_location(input_location):    # we are waiting for the city of the applicant
+        for applicant in Applicant.select().where(Applicant.city == input_location):
+            print(applicant.first_name, applicant.last_name)
+
+    @staticmethod
+    def filter_name(input_name):
+        for applicant in Applicant.select().where(Applicant.first_name == input_name):
+            print(applicant.first_name, applicant.last_name)
+        for applicant in Applicant.select().where(Applicant.last_name == input_name):
+            print(applicant.first_name, applicant.last_name)
+
+    @staticmethod
+    def filter_email(input_email):
+        for applicant in Applicant.select().where(Applicant.email_address == input_email):
+            print(applicant.first_name, applicant.last_name)
+
+    @staticmethod
+    def filter_school(input_school):
+        look_for_school_id = School.get(School.location == input_school)
+        for applicant in Applicant.select().where(Applicant.school == look_for_school_id.id):
+            print(applicant.first_name, applicant.last_name)
+
+    @staticmethod
+    def filter_mentor(input_mentor_lastname):
+        mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
+        for interview in mentor.interviews:
+            print(interview.applicant.first_name, interview.applicant.last_name)
+            
     @staticmethod
     def check_app_code():  # Generate a uniqe code for every new applicant.
         update_query_for_code = Applicant.select().where(Applicant.application_code == 0)
@@ -73,7 +113,6 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 class Mentor(BaseModel):  # normal data, and their school
     first_name = CharField()
     last_name = CharField()
-    city = CharField()
     school = ForeignKeyField(School, related_name='school_of_mentor')
 
 
@@ -86,8 +125,8 @@ class Mentor(BaseModel):  # normal data, and their school
 
 
 class Interview(BaseModel):  # Stores reserved interview slots
-    applicant = ForeignKeyField(Applicant, related_name='applicant_to_interview')
-    mentor = ForeignKeyField(Mentor, related_name='mentor_of_interview')
+    applicant = ForeignKeyField(Applicant, related_name='interview')
+    mentor = ForeignKeyField(Mentor, related_name='interviews')
     date = DateTimeField()
 
     @staticmethod
