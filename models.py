@@ -34,6 +34,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     city = CharField()
     status = CharField(default='New')
     school = ForeignKeyField(School, related_name='school_of_applicant', default=None, null=True)
+    registration_time = DateField()
 
     @staticmethod
     def check_app_code():  # Generate a uniqe code for every new applicant.
@@ -73,7 +74,6 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 class Mentor(BaseModel):  # normal data, and their school
     first_name = CharField()
     last_name = CharField()
-    city = CharField()
     school = ForeignKeyField(School, related_name='school_of_mentor')
 
 
