@@ -38,43 +38,36 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 
     @staticmethod
     def filter_status(input_status):
-        query_for_status = Applicant.select().where(Applicant.status == input_status)
-        for i in query_for_status:
-            print(i.first_name, i.last_name)
+        for applicant in Applicant.select().where(Applicant.status == input_status):
+            print(applicant.first_name, applicant.last_name)
 
     @staticmethod
     def filter_reg_time(reg_time):
-        query_for_regtime = Applicant.select().where(Applicant.registration_time == reg_time)
-        for i in query_for_regtime:
-            print(i.first_name, i.last_name)
+        for applicant in Applicant.select().where(Applicant.registration_time == reg_time):
+            print(applicant.first_name, applicant.last_name)
 
     @staticmethod
     def filter_location(input_location):    # we are waiting for the city of the applicant
-        query_for_location = Applicant.select().where(Applicant.city == input_location)
-        for i in query_for_location:
-            print(i.first_name, i.last_name)
+        for applicant in Applicant.select().where(Applicant.city == input_location):
+            print(applicant.first_name, applicant.last_name)
 
     @staticmethod
     def filter_name(input_name):
-        query_for_name = Applicant.select().where(Applicant.first_name == input_name)
-        for i in query_for_name:
-            print(i.first_name, i.last_name)
-        query_for_name = Applicant.select().where(Applicant.last_name == input_name)
-        for i in query_for_name:
-            print(i.first_name, i.last_name)
+        for applicant in Applicant.select().where(Applicant.first_name == input_name):
+            print(applicant.first_name, applicant.last_name)
+        for applicant in Applicant.select().where(Applicant.last_name == input_name):
+            print(applicant.first_name, applicant.last_name)
 
     @staticmethod
     def filter_email(input_email):
-        query_for_email = Applicant.select().where(Applicant.email_address == input_email)
-        for i in query_for_email:
-            print(i.first_name, i.last_name)
+        for applicant in Applicant.select().where(Applicant.email_address == input_email):
+            print(applicant.first_name, applicant.last_name)
 
     @staticmethod
     def filter_school(input_school):
-        look_for_school_id = School.select().where(School.location == input_school).get()
-        query_for_school = Applicant.select().where(Applicant.school == look_for_school_id.id)
-        for i in query_for_school:
-            print(i.first_name, i.last_name)
+        look_for_school_id = School.get(School.location == input_school)
+        for applicant in Applicant.select().where(Applicant.school == look_for_school_id.id):
+            print(applicant.first_name, applicant.last_name)
 
     @staticmethod
     def filter_mentor(input_mentor_lastname):
