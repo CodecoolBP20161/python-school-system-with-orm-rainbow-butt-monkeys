@@ -78,20 +78,9 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 
     @staticmethod
     def filter_mentor(input_mentor_lastname):
-        look_for_mentorid = Mentor.select().where(Mentor.last_name == input_mentor_lastname).get()
-
-        '''interview = Interview.select().where(look_for_mentorid.id == Interview.mentor_id)
-        for i in interview:
-            print(i.id)
-        for i in interview:
-            applicant = Applicant.select().where(i.applicant_id == Applicant.id)
-            print(applicant.first_name, applicant.last_name)'''
-        applicants = Applicant.select(Applicant, Interview, Mentor)\
-            .join(Interview)\
-            .join(Mentor)\
-            .where(look_for_mentorid.id == Interview.mentor_id)
-        for i in applicants:
-            print(i.first_name, i.last_name)
+        mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
+        for interview in mentor.interviews:
+            print(interview.applicant.first_name, interview.applicant.last_name)
             
     @staticmethod
     def check_app_code():  # Generate a uniqe code for every new applicant.
@@ -143,8 +132,8 @@ class Mentor(BaseModel):  # normal data, and their school
 
 
 class Interview(BaseModel):  # Stores reserved interview slots
-    applicant = ForeignKeyField(Applicant, related_name='applicant_to_interview')
-    mentor = ForeignKeyField(Mentor, related_name='mentor_of_interview')
+    applicant = ForeignKeyField(Applicant, related_name='interview')
+    mentor = ForeignKeyField(Mentor, related_name='interviews')
     date = DateTimeField()
 
     @staticmethod
