@@ -2,6 +2,7 @@
 from peewee import *
 import config
 import random
+import email_sender
 
 # Configure your database connection here
 # database name = should be your username on your laptop
@@ -35,6 +36,15 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     status = CharField(default='New')
     school = ForeignKeyField(School, related_name='school_of_applicant', default=None, null=True)
     registration_time = DateField()
+
+    @staticmethod
+    def app_details():
+        query_for_details = Applicant.select(Applicant, School).join(School)
+        for applicant in query_for_details:
+            #smtp call
+            email_sender.send_email(applicant.email_address, applicant.first_name,
+                                    applicant.application_code, applicant.school.location)
+            print(applicant)
 
     @staticmethod
     def filter_status(input_status):
