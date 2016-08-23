@@ -53,7 +53,7 @@ def list_applicants():
             school = str(input('Please enter the name of the School: \n'))
             # method call comes here
         elif choice == 7:
-            mentor = str(input('Please enter the name of the mentor: \n'))
+            mentor = str(input('Please enter the last name of the mentor: \n'))
             # method call comes here
     except ValueError:
         print('Please enter a valid option!')
