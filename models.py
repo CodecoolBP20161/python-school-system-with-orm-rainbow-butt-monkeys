@@ -65,21 +65,31 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 
     @staticmethod
     def filter_email(input_email):
-        query_for_email = Applicant.select().where(Applicant.email == input_email)
+        query_for_email = Applicant.select().where(Applicant.email_address == input_email)
         for i in query_for_email:
             print(i.first_name, i.last_name)
 
     @staticmethod
     def filter_school(input_school):
-        look_for_school_id = School.select().where(School.location == input_school)
+        look_for_school_id = School.select().where(School.location == input_school).get()
         query_for_school = Applicant.select().where(Applicant.school == look_for_school_id.id)
         for i in query_for_school:
             print(i.first_name, i.last_name)
 
     @staticmethod
     def filter_mentor(input_mentor_lastname):
-        look_for_mentorid = Mentor.select().where(Mentor.last_name == input_mentor_lastname)
-        applicants = Applicant.select(Applicant, Interview).join(Interview).where(look_for_mentorid.id == Interview.mentor_id)
+        look_for_mentorid = Mentor.select().where(Mentor.last_name == input_mentor_lastname).get()
+
+        '''interview = Interview.select().where(look_for_mentorid.id == Interview.mentor_id)
+        for i in interview:
+            print(i.id)
+        for i in interview:
+            applicant = Applicant.select().where(i.applicant_id == Applicant.id)
+            print(applicant.first_name, applicant.last_name)'''
+        applicants = Applicant.select(Applicant, Interview, Mentor)\
+            .join(Interview)\
+            .join(Mentor)\
+            .where(look_for_mentorid.id == Interview.mentor_id)
         for i in applicants:
             print(i.first_name, i.last_name)
             

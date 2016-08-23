@@ -36,25 +36,25 @@ def list_applicants():
                             ' 4. Name\n 5. Email\n 6. School\n 7. Mentor name\n 0. Quit\n'))
         if choice == 1:
             status = str(input('Please enter a status: \n'))
-            #method call comes here
+            Applicant.filter_status(status)
         elif choice == 2:
             reg_time = str(input('Please enter a registration date (please separate year, month, day with a - ): \n'))
-            #method call comes here
+            Applicant.filter_reg_time(reg_time)
         elif choice == 3:
             city = str(input('Please enter a city name:\n'))
-            #method call comes here
+            Applicant.filter_location(city)
         elif choice == 4:
-            name = str(input('Please enter a name: \n'))
-            #method call comes here
+            name = str(input('Please enter first or last name: \n'))
+            Applicant.filter_name(name)
         elif choice == 5:
             email = str(input('Please enter an email address: \n'))
-            #method call comes here
+            Applicant.filter_email(email)
         elif choice == 6:
-            school = str(input('Please enter the name of the School: \n'))
-            # method call comes here
+            school = str(input('Please enter the location of the School: \n'))
+            Applicant.filter_school(school)
         elif choice == 7:
             mentor = str(input('Please enter the last name of the mentor: \n'))
-            # method call comes here
+            Applicant.filter_mentor(mentor)
     except ValueError:
         print('Please enter a valid option!')
 
