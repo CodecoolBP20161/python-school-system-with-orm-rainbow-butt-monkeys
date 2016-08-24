@@ -30,7 +30,7 @@ def send_email(applicant_email, applicant_first_name,application_code, school_lo
 
     server.quit()
 
-def send_email(applicant_email, applicant_first_name, mentor_name, interview_start):
+def send_email_for_interview(applicant_email, applicant_first_name, mentor_name, interview_start):
     TO = applicant_email
     SUBJECT = 'Your Application'
     TEXT ='\r\n'.join(['Dear %s!' % applicant_first_name, 'Your mentor will be %s.' % mentor_name, 'You have to attend your interview at: %s' % interview_start])

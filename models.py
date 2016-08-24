@@ -47,6 +47,18 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             print(applicant)
 
     @staticmethod
+    def app_details_for_interview():
+        query_for_details = Interview.select(Applicant, Interview, Mentor)\
+            .join(Applicant, on=Applicant.id==Interview.applicant)\
+            .join(Mentor, on=Mentor.id==Interview.mentor)\
+            .where(Applicant.status == 'In progress')
+        for interview in query_for_details:
+            # smtp call
+            email_sender.send_email_for_interview(interview.applicant.email_address, interview.applicant.first_name,
+                                                  interview.mentor.first_name, interview.date)
+
+
+    @staticmethod
     def filter_status(input_status):
         for applicant in Applicant.select().where(Applicant.status == input_status):
             print(applicant.first_name, applicant.last_name)
