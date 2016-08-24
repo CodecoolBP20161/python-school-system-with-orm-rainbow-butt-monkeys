@@ -146,6 +146,7 @@ class Mentor(BaseModel):  # normal data, and their school
     first_name = CharField()
     last_name = CharField()
     school = ForeignKeyField(School, related_name='school_of_mentor')
+    email_address = CharField()
 
 
     @staticmethod
