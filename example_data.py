@@ -40,6 +40,11 @@ applicants = [{'first_name': 'Dori', 'last_name': 'Medgyasszay',
 for applicant in applicants:
     Applicant.create(**applicant)
 
+app_querry = Applicant.select()
+print('Applicants:')
+for i in app_querry:
+    print("- ", i.last_name, i.first_name,", email:", i.email_address,", City:", i.city,", Status:", i.status, i.registration_time, "-")
+
 
 # Fill Mentor table with data:
 mentors = [{'first_name': 'Miki', 'last_name': 'Beöthy', 'school': codecool_bp, 'email_address': 'rbm.codecool@gmail.com'},
@@ -49,6 +54,13 @@ mentors = [{'first_name': 'Miki', 'last_name': 'Beöthy', 'school': codecool_bp,
 
 for mentor in mentors:
     Mentor.create(**mentor)
+
+mentor_querry = Mentor.select()
+print("Mentors:")
+for i in mentor_querry:
+    print("- ", i.last_name, i.first_name,", email:", i.email_address, "-")
+
+
 
 # Fill InterviewSlot table with data:
 mentors = Mentor.select()
