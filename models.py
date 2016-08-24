@@ -57,6 +57,16 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             email_sender.send_email_for_interview(interview.applicant.email_address, interview.applicant.first_name,
                                                   interview.mentor.first_name, interview.date)
 
+    @staticmethod
+    def interview_details_for_mentor():
+        query_for_details = Interview.select(Applicant, Interview, Mentor) \
+            .join(Applicant, on=Applicant.id == Interview.applicant) \
+            .join(Mentor, on=Mentor.id == Interview.mentor) \
+            .where(Applicant.status == 'In progress')
+        for interview in query_for_details:
+            # smtp call
+            email_sender.send_email_for_interview(interview.mentor.email_address, interview.mentor.first_name,
+                                                  interview.mentor.first_name, interview.date)
 
     @staticmethod
     def filter_status(input_status):
@@ -136,6 +146,7 @@ class Mentor(BaseModel):  # normal data, and their school
     first_name = CharField()
     last_name = CharField()
     school = ForeignKeyField(School, related_name='school_of_mentor')
+    email_address = CharField()
 
 
     @staticmethod

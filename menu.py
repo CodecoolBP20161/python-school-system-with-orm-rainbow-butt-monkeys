@@ -17,6 +17,7 @@ def menu():
     except ValueError:
         print('Please enter a valid option!')
 
+
 def admin_view():
     try:
         choice = int(input('Please choose and option: \n 1.List Applicants\n 0. Quit\n'))

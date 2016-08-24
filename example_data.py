@@ -42,10 +42,10 @@ for applicant in applicants:
 
 
 # Fill Mentor table with data:
-mentors = [{'first_name': 'Miki', 'last_name': 'Beöthy', 'school': codecool_bp},
-           {'first_name': 'Tomi', 'last_name': 'Tompa', 'school': codecool_bp},
-           {'first_name': 'Dani', 'last_name': 'Salamon', 'school': codecool_miskolc},
-           {'first_name': 'Mateus', 'last_name': 'Grabowski', 'school': codecool_krakow}]
+mentors = [{'first_name': 'Miki', 'last_name': 'Beöthy', 'school': codecool_bp, 'email_address': 'rbm.codecool@gmail.com'},
+           {'first_name': 'Tomi', 'last_name': 'Tompa', 'school': codecool_bp, 'email_address': 'rbm.codecool@gmail.com'},
+           {'first_name': 'Dani', 'last_name': 'Salamon', 'school': codecool_miskolc, 'email_address': 'rbm.codecool@gmail.com'},
+           {'first_name': 'Mateus', 'last_name': 'Grabowski', 'school': codecool_krakow, 'email_address': 'rbm.codecool@gmail.com'}]
 
 for mentor in mentors:
     Mentor.create(**mentor)
