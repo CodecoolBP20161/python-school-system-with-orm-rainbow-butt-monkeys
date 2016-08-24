@@ -2,20 +2,22 @@ from models import *
 
 
 def menu():
-    try:
-        choice = int(input('Please choose an option: \n 1. Mentor View\n 2. Applicant View\n 3. Admin View\n 0. Quit\n'))
-        if choice == 1:
-            mentor_view()
-        elif choice == 2:
-            applicant_view()
-        elif choice == 0:
-            exit()
-        elif choice == 3:
-            admin_view()
-        else:
-            print('Sorry, this is not an option.')
-    except ValueError:
-        print('Please enter a valid option!')
+    choice = True
+    while choice != 0:
+        try:
+            choice = int(input('Please choose an option: \n1. Mentor View\n2. Applicant View\n3. Admin View\n0. Quit\n'))
+            if choice == 1:
+                mentor_view()
+            elif choice == 2:
+                applicant_view()
+            elif choice == 0:
+                exit()
+            elif choice == 3:
+                admin_view()
+            else:
+                print('Sorry, this is not an option.\n')
+        except ValueError:
+            print('Please enter a valid option!')
 
 
 def admin_view():
