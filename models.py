@@ -47,6 +47,10 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             print(applicant)
 
     @staticmethod
+    def interview_details():
+        query_about_interview = Applicant.select(Applicant, Interview).join(Interview)
+
+    @staticmethod
     def filter_status(input_status):
         query_for_status = Applicant.select().where(Applicant.status == input_status)
         for i in query_for_status:
