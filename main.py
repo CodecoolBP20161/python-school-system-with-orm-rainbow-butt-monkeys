@@ -1,33 +1,30 @@
 from models import *
+import logging
+logger = logging.getLogger('peewee')
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler())
 
 # Write here your console application
 
 
+Interview.give_interview_slot()
+'''
+query = Interview.select()
+for i in query:
+    print(i.mentor.first_name, i.applicant.last_name, i.date)
+
+applicant = Applicant.select().where(Applicant.last_name=='Kincses').get()
+free_slot = InterviewSlot.select().join(Mentor, on=Mentor.id==InterviewSlot.mentor).join(School, on=applicant.school == Mentor.school).where(InterviewSlot.is_reserved == False
+                                ).order_by(
+                                InterviewSlot.start.asc()).get()
+print(applicant.__dict__)
+print(free_slot.__dict__)
+'''
 
 Applicant.check_app_code()
 print('Add application codes to the Applicants.')
-app_querry = Applicant.select()
-for i in app_querry:
-    print(i.last_name, i.first_name,"Applicant code:", i.application_code)
-
 Applicant.check_for_school()
 print('Assign school to the Applicants.')
-app_querry_2 = Applicant.select()
-for i in app_querry_2:
-    print(i.last_name, i.first_name, "School:", i.school.location)
-
 Interview.give_interview_slot()
-
 print('Reserve an interview slot to the Applicants.')
-query_for_details = Interview.select(Applicant, Interview, Mentor) \
-                    .join(Applicant, on=Applicant.id == Interview.applicant) \
-                    .join(Mentor, on=Mentor.id == Interview.mentor) \
-                    .where(Applicant.status == 'In progress')
 
-for i in query_for_details:
-    print(i.applicant.last_name, i.applicant.first_name, "Interview slot:", i.date)
-
-Applicant.app_details_for_interview()
-print("OK")
-Applicant.interview_details_for_mentor()
-print('mentors got emails about interviews')
