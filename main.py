@@ -27,6 +27,7 @@ query_for_details = Interview.select(Applicant, Interview, Mentor) \
 for i in query_for_details:
     print(i.applicant.last_name, i.applicant.first_name, "Interview slot:", i.date)
 
-
+Applicant.app_details_for_interview()
+print("OK")
 Applicant.interview_details_for_mentor()
 print('mentors got emails about interviews')

@@ -63,8 +63,8 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             .where(Applicant.status == 'In progress')
         for interview in query_for_details:
             # smtp call
-            email_sender.send_email_for_interview(interview.mentor.email_address, interview.mentor.first_name,
-                                                  interview.mentor.first_name, interview.date)
+            email_sender.send_email_to_mentor(interview.mentor.email_address, interview.mentor.first_name,
+                                                  interview.applicant.first_name, interview.date)
 
     @staticmethod
     def filter_status(input_status):
