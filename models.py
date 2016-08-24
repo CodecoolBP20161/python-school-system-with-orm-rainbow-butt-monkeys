@@ -44,8 +44,6 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             #smtp call
             email_sender.send_email(applicant.email_address, applicant.first_name,
                                     applicant.application_code, applicant.school.location)
-            print(applicant)
-
     @staticmethod
     def app_details_for_interview():
         query_for_details = Interview.select(Applicant, Interview, Mentor)\
@@ -124,7 +122,6 @@ class Applicant(BaseModel):  # Main class, stores the data required.
                 if applicant.city == city.name:
                     applicant.school = city.school
                     applicant.save()
-        Applicant.app_details()
 
     @staticmethod
     def application_details(
