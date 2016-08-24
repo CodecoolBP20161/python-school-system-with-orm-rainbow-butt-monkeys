@@ -2,8 +2,7 @@ import smtplib
 import config
 
 
-
-def send_email(applicant_email, applicant_first_name,application_code, school_location):
+def send_email(applicant_email, applicant_first_name, application_code, school_location):
     TO = applicant_email
     SUBJECT = 'Your Application'
     TEXT ='\r\n'.join(['Dear %s!' % applicant_first_name, 'Your application code is %d.' % application_code, 'You have to attend your interview in: %s' % school_location])
