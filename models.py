@@ -39,7 +39,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 
     @staticmethod
     def app_details():
-        query_for_details = Applicant.select(Applicant, School).join(School)
+        query_for_details = Applicant.select(Applicant, School).join(School).where(Applicant.status == 'New')
         for applicant in query_for_details:
             #smtp call
             email_sender.send_email(applicant.email_address, applicant.first_name,
@@ -110,6 +110,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
                 if applicant.city == city.name:
                     applicant.school = city.school
                     applicant.save()
+        Applicant.app_details()
 
     @staticmethod
     def application_details(
