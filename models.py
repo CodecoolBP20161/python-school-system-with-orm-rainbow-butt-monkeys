@@ -63,11 +63,8 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 
     @staticmethod
     def filter_name(input_name):
-    
-    @staticmethod
-    def filter_by_name(input_name):
         for applicant in Applicant.select().where((Applicant.first_name.contains(input_name) |
-                                                        (Applicant.last_name.contains(input_name)))):
+                                                           (Applicant.last_name.contains(input_name)))):
             print(applicant.first_name, applicant.last_name)
 
     @staticmethod
