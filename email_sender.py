@@ -77,8 +77,8 @@ def send_email_to_mentor(mentor_email, mentor_first_name, applicant_first_name, 
 
     try:
         server.sendmail(gmail_sender, [TO], BODY)
-        print('E-mail sent to %s about their interview slots.' %mentor_first_name)
+        print('E-mail sent to %s about their interview slots.' %applicant_first_name)
     except:
-        print(applicant_email)
+        print(mentor_email)
 
     server.quit()
