@@ -39,7 +39,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 
     @staticmethod
     def app_details():
-        query_for_details = Applicant.select(Applicant, School).join(School)
+        query_for_details = Applicant.select(Applicant, School).join(School).where(Applicant.status == 'New')
         for applicant in query_for_details:
             #smtp call
             email_sender.send_email(applicant.email_address, applicant.first_name,
@@ -63,10 +63,11 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 
     @staticmethod
     def filter_name(input_name):
-        for applicant in Applicant.select().where(Applicant.first_name == input_name):
-            print(applicant.first_name, applicant.last_name)
-        for applicant in Applicant.select().where(Applicant.last_name == input_name):
-            print(applicant.first_name, applicant.last_name)
+        @staticmethod
+        def filter_by_name(input_name):
+            for applicant in Applicant.select().where((Applicant.first_name.contains(input_name) |
+                                                           (Applicant.last_name.contains(input_name)))):
+                print(applicant.first_name, applicant.last_name)
 
     @staticmethod
     def filter_email(input_email):
@@ -103,6 +104,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
                 if applicant.city == city.name:
                     applicant.school = city.school
                     applicant.save()
+        Applicant.app_details()
 
     @staticmethod
     def application_details(
