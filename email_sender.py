@@ -23,7 +23,7 @@ def send_email(applicant_email, applicant_first_name, application_code, school_l
 
     try:
         server.sendmail(gmail_sender, [TO], BODY)
-        print('email sent')
+        print('E-mail to %s' % applicant_first_name)
     except:
         print(applicant_email)
 
@@ -50,7 +50,7 @@ def send_email_for_interview(applicant_email, applicant_first_name, mentor_name,
 
     try:
         server.sendmail(gmail_sender, [TO], BODY)
-        print('email sent')
+        print('email sent to %s' % applicant_first_name)
     except:
         print(applicant_email)
 
@@ -77,10 +77,8 @@ def send_email_to_mentor(mentor_email, mentor_first_name, applicant_first_name, 
 
     try:
         server.sendmail(gmail_sender, [TO], BODY)
-        print('email sent')
+        print('E-mail sent to %s about their interview slots.' %mentor_first_name)
     except:
         print(applicant_email)
 
     server.quit()
-
-send_email_to_mentor('danikincs@gmail.com', 'Miki', 'Dani', '1222.00.11')
