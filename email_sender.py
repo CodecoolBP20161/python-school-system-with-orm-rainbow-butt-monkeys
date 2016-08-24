@@ -53,7 +53,7 @@ def send_email_to_mentor(mentor_email, mentor_first_name, applicant_first_name, 
     TEXT ='\r\n'.join(['Dear %s!' % mentor_first_name, 'You will have an interview at %s.' % reserved_interview_slot, 'You will have an interview with: %s' % applicant_first_name])
     SendEmail.email_sender(TO, SUBJECT, TEXT)
 
-<<<<<<< HEAD
+
     # Gmail Sign In
     gmail_sender = config.email_address
     gmail_passwd = config.email_password
@@ -75,5 +75,4 @@ def send_email_to_mentor(mentor_email, mentor_first_name, applicant_first_name, 
         print(mentor_email)
 
     server.quit()
-=======
->>>>>>> emailsenderfixer
+
