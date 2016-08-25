@@ -39,11 +39,12 @@ class Emailsender:
 
 
     @staticmethod
-    def send_email_for_interview(applicant_email, applicant_first_name, mentor_name, interview_start):
+    def send_email_for_interview(applicant_email, applicant_first_name, mentor_name, mentor_name2, interview_start):
         # E-mail sending to applicant about his/her mentor, and interview slot.
         to = applicant_email
         subject = 'Your Application'
         text ='\r\n'.join(['Dear %s!' % applicant_first_name, 'Your mentor will be %s.' % mentor_name,
+                           'and %s.' % mentor_name2,
                            'You have to attend your interview at: %s' % interview_start])
         SendEmail.email_sender(to, subject, text)
 

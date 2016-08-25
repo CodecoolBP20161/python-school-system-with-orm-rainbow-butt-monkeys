@@ -47,26 +47,38 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 
     @staticmethod
     def app_details_for_interview():
-        query_for_details = Interview.select(Applicant, Interview, Mentor) \
-            .join(Applicant, on=Applicant.id == Interview.applicant) \
-            .join(Mentor, on=Mentor.id == Interview.mentor) \
-            .where(Applicant.status == 'In progress')
-        for interview in query_for_details:
-            # smtp call
+        mentors = []
+        interview_query = Interview.select()
+        for interview in interview_query:
+            mentor_query = MentorInterview.select(MentorInterview)\
+                .where(MentorInterview.interview == interview.id)
+            for i in mentor_query:
+                print(i.mentor.id)
+                mentors.append(i.mentor)
             email_sender.Emailsender.send_email_for_interview(interview.applicant.email_address,
-                                                               interview.applicant.first_name,
-                                                               interview.mentor.first_name, interview.date)
+                                                              interview.applicant.first_name,
+                                                              mentors[0].first_name,mentors[1].first_name, interview.date)
 
+            mentors = []
+
+        '''query_for_details = MentorInterview.select(Interview, Applicant, MentorInterview, Mentor) \
+            .join(Applicant, on=Applicant.id == Interview.applicant) \
+            .join(Mentor, on=Mentor.id == MentorInterview.mentor) \
+            .join(Interview, on=Interview.id == MentorInterview.interview)
+        for slot in query_for_details:
+            email_sender.Emailsender.send_email_for_interview(slot.interview.applicant.email_address,
+                                                               slot.interview.applicant.first_name,
+                                                               slot.mentor.first_name, slot.interview.date)
+'''
     @staticmethod
     def interview_details_for_mentor():
-        query_for_details = Interview.select(Applicant, Interview, Mentor) \
-            .join(Applicant, on=Applicant.id == Interview.applicant) \
-            .join(Mentor, on=Mentor.id == Interview.mentor) \
-            .where(Applicant.status == 'In progress')
-        for interview in query_for_details:
-            # smtp call
+        query = Interview.select(Interview, MentorInterview, Mentor, Applicant) \
+                        .join(MentorInterview, on=MentorInterview.interview==Interview.id) \
+                        .join(Mentor, on=Mentor.id==MentorInterview.mentor) \
+                        .join(Applicant, on=Applicant.id==Interview.applicant)
+        for interview in query:
             email_sender.Emailsender.send_email_to_mentor(interview.mentor.email_address, interview.mentor.first_name,
-                                                           interview.applicant.first_name, interview.date)
+                                                          interview.applicant.first_name, interview.date)
 
     @staticmethod
     def filter_status(input_status):

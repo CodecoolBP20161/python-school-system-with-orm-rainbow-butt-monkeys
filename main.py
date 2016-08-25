@@ -28,21 +28,22 @@ input1 = input()
 Interview.give_interview_slot()
 
 print('Reserve an interview slot to the Applicants.\n')
-query_for_details = Interview.select(Applicant, Interview, Mentor) \
-                    .join(Applicant, on=Applicant.id == Interview.applicant) \
-                    .join(Mentor, on=Mentor.id == Interview.mentor) \
-                    .where(Applicant.status == 'In progress')
 
 input1 = input()
 
-for i in query_for_details:
-    print(i.applicant.last_name, i.applicant.first_name, "Interview slot:", i.date)
-'''
+query_for_details = Applicant.select(Applicant, Interview)\
+    .join(Interview)\
+    .where(Applicant.status == 'In progress')
+
+
+for applicant in query_for_details:
+    print(applicant.last_name, applicant.first_name, "Interview slot:", applicant.interview.date)
+
 input1 = input()
 
 Applicant.app_details_for_interview()
 print('\nEmail sent to applicants about interview details\n')
-
+'''
 Applicant.interview_details_for_mentor()
 print('\nmentors got emails about interviews\n')
 '''
