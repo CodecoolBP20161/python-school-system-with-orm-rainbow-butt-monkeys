@@ -37,7 +37,7 @@ input1 = input()
 
 for i in query_for_details:
     print(i.applicant.last_name, i.applicant.first_name, "Interview slot:", i.date)
-
+'''
 input1 = input()
 
 Applicant.app_details_for_interview()
@@ -45,3 +45,4 @@ print('\nEmail sent to applicants about interview details\n')
 
 Applicant.interview_details_for_mentor()
 print('\nmentors got emails about interviews\n')
+'''
