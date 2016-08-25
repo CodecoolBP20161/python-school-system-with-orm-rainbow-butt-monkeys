@@ -96,7 +96,8 @@ def applicant_view():
                 Applicant.application_details(app_code)
             elif choice == 2:
                 app_code = input("Please write your application code:")
-                Interview.interview_details(app_code)
+                applicant = Applicant.get(Applicant.application_code == app_code)
+                Interview.interview_details(applicant)
             elif choice == 0:
                 break
             else:

@@ -158,7 +158,7 @@ class Mentor(BaseModel):  # normal data, and their school
 
 class Interview(BaseModel):  # Stores reserved interview slots
     applicant = ForeignKeyField(Applicant, related_name='interview')
-    mentor = ForeignKeyField(Mentor, related_name='interviews')
+    # mentor = ForeignKeyField(Mentor, related_name='interviews')
     date = DateTimeField()
 
     @staticmethod
@@ -171,7 +171,7 @@ class Interview(BaseModel):  # Stores reserved interview slots
             for slot in interview_slot_query:
                 if slot.mentor.school == applicant.school:
                     interview = Interview.create(applicant=applicant.id, mentor=slot.mentor, date=slot.start)
-                    Mentor_interview.create(mentor=slot.mentor, interview=interview)
+                    MentorInterview.create(mentor=slot.mentor, interview=interview)
                     applicant.status = 'In progress'
                     applicant.save()
                     slot.is_reserved = True
@@ -180,31 +180,27 @@ class Interview(BaseModel):  # Stores reserved interview slots
                         InterviewSlot.start)
                     for slot2 in interview_slot_query2:
                         if slot2.mentor.school == slot.mentor.school and slot2.start == slot.start:
-                            Mentor_interview.create(mentor=slot2.mentor, interview=interview)
+                            MentorInterview.create(mentor=slot2.mentor, interview=interview)
                             slot2.is_reserved = True
                             slot2.save()
                     break
 
     @staticmethod
-    def interview_details(app_code):  # search for the Applicant school name, Her/His mentor's full name, and the date.
-        interview_details_querry = (
-            Applicant.select(
-                Applicant,
-                Interview,
-                Mentor
-            )
+    def interview_details(applicant):  # search for the Applicant school name, Her/His mentor's full name, and the date.
+        mentors_query = (
+            Mentor.select()
+                .join(MentorInterview)
                 .join(Interview)
-                .join(Mentor)
                 .where(
-                Applicant.application_code == app_code
-            ).naive())
+                applicant.interview.id == MentorInterview.interview.id
+            ))
 
-        for i in interview_details_querry:
+        for i in mentors_query:
             print("Your School:", i.school.name, ", Your Mentor:", i.last_name, i.first_name,
-                  ", Your Interview date:", i.date)
+                  ", Your Interview date:", i.interview.reserved_slot.date)
 
 
-class Mentor_interview(BaseModel):
+class MentorInterview(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='interview')
     interview = ForeignKeyField(Interview, related_name='reserved_slot')
 

@@ -10,7 +10,7 @@ def give_interview_slot():
         for slot in interview_slot_query:
             if slot.mentor.school == applicant.school:
                 interview = Interview.create(applicant=applicant.id, mentor=slot.mentor, date=slot.start)
-                Mentor_interview.create(mentor=slot.mentor, interview=interview)
+                MentorInterview.create(mentor=slot.mentor, interview=interview)
                 applicant.status = 'In progress'
                 applicant.save()
                 slot.is_reserved = True
@@ -19,7 +19,7 @@ def give_interview_slot():
                     InterviewSlot.start)
                 for slot2 in interview_slot_query2:
                     if slot2.mentor.school == slot.mentor.school and slot2.start == slot.start:
-                        Mentor_interview.create(mentor=slot2.mentor, interview=interview)
+                        MentorInterview.create(mentor=slot2.mentor, interview=interview)
                         slot2.is_reserved = True
                         slot2.save()
                 break
