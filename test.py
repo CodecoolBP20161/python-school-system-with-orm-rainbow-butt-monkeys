@@ -8,11 +8,8 @@ def give_interview_slot():
         interview_slot_query = InterviewSlot.select().where(InterviewSlot.is_reserved == False).order_by(
             InterviewSlot.start)
         for slot in interview_slot_query:
-            print(slot.mentor.school.location)
             if slot.mentor.school == applicant.school:
-                print(slot)
                 interview = Interview.create(applicant=applicant.id, mentor=slot.mentor, date=slot.start)
-                print(interview)
                 Mentor_interview.create(mentor=slot.mentor, interview=interview)
                 applicant.status = 'In progress'
                 applicant.save()
@@ -23,11 +20,9 @@ def give_interview_slot():
                 for slot2 in interview_slot_query2:
                     if slot2.mentor.school == slot.mentor.school and slot2.start == slot.start:
                         Mentor_interview.create(mentor=slot2.mentor, interview=interview)
-                        slot.is_reserved = True
-                        slot.save()
+                        slot2.is_reserved = True
+                        slot2.save()
                 break
-            else:
-                print("We find only 1 free mentor")
 
 Applicant.check_for_school()
 
