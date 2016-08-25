@@ -157,7 +157,6 @@ class Mentor(BaseModel):  # normal data, and their school
 class Interview(BaseModel):  # Stores reserved interview slots
     applicant = ForeignKeyField(Applicant, related_name='interview')
     mentor = ForeignKeyField(Mentor, related_name='interviews')
-    mentor_2 = ForeignKeyField(Mentor, related_name='interviews')
     date = DateTimeField()
 
     @staticmethod
@@ -194,8 +193,13 @@ class Interview(BaseModel):  # Stores reserved interview slots
                   ", Your Interview date:", i.date)
 
 
+class Mentor_interview(BaseModel):
+    mentor = ForeignKeyField(Mentor, related_name='interview')
+    interview = ForeignKeyField(Interview, related_name='reserved_slot')
+
+
 class InterviewSlot(BaseModel):
-    mentor = ForeignKeyField(Mentor, related_name='free_mentor')
+    mentor = ForeignKeyField(Mentor, related_name='free_slot')
     start = DateTimeField()
     end = DateTimeField()
     is_reserved = BooleanField()
