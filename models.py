@@ -74,41 +74,78 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 
     @staticmethod
     def filter_status(input_status):
+        counter = 0
         for applicant in Applicant.select().where(Applicant.status == input_status):
             print(applicant.first_name, applicant.last_name)
+            counter +=1
+        if counter == 0:
+            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_reg_time(reg_time):
+        counter = 0
         for applicant in Applicant.select().where(Applicant.registration_time == reg_time):
             print(applicant.first_name, applicant.last_name)
+            counter += 1
+        if counter == 0:
+            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_location(input_location):  # we are waiting for the city of the applicant
+        counter = 0
         for applicant in Applicant.select().where(Applicant.city == input_location):
             print(applicant.first_name, applicant.last_name)
+            counter += 1
+        if counter == 0:
+            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_name(input_name):
+        counter = 0
         for applicant in Applicant.select().where((Applicant.first_name.contains(input_name) |
                                                        (Applicant.last_name.contains(input_name)))):
             print(applicant.first_name, applicant.last_name)
+            counter += 1
+        if counter == 0:
+            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_email(input_email):
+        counter = 0
         for applicant in Applicant.select().where(Applicant.email_address == input_email):
             print(applicant.first_name, applicant.last_name)
+            counter += 1
+        if counter == 0:
+            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_school(input_school):
-        look_for_school_id = School.get(School.location == input_school)
-        for applicant in Applicant.select().where(Applicant.school == look_for_school_id.id):
-            print(applicant.first_name, applicant.last_name)
+        counter = 0
+        try:
+            look_for_school_id = School.get(School.location == input_school)
+            for applicant in Applicant.select().where(Applicant.school == look_for_school_id.id):
+                print(applicant.first_name, applicant.last_name)
+                counter += 1
+            if counter == 0:
+                print('\nNo result to show, try one more time\n')
+        except:
+            print('\nNot a valid school\n')
 
     @staticmethod
     def filter_mentor(input_mentor_lastname):
-        mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
-        for interview in mentor.interviews:
-            print(interview.applicant.first_name, interview.applicant.last_name)
+        counter = 0
+        try:
+            mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
+            query = MentorInterview.select(MentorInterview, Interview) \
+                .join(Interview, on=Interview.id == MentorInterview.interview) \
+                .where(MentorInterview.mentor == mentor.id)
+            for interview in query:
+                print(interview.interview.applicant.first_name, interview.interview.applicant.last_name)
+                counter +=1
+            if counter == 0:
+                print('\nNo result to show, try one more time\n')
+        except:
+            print('\nNot a valid mentor name\n')
 
     @staticmethod
     def check_app_code():  # Generate a uniqe code for every new applicant.
@@ -143,7 +180,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             ))
 
         for i in app_details_querry:  # Print out the informations we need
-            print(" Your School:", i.school.name, ", Your Status:", i.status)
+            print("\n Your School:", i.school.name, ", Your Status:", i.status, '\n')
 
 
 class Mentor(BaseModel):  # normal data, and their school
@@ -193,17 +230,20 @@ class Interview(BaseModel):  # Stores reserved interview slots
 
     @staticmethod
     def interview_details(applicant):  # search for the Applicant school name, Her/His mentor's full name, and the date.
-        mentors_query = (
-            Mentor.select()
-                .join(MentorInterview)
-                .join(Interview)
+        query = (
+            MentorInterview.select()
+                .join(Mentor, on=Mentor.id==MentorInterview.mentor)
+                .join(Interview, on=Interview.id==MentorInterview.interview)
                 .where(
-                applicant.interview.id == MentorInterview.interview.id
+                applicant.interview == MentorInterview.interview
             ))
-
-        for i in mentors_query:
-            print("Your School:", i.school.name, ", Your Mentor:", i.last_name, i.first_name,
-                  ", Your Interview date:", i.interview.reserved_slot.date)
+        mentors = []
+        for slot in query:
+            date = slot.interview.date
+            school = slot.mentor.school.name
+            mentors.append(slot.mentor.first_name)
+        print("\nYour School:", school, ", Your Mentors:", mentors[0],'and', mentors[1],
+              ", Your Interview date:", date, '\n')
 
 
 class MentorInterview(BaseModel):
