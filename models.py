@@ -58,28 +58,30 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             email_sender.Emailsender.send_email_for_interview(interview.applicant.email_address,
                                                               interview.applicant.first_name,
                                                               mentors[0].first_name,mentors[1].first_name, interview.date)
-
             mentors = []
 
-        '''query_for_details = MentorInterview.select(Interview, Applicant, MentorInterview, Mentor) \
-            .join(Applicant, on=Applicant.id == Interview.applicant) \
-            .join(Mentor, on=Mentor.id == MentorInterview.mentor) \
-            .join(Interview, on=Interview.id == MentorInterview.interview)
-        for slot in query_for_details:
-            email_sender.Emailsender.send_email_for_interview(slot.interview.applicant.email_address,
-                                                               slot.interview.applicant.first_name,
-                                                               slot.mentor.first_name, slot.interview.date)
-'''
     @staticmethod
     def interview_details_for_mentor():
-        query = Interview.select(Interview, MentorInterview, Mentor, Applicant) \
-                        .join(MentorInterview, on=MentorInterview.interview==Interview.id) \
-                        .join(Mentor, on=Mentor.id==MentorInterview.mentor) \
-                        .join(Applicant, on=Applicant.id==Interview.applicant)
-        for interview in query:
-            email_sender.Emailsender.send_email_to_mentor(interview.mentor.email_address, interview.mentor.first_name,
-                                                          interview.applicant.first_name, interview.date)
+        mentor_query = Mentor.select()
+        for mentor in mentor_query:
+            query = MentorInterview.select(MentorInterview, Interview) \
+                .join(Interview, on=Interview.id==MentorInterview.interview) \
+                .where(MentorInterview.mentor == mentor.id)
+            for interview in query:
+                email_sender.Emailsender.send_email_to_mentor(mentor.email_address, mentor.first_name,
+                                                        interview.interview.applicant.first_name, interview.interview.date)
+            '''
+            query = MentorInterview.select(Interview, MentorInterview, Mentor, Applicant) \
+                            .join(MentorInterview, on=MentorInterview.interview == Interview.id) \
+                            .join(Mentor, on=Mentor.id == MentorInterview.mentor) \
+                            .join(Applicant, on=Applicant.id == Interview.applicant) \
+                            .where(mentor.id == MentorInterview.mentor)
 
+            for slot in query:
+                print(slot.interview, slot.mentor)
+                email_sender.Emailsender.send_email_to_mentor(mentor.email_address, mentor.first_name,
+                                                              slot.applicant.first_name, slot.interview.date)
+'''
     @staticmethod
     def filter_status(input_status):
         for applicant in Applicant.select().where(Applicant.status == input_status):

@@ -55,7 +55,7 @@ class Emailsender:
         to = mentor_email
         subject = 'Your Interview Slots'
         text ='\r\n'.join(['Dear %s!' % mentor_first_name, 'You will have an interview at %s.' % reserved_interview_slot,
-                           'You will have an interview with: %s' % applicant_first_name])
+                           'The applicant is: %s' % applicant_first_name])
         SendEmail.email_sender(to, subject, text)
 
 
