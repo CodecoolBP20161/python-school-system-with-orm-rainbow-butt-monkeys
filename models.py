@@ -1,4 +1,3 @@
-
 from peewee import *
 import config
 import random
@@ -12,6 +11,7 @@ db = PostgresqlDatabase(config.dbname, user=config.name)
 
 class BaseModel(Model):  # Main Class with the database connection.
     """A base model that will use our Postgresql database"""
+
     class Meta:
         database = db
 
@@ -41,19 +41,21 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     def app_details():
         query_for_details = Applicant.select(Applicant, School).join(School).where(Applicant.status == 'New')
         for applicant in query_for_details:
-            #smtp call
-            email_sender.send_email(applicant.email_address, applicant.first_name,
-                                    applicant.application_code, applicant.school.location)
+            # smtp call
+            email_sender.Emailsender.send_email(applicant.email_address, applicant.first_name,
+                                                applicant.application_code, applicant.school.location)
+
     @staticmethod
     def app_details_for_interview():
-        query_for_details = Interview.select(Applicant, Interview, Mentor)\
-            .join(Applicant, on=Applicant.id==Interview.applicant)\
-            .join(Mentor, on=Mentor.id==Interview.mentor)\
+        query_for_details = Interview.select(Applicant, Interview, Mentor) \
+            .join(Applicant, on=Applicant.id == Interview.applicant) \
+            .join(Mentor, on=Mentor.id == Interview.mentor) \
             .where(Applicant.status == 'In progress')
         for interview in query_for_details:
             # smtp call
-            email_sender.send_email_for_interview(interview.applicant.email_address, interview.applicant.first_name,
-                                                  interview.mentor.first_name, interview.date)
+            email_sender.Emailsender.send_email_for_interview(interview.applicant.email_address,
+                                                               interview.applicant.first_name,
+                                                               interview.mentor.first_name, interview.date)
 
     @staticmethod
     def interview_details_for_mentor():
@@ -63,8 +65,8 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             .where(Applicant.status == 'In progress')
         for interview in query_for_details:
             # smtp call
-            email_sender.send_email_to_mentor(interview.mentor.email_address, interview.mentor.first_name,
-                                                  interview.applicant.first_name, interview.date)
+            email_sender.Emailsender.send_email_to_mentor(interview.mentor.email_address, interview.mentor.first_name,
+                                                           interview.applicant.first_name, interview.date)
 
     @staticmethod
     def filter_status(input_status):
@@ -77,14 +79,14 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             print(applicant.first_name, applicant.last_name)
 
     @staticmethod
-    def filter_location(input_location):    # we are waiting for the city of the applicant
+    def filter_location(input_location):  # we are waiting for the city of the applicant
         for applicant in Applicant.select().where(Applicant.city == input_location):
             print(applicant.first_name, applicant.last_name)
 
     @staticmethod
     def filter_name(input_name):
         for applicant in Applicant.select().where((Applicant.first_name.contains(input_name) |
-                                                           (Applicant.last_name.contains(input_name)))):
+                                                       (Applicant.last_name.contains(input_name)))):
             print(applicant.first_name, applicant.last_name)
 
     @staticmethod
@@ -103,7 +105,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
         mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
         for interview in mentor.interviews:
             print(interview.applicant.first_name, interview.applicant.last_name)
-            
+
     @staticmethod
     def check_app_code():  # Generate a uniqe code for every new applicant.
         update_query_for_code = Applicant.select().where(Applicant.application_code == 0)
@@ -139,12 +141,12 @@ class Applicant(BaseModel):  # Main class, stores the data required.
         for i in app_details_querry:  # Print out the informations we need
             print(" Your School:", i.school.name, ", Your Status:", i.status)
 
+
 class Mentor(BaseModel):  # normal data, and their school
     first_name = CharField()
     last_name = CharField()
     school = ForeignKeyField(School, related_name='school_of_mentor')
     email_address = CharField()
-
 
     @staticmethod
     def interview_details(mentor_id):
@@ -164,10 +166,11 @@ class Interview(BaseModel):  # Stores reserved interview slots
         interview_query = Applicant.select().where(Applicant.status == 'New')
 
         for applicant in interview_query:
-            interview_slot_query = InterviewSlot.select().where(InterviewSlot.is_reserved == False).order_by(InterviewSlot.start)
+            interview_slot_query = InterviewSlot.select().where(InterviewSlot.is_reserved == False).order_by(
+                InterviewSlot.start)
             for slot in interview_slot_query:
                 if slot.mentor.school == applicant.school:
-                    Interview.create(applicant=applicant.id, mentor = slot.mentor, date = slot.start)
+                    Interview.create(applicant=applicant.id, mentor=slot.mentor, date=slot.start)
                     applicant.status = 'In progress'
                     applicant.save()
                     slot.is_reserved = True
