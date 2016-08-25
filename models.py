@@ -70,18 +70,8 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             for interview in query:
                 email_sender.Emailsender.send_email_to_mentor(mentor.email_address, mentor.first_name,
                                                         interview.interview.applicant.first_name, interview.interview.date)
-            '''
-            query = MentorInterview.select(Interview, MentorInterview, Mentor, Applicant) \
-                            .join(MentorInterview, on=MentorInterview.interview == Interview.id) \
-                            .join(Mentor, on=Mentor.id == MentorInterview.mentor) \
-                            .join(Applicant, on=Applicant.id == Interview.applicant) \
-                            .where(mentor.id == MentorInterview.mentor)
 
-            for slot in query:
-                print(slot.interview, slot.mentor)
-                email_sender.Emailsender.send_email_to_mentor(mentor.email_address, mentor.first_name,
-                                                              slot.applicant.first_name, slot.interview.date)
-'''
+
     @staticmethod
     def filter_status(input_status):
         for applicant in Applicant.select().where(Applicant.status == input_status):
@@ -164,10 +154,12 @@ class Mentor(BaseModel):  # normal data, and their school
 
     @staticmethod
     def interview_details(mentor_id):
-        interview_query = Interview.select(Interview, Applicant).join(Applicant).where(Interview.mentor == mentor_id)
-        for interview in interview_query:
-            print("\nDate of interview: ", interview.date, "\nName of applicant: ", interview.applicant.first_name, "",
-                  interview.applicant.last_name, "\nApplication code: ", interview.applicant.application_code)
+        query = MentorInterview.select(MentorInterview, Interview) \
+            .join(Interview, on=Interview.id == MentorInterview.interview) \
+            .where(MentorInterview.mentor == mentor_id)
+        for interview in query:
+            print("\nDate of interview: ", interview.interview.date, "\nName of applicant: ", interview.interview.applicant.first_name, "",
+                  interview.interview.applicant.last_name, "\nApplication code: ", interview.interview.applicant.application_code)
 
 
 class Interview(BaseModel):  # Stores reserved interview slots
