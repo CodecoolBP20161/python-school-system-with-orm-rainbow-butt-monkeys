@@ -100,10 +100,14 @@ class Applicant(BaseModel):  # Main class, stores the data required.
 
     @staticmethod
     def filter_mentor(input_mentor_lastname):
-        mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
-        for interview in mentor.interviews:
-            print(interview.applicant.first_name, interview.applicant.last_name)
-            
+        try:
+            mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
+            for interview in mentor.interviews:
+                print(interview.applicant.first_name, interview.applicant.last_name)
+        except:
+            print('invalid name')
+
+
     @staticmethod
     def check_app_code():  # Generate a uniqe code for every new applicant.
         update_query_for_code = Applicant.select().where(Applicant.application_code == 0)
