@@ -53,7 +53,6 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             mentor_query = MentorInterview.select(MentorInterview)\
                 .where(MentorInterview.interview == interview.id)
             for i in mentor_query:
-                print(i.mentor.id)
                 mentors.append(i.mentor)
             email_sender.Emailsender.send_email_for_interview(interview.applicant.email_address,
                                                               interview.applicant.first_name,
@@ -75,6 +74,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     @staticmethod
     def filter_status(input_status):
         counter = 0
+        print('\nThe result:')
         for applicant in Applicant.select().where(Applicant.status == input_status):
             print(applicant.first_name, applicant.last_name)
             counter +=1
@@ -84,6 +84,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     @staticmethod
     def filter_reg_time(reg_time):
         counter = 0
+        print('\nThe result:')
         for applicant in Applicant.select().where(Applicant.registration_time == reg_time):
             print(applicant.first_name, applicant.last_name)
             counter += 1
@@ -93,6 +94,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     @staticmethod
     def filter_location(input_location):  # we are waiting for the city of the applicant
         counter = 0
+        print('\n applicants from', input_location)
         for applicant in Applicant.select().where(Applicant.city == input_location):
             print(applicant.first_name, applicant.last_name)
             counter += 1
@@ -102,6 +104,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     @staticmethod
     def filter_name(input_name):
         counter = 0
+        print('\nThe result:')
         for applicant in Applicant.select().where((Applicant.first_name.contains(input_name) |
                                                        (Applicant.last_name.contains(input_name)))):
             print(applicant.first_name, applicant.last_name)
@@ -112,6 +115,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     @staticmethod
     def filter_email(input_email):
         counter = 0
+        print("\n applicant with the folloring email:", input_email)
         for applicant in Applicant.select().where(Applicant.email_address == input_email):
             print(applicant.first_name, applicant.last_name)
             counter += 1
@@ -121,6 +125,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     @staticmethod
     def filter_school(input_school):
         counter = 0
+        print('\n Applicants from the following school:', input_school)
         try:
             look_for_school_id = School.get(School.location == input_school)
             for applicant in Applicant.select().where(Applicant.school == look_for_school_id.id):
@@ -134,6 +139,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     @staticmethod
     def filter_mentor(input_mentor_lastname):
         counter = 0
+        print('\n Applicants from interview with', input_mentor_lastname)
         try:
             mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
             query = MentorInterview.select(MentorInterview, Interview) \
@@ -178,9 +184,12 @@ class Applicant(BaseModel):  # Main class, stores the data required.
                 .where(
                 Applicant.application_code == app_code
             ))
-
+        counter = 0
         for i in app_details_querry:  # Print out the informations we need
             print("\n Your School:", i.school.name, ", Your Status:", i.status, '\n')
+            counter +=1
+        if counter == 0:
+            print('Not a valid application code')
 
 
 class Mentor(BaseModel):  # normal data, and their school

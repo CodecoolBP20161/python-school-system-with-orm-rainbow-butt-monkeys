@@ -25,7 +25,7 @@ def admin_view():
     choice = True
     while choice != 0:
         try:
-            choice = int(input('Please choose and option: \n\n1. List Applicants\n0. Back to Main menu\n'))
+            choice = int(input('Please choose and option: \n\n1. Applicants\n0. Back to Main menu\n'))
             if choice == 1:
                 list_applicants()
             elif choice == 0:
@@ -40,33 +40,33 @@ def list_applicants():
     choice = True
     while choice != 0:
         try:
-            choice = int(input('Please choose a filter: \n\n1. Status \n2. Registration Time\n3. Location\n'
+            choice = int(input('\nPlease choose a filter: \n\n1. Status \n2. Registration Time\n3. Location\n'
                                '4. Name\n5. Email\n6. School\n7. Mentor name\n0. Back to Admin menu\n'))
             if choice == 1:
-                status = str(input('Please enter a status: \n'))
+                status = str(input('\nPlease enter a status: \n'))
                 Applicant.filter_status(status)
             elif choice == 2:
-                reg_time = str(input('Please enter a registration date (please separate year, month, day with a - ): \n'))
+                reg_time = str(input('\nPlease enter a registration date (please separate year, month, day with a - ): \n'))
                 Applicant.filter_reg_time(reg_time)
             elif choice == 3:
-                city = str(input('Please enter a city name:\n'))
+                city = str(input('\nPlease enter a city name:\n'))
                 Applicant.filter_location(city)
             elif choice == 4:
-                name = str(input('Please enter first or last name: \n'))
+                name = str(input('\nPlease enter first or last name: \n'))
                 Applicant.filter_name(name)
             elif choice == 5:
-                email = str(input('Please enter an email address: \n'))
+                email = str(input('\nPlease enter an email address: \n'))
                 Applicant.filter_email(email)
             elif choice == 6:
-                school = str(input('Please enter the location of the School: \n'))
+                school = str(input('\nPlease enter the location of the School: \n'))
                 Applicant.filter_school(school)
             elif choice == 7:
-                mentor = str(input('Please enter the last name of the mentor: \n'))
+                mentor = str(input('\nPlease enter the last name of the mentor: \n'))
                 Applicant.filter_mentor(mentor)
             elif choice == 0:
                 break
         except ValueError:
-            print('Please enter a valid option!\n')
+            print('\nPlease enter a valid option!\n')
 
 
 def mentor_view():
@@ -96,8 +96,11 @@ def applicant_view():
                 Applicant.application_details(app_code)
             elif choice == 2:
                 app_code = input("Please write your application code:")
-                applicant = Applicant.get(Applicant.application_code == app_code)
-                Interview.interview_details(applicant)
+                try:
+                    applicant = Applicant.get(Applicant.application_code == app_code)
+                    Interview.interview_details(applicant)
+                except:
+                    print('Not a valid application code')
             elif choice == 0:
                 break
             else:
