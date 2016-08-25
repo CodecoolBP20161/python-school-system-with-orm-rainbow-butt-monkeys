@@ -157,6 +157,7 @@ class Mentor(BaseModel):  # normal data, and their school
 class Interview(BaseModel):  # Stores reserved interview slots
     applicant = ForeignKeyField(Applicant, related_name='interview')
     mentor = ForeignKeyField(Mentor, related_name='interviews')
+    mentor_2 = ForeignKeyField(Mentor, related_name='interviews')
     date = DateTimeField()
 
     @staticmethod
