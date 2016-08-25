@@ -1,4 +1,3 @@
-
 from peewee import *
 import config
 import random
@@ -12,6 +11,7 @@ db = PostgresqlDatabase(config.dbname, user=config.name)
 
 class BaseModel(Model):  # Main Class with the database connection.
     """A base model that will use our Postgresql database"""
+
     class Meta:
         database = db
 
@@ -41,71 +41,117 @@ class Applicant(BaseModel):  # Main class, stores the data required.
     def app_details():
         query_for_details = Applicant.select(Applicant, School).join(School).where(Applicant.status == 'New')
         for applicant in query_for_details:
-            #smtp call
-            email_sender.send_email(applicant.email_address, applicant.first_name,
-                                    applicant.application_code, applicant.school.location)
+            # smtp call
+            email_sender.Emailsender.send_email(applicant.email_address, applicant.first_name,
+                                                applicant.application_code, applicant.school.location)
+
     @staticmethod
     def app_details_for_interview():
-        query_for_details = Interview.select(Applicant, Interview, Mentor)\
-            .join(Applicant, on=Applicant.id==Interview.applicant)\
-            .join(Mentor, on=Mentor.id==Interview.mentor)\
-            .where(Applicant.status == 'In progress')
-        for interview in query_for_details:
-            # smtp call
-            email_sender.send_email_for_interview(interview.applicant.email_address, interview.applicant.first_name,
-                                                  interview.mentor.first_name, interview.date)
+        mentors = []
+        interview_query = Interview.select()
+        for interview in interview_query:
+            mentor_query = MentorInterview.select(MentorInterview)\
+                .where(MentorInterview.interview == interview.id)
+            for i in mentor_query:
+                mentors.append(i.mentor)
+            email_sender.Emailsender.send_email_for_interview(interview.applicant.email_address,
+                                                              interview.applicant.first_name,
+                                                              mentors[0].first_name,mentors[1].first_name, interview.date)
+            mentors = []
 
     @staticmethod
     def interview_details_for_mentor():
-        query_for_details = Interview.select(Applicant, Interview, Mentor) \
-            .join(Applicant, on=Applicant.id == Interview.applicant) \
-            .join(Mentor, on=Mentor.id == Interview.mentor) \
-            .where(Applicant.status == 'In progress')
-        for interview in query_for_details:
-            # smtp call
-            email_sender.send_email_to_mentor(interview.mentor.email_address, interview.mentor.first_name,
-                                                  interview.applicant.first_name, interview.date)
+        mentor_query = Mentor.select()
+        for mentor in mentor_query:
+            query = MentorInterview.select(MentorInterview, Interview) \
+                .join(Interview, on=Interview.id==MentorInterview.interview) \
+                .where(MentorInterview.mentor == mentor.id)
+            for interview in query:
+                email_sender.Emailsender.send_email_to_mentor(mentor.email_address, mentor.first_name,
+                                                        interview.interview.applicant.first_name, interview.interview.date)
+
 
     @staticmethod
     def filter_status(input_status):
+        counter = 0
+        print('\nThe result:')
         for applicant in Applicant.select().where(Applicant.status == input_status):
             print(applicant.first_name, applicant.last_name)
+            counter +=1
+        if counter == 0:
+            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_reg_time(reg_time):
+        counter = 0
+        print('\nThe result:')
         for applicant in Applicant.select().where(Applicant.registration_time == reg_time):
             print(applicant.first_name, applicant.last_name)
+            counter += 1
+        if counter == 0:
+            print('\nNo result to show, try one more time\n')
 
     @staticmethod
-    def filter_location(input_location):    # we are waiting for the city of the applicant
+    def filter_location(input_location):  # we are waiting for the city of the applicant
+        counter = 0
+        print('\n applicants from', input_location)
         for applicant in Applicant.select().where(Applicant.city == input_location):
             print(applicant.first_name, applicant.last_name)
+            counter += 1
+        if counter == 0:
+            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_name(input_name):
+        counter = 0
+        print('\nThe result:')
         for applicant in Applicant.select().where((Applicant.first_name.contains(input_name) |
-                                                           (Applicant.last_name.contains(input_name)))):
+                                                       (Applicant.last_name.contains(input_name)))):
             print(applicant.first_name, applicant.last_name)
+            counter += 1
+        if counter == 0:
+            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_email(input_email):
+        counter = 0
+        print("\n applicant with the folloring email:", input_email)
         for applicant in Applicant.select().where(Applicant.email_address == input_email):
             print(applicant.first_name, applicant.last_name)
+            counter += 1
+        if counter == 0:
+            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_school(input_school):
-        look_for_school_id = School.get(School.location == input_school)
-        for applicant in Applicant.select().where(Applicant.school == look_for_school_id.id):
-            print(applicant.first_name, applicant.last_name)
+        counter = 0
+        print('\n Applicants from the following school:', input_school)
+        try:
+            look_for_school_id = School.get(School.location == input_school)
+            for applicant in Applicant.select().where(Applicant.school == look_for_school_id.id):
+                print(applicant.first_name, applicant.last_name)
+                counter += 1
+            if counter == 0:
+                print('\nNo result to show, try one more time\n')
+        except:
+            print('\nNot a valid school\n')
 
     @staticmethod
     def filter_mentor(input_mentor_lastname):
+        counter = 0
+        print('\n Applicants from interview with', input_mentor_lastname)
         try:
             mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
-            for interview in mentor.interviews:
-                print(interview.applicant.first_name, interview.applicant.last_name)
+            query = MentorInterview.select(MentorInterview, Interview) \
+                .join(Interview, on=Interview.id == MentorInterview.interview) \
+                .where(MentorInterview.mentor == mentor.id)
+            for interview in query:
+                print(interview.interview.applicant.first_name, interview.interview.applicant.last_name)
+                counter += 1
+            if counter == 0:
+                print('\nNo result to show, try one more time\n')
         except:
-            print('invalid name')
+            print('\nNot a valid mentor name\n')
 
 
     @staticmethod
@@ -139,9 +185,13 @@ class Applicant(BaseModel):  # Main class, stores the data required.
                 .where(
                 Applicant.application_code == app_code
             ))
-
+        counter = 0
         for i in app_details_querry:  # Print out the informations we need
-            print(" Your School:", i.school.name, ", Your Status:", i.status)
+            print("\n Your School:", i.school.name, ", Your Status:", i.status, '\n')
+            counter +=1
+        if counter == 0:
+            print('Not a valid application code')
+
 
 class Mentor(BaseModel):  # normal data, and their school
     first_name = CharField()
@@ -149,18 +199,19 @@ class Mentor(BaseModel):  # normal data, and their school
     school = ForeignKeyField(School, related_name='school_of_mentor')
     email_address = CharField()
 
-
     @staticmethod
     def interview_details(mentor_id):
-        interview_query = Interview.select(Interview, Applicant).join(Applicant).where(Interview.mentor == mentor_id)
-        for interview in interview_query:
-            print("\nDate of interview: ", interview.date, "\nName of applicant: ", interview.applicant.first_name, "",
-                  interview.applicant.last_name, "\nApplication code: ", interview.applicant.application_code)
+        query = MentorInterview.select(MentorInterview, Interview) \
+            .join(Interview, on=Interview.id == MentorInterview.interview) \
+            .where(MentorInterview.mentor == mentor_id)
+        for interview in query:
+            print("\nDate of interview: ", interview.interview.date, "\nName of applicant: ", interview.interview.applicant.first_name, "",
+                  interview.interview.applicant.last_name, "\nApplication code: ", interview.interview.applicant.application_code)
 
 
 class Interview(BaseModel):  # Stores reserved interview slots
     applicant = ForeignKeyField(Applicant, related_name='interview')
-    mentor = ForeignKeyField(Mentor, related_name='interviews')
+    # mentor = ForeignKeyField(Mentor, related_name='interviews')
     date = DateTimeField()
 
     @staticmethod
@@ -168,37 +219,50 @@ class Interview(BaseModel):  # Stores reserved interview slots
         interview_query = Applicant.select().where(Applicant.status == 'New')
 
         for applicant in interview_query:
-            interview_slot_query = InterviewSlot.select().where(InterviewSlot.is_reserved == False).order_by(InterviewSlot.start)
+            interview_slot_query = InterviewSlot.select().where(InterviewSlot.is_reserved == False).order_by(
+                InterviewSlot.start)
             for slot in interview_slot_query:
                 if slot.mentor.school == applicant.school:
-                    Interview.create(applicant=applicant.id, mentor = slot.mentor, date = slot.start)
+                    interview = Interview.create(applicant=applicant.id, mentor=slot.mentor, date=slot.start)
+                    MentorInterview.create(mentor=slot.mentor, interview=interview)
                     applicant.status = 'In progress'
                     applicant.save()
                     slot.is_reserved = True
                     slot.save()
+                    interview_slot_query2 = InterviewSlot.select().where(InterviewSlot.is_reserved == False).order_by(
+                        InterviewSlot.start)
+                    for slot2 in interview_slot_query2:
+                        if slot2.mentor.school == slot.mentor.school and slot2.start == slot.start:
+                            MentorInterview.create(mentor=slot2.mentor, interview=interview)
+                            slot2.is_reserved = True
+                            slot2.save()
                     break
 
     @staticmethod
-    def interview_details(app_code):  # search for the Applicant school name, Her/His mentor's full name, and the date.
-        interview_details_querry = (
-            Applicant.select(
-                Applicant,
-                Interview,
-                Mentor
-            )
-                .join(Interview)
-                .join(Mentor)
+    def interview_details(applicant):  # search for the Applicant school name, Her/His mentor's full name, and the date.
+        query = (
+            MentorInterview.select()
+                .join(Mentor, on=Mentor.id==MentorInterview.mentor)
+                .join(Interview, on=Interview.id==MentorInterview.interview)
                 .where(
-                Applicant.application_code == app_code
-            ).naive())
+                applicant.interview == MentorInterview.interview
+            ))
+        mentors = []
+        for slot in query:
+            date = slot.interview.date
+            school = slot.mentor.school.name
+            mentors.append(slot.mentor.first_name)
+        print("\nYour School:", school, ", Your Mentors:", mentors[0],'and', mentors[1],
+              ", Your Interview date:", date, '\n')
 
-        for i in interview_details_querry:
-            print("Your School:", i.school.name, ", Your Mentor:", i.last_name, i.first_name,
-                  ", Your Interview date:", i.date)
+
+class MentorInterview(BaseModel):
+    mentor = ForeignKeyField(Mentor, related_name='interview')
+    interview = ForeignKeyField(Interview, related_name='reserved_slot')
 
 
 class InterviewSlot(BaseModel):
-    mentor = ForeignKeyField(Mentor, related_name='free_mentor')
+    mentor = ForeignKeyField(Mentor, related_name='free_slot')
     start = DateTimeField()
     end = DateTimeField()
     is_reserved = BooleanField()

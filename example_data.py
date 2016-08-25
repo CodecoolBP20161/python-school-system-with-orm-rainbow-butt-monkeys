@@ -47,9 +47,13 @@ for i in app_querry:
 
 
 # Fill Mentor table with data:
-mentors = [{'first_name': 'Miki', 'last_name': 'Beöthy', 'school': codecool_bp, 'email_address': 'rbm.codecool@gmail.com'},
-           {'first_name': 'Tomi', 'last_name': 'Tompa', 'school': codecool_bp, 'email_address': 'rbm.codecool@gmail.com'},
-           {'first_name': 'Dani', 'last_name': 'Salamon', 'school': codecool_miskolc, 'email_address': 'rbm.codecool@gmail.com'},
+mentors = [{'first_name': 'Miki', 'last_name': 'Beothy', 'school': codecool_bp, 'email_address': 'rbm.codecool@gmail.com'},
+            {'first_name': 'Dani', 'last_name': 'Salamon', 'school': codecool_bp, 'email_address': 'rbm.codecool@gmail.com'},
+            {'first_name': 'Tomi', 'last_name': 'Tompa', 'school': codecool_bp, 'email_address': 'rbm.codecool@gmail.com'},
+            {'first_name': 'Sandor', 'last_name': 'Szodoray', 'school': codecool_miskolc, 'email_address': 'rbm.codecool@gmail.com'},
+            {'first_name': 'Pal', 'last_name': 'Monoczki', 'school': codecool_miskolc, 'email_address': 'rbm.codecool@gmail.com'},
+           {'first_name': 'Attila', 'last_name': 'Molnar', 'school': codecool_miskolc, 'email_address': 'rbm.codecool@gmail.com'},
+           {'first_name': 'Leon', 'last_name': 'Aprofi', 'school': codecool_krakow, 'email_address': 'rbm.codecool@gmail.com'},
            {'first_name': 'Mateus', 'last_name': 'Grabowski', 'school': codecool_krakow, 'email_address': 'rbm.codecool@gmail.com'}]
 
 for mentor in mentors:
@@ -67,14 +71,41 @@ mentors = Mentor.select()
 
 interview_slots = [{'mentor': mentors[0], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00',
                     'is_reserved': False},
-                   {'mentor': mentors[1], 'start': '2016-08-01 14:00:00', 'end': '2016-08-01 15:00:00',
+                   {'mentor': mentors[0], 'start': '2016-08-02 12:00:00', 'end': '2016-08-01 13:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[0], 'start': '2016-08-01 14:00:00', 'end': '2016-08-01 15:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[1], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00',
+                   'is_reserved': False},
+                   {'mentor': mentors[1], 'start': '2016-08-02 12:00:00', 'end': '2016-08-01 13:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[1], 'start': '2016-08-07 14:00:00', 'end': '2016-08-07 15:00:00',
+                   'is_reserved': False},
+                   {'mentor': mentors[2], 'start': '2016-08-07 14:00:00', 'end': '2016-08-07 15:00:00',
+                   'is_reserved': False},
+                   {'mentor': mentors[2], 'start': '2016-08-01 14:00:00', 'end': '2016-08-01 15:00:00',
                     'is_reserved': False},
                    {'mentor': mentors[3], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00',
-                   'is_reserved': False},
-                   {'mentor': mentors[2], 'start': '2016-08-04 12:00:00', 'end': '2016-08-04 13:00:00',
-                   'is_reserved': False},
-                   {'mentor': mentors[1], 'start': '2016-08-07 12:00:00', 'end': '2016-08-07 13:00:00',
-                   'is_reserved': False}]
+                    'is_reserved': False},
+                   {'mentor': mentors[3], 'start': '2016-08-01 14:00:00', 'end': '2016-08-01 15:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[4], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[4], 'start': '2016-08-07 14:00:00', 'end': '2016-08-07 15:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[5], 'start': '2016-08-07 14:00:00', 'end': '2016-08-07 15:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[5], 'start': '2016-08-01 14:00:00', 'end': '2016-08-01 14:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[6], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[6], 'start': '2016-08-07 12:00:00', 'end': '2016-08-07 13:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[7], 'start': '2016-08-01 12:00:00', 'end': '2016-08-01 13:00:00',
+                    'is_reserved': False},
+                   {'mentor': mentors[7], 'start': '2016-08-07 12:00:00', 'end': '2016-08-07 13:00:00',
+                    'is_reserved': False}
+                   ]
 
 
 for slot in interview_slots:
