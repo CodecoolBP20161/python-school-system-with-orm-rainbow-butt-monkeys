@@ -8,24 +8,49 @@ logger.addHandler(logging.StreamHandler())
 # Write here your console application
 
 
-Interview.give_interview_slot()
-'''
-query = Interview.select()
-for i in query:
-    print(i.mentor.first_name, i.applicant.last_name, i.date)
-
-applicant = Applicant.select().where(Applicant.last_name=='Kincses').get()
-free_slot = InterviewSlot.select().join(Mentor, on=Mentor.id==InterviewSlot.mentor).join(School, on=applicant.school == Mentor.school).where(InterviewSlot.is_reserved == False
-                                ).order_by(
-                                InterviewSlot.start.asc()).get()
-print(applicant.__dict__)
-print(free_slot.__dict__)
-'''
 
 Applicant.check_app_code()
-print('Add application codes to the Applicants.')
-Applicant.check_for_school()
-print('Assign school to the Applicants.')
-Interview.give_interview_slot()
-print('Reserve an interview slot to the Applicants.')
+print('Add application codes to the Applicants.\n')
+app_querry = Applicant.select()
+for i in app_querry:
+    print(i.last_name, i.first_name,"Applicant code:", i.application_code)
 
+input1 = input()
+
+Applicant.check_for_school()
+print('Assign school to the Applicants.\n')
+app_querry_2 = Applicant.select()
+for i in app_querry_2:
+    print(i.last_name, i.first_name, "School:", i.school.location)
+
+input1 = input()
+
+Applicant.app_details()
+
+print('Email sent to NEW applicants about the details\n')
+
+input1 = input()
+
+Interview.give_interview_slot()
+
+print('Reserve an interview slot to the Applicants.\n')
+
+input1 = input()
+
+query_for_details = Applicant.select(Applicant, Interview)\
+    .join(Interview)\
+    .where(Applicant.status == 'In progress')
+
+
+for applicant in query_for_details:
+    print(applicant.last_name, applicant.first_name, "Interview slot:", applicant.interview.date)
+
+input1 = input()
+
+Applicant.app_details_for_interview()
+print('\nEmail sent to applicants about interview details\n')
+
+input1 = input()
+
+Applicant.interview_details_for_mentor()
+print('\nmentors got emails about interviews\n')
