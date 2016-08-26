@@ -42,7 +42,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
         query_for_details = Applicant.select(Applicant, School).join(School).where(Applicant.status == 'New')
         for applicant in query_for_details:
             # smtp call
-            email_sender.Emailsender.send_email(applicant.email_address, applicant.first_name,
+            email_sender.EmailSender.send_email(applicant.email_address, applicant.first_name,
                                                 applicant.application_code, applicant.school.location)
 
     @staticmethod
@@ -54,7 +54,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
                 .where(MentorInterview.interview == interview.id)
             for i in mentor_query:
                 mentors.append(i.mentor)
-            email_sender.Emailsender.send_email_for_interview(interview.applicant.email_address,
+            email_sender.EmailSender.send_email_for_interview(interview.applicant.email_address,
                                                               interview.applicant.first_name,
                                                               mentors[0].first_name,mentors[1].first_name, interview.date)
             mentors = []
@@ -67,9 +67,8 @@ class Applicant(BaseModel):  # Main class, stores the data required.
                 .join(Interview, on=Interview.id==MentorInterview.interview) \
                 .where(MentorInterview.mentor == mentor.id)
             for interview in query:
-                email_sender.Emailsender.send_email_to_mentor(mentor.email_address, mentor.first_name,
+                email_sender.EmailSender.send_email_to_mentor(mentor.email_address, mentor.first_name,
                                                         interview.interview.applicant.first_name, interview.interview.date)
-
 
     @staticmethod
     def filter_status(input_status):
@@ -205,8 +204,10 @@ class Mentor(BaseModel):  # normal data, and their school
             .join(Interview, on=Interview.id == MentorInterview.interview) \
             .where(MentorInterview.mentor == mentor_id)
         for interview in query:
-            print("\nDate of interview: ", interview.interview.date, "\nName of applicant: ", interview.interview.applicant.first_name, "",
-                  interview.interview.applicant.last_name, "\nApplication code: ", interview.interview.applicant.application_code)
+            print("\nDate of interview: ", interview.interview.date, "\nName of applicant: ",
+                  interview.interview.applicant.first_name, "",
+                  interview.interview.applicant.last_name,
+                  "\nApplication code: ", interview.interview.applicant.application_code)
 
 
 class Interview(BaseModel):  # Stores reserved interview slots
@@ -242,8 +243,8 @@ class Interview(BaseModel):  # Stores reserved interview slots
     def interview_details(applicant):  # search for the Applicant school name, Her/His mentor's full name, and the date.
         query = (
             MentorInterview.select()
-                .join(Mentor, on=Mentor.id==MentorInterview.mentor)
-                .join(Interview, on=Interview.id==MentorInterview.interview)
+                .join(Mentor, on=Mentor.id == MentorInterview.mentor)
+                .join(Interview, on=Interview.id == MentorInterview.interview)
                 .where(
                 applicant.interview == MentorInterview.interview
             ))
@@ -252,7 +253,7 @@ class Interview(BaseModel):  # Stores reserved interview slots
             date = slot.interview.date
             school = slot.mentor.school.name
             mentors.append(slot.mentor.first_name)
-        print("\nYour School:", school, ", Your Mentors:", mentors[0],'and', mentors[1],
+        print("\nYour School:", school, ", Your Mentors:", mentors[0], 'and', mentors[1],
               ", Your Interview date:", date, '\n')
 
 
