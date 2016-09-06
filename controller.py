@@ -21,8 +21,7 @@ def get_applicant():
     form = Form(request.form)
     check = form.check()
     if check == True:
-        return 'Registration form uploaded to the database'
-        # return redirect(config.address)
+        return 'You are know registered to Codecool !'
     else:
         return check + "\n\n Please go back to the form"
 

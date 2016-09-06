@@ -153,7 +153,7 @@ class Applicant(BaseModel):  # Main class, stores the data required.
         list = []
         print('\n Applicants from interview with', input_mentor_lastname)
         try:
-            mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
+            mentor = Mentor.select().where(Mentor.first_name.concat(Mentor.last_name).contains(input_mentor_lastname)).get()
             query = MentorInterview.select(MentorInterview, Interview) \
                 .join(Interview, on=Interview.id == MentorInterview.interview) \
                 .where(MentorInterview.mentor == mentor.id)
