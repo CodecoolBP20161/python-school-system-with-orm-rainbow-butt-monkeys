@@ -38,19 +38,26 @@ def list_applicants():
     option = request.form['Filter By']
     filter = request.form['filter']
     if option == 'Status':
-        Applicant.filter_status(filter)
+        result = Applicant.filter_status(filter)
+        return render_template('filter_result.html', result=result)
     elif option == 'Time':
-        Applicant.filter_reg_time(filter)
+        result = Applicant.filter_reg_time(filter)
+        return render_template('filter_result.html', result=result)
     elif option == 'Location':
-        Applicant.filter_location(filter)
+        result = Applicant.filter_location(filter)
+        return render_template('filter_result.html', result=result)
     elif option == 'Name':
-        Applicant.filter_name(filter)
+        result = Applicant.filter_name(filter)
+        return render_template('filter_result.html', result=result)
     elif option == 'Email':
-        Applicant.filter_email(filter)
+        result = Applicant.filter_email(filter)
+        return render_template('filter_result.html', result=result)
     elif option == 'School':
-        Applicant.filter_school(filter)
+        result = Applicant.filter_school(filter)
+        return render_template('filter_result.html', result=result)
     elif option == 'Mentor name':
-        Applicant.filter_mentor(filter)
+        result = Applicant.filter_mentor(filter)
+        return render_template('filter_result.html', result=result)
     else:
         return 'Not working'
 
