@@ -1,8 +1,15 @@
+import config
+import datetime
 from flask import *
 from models import *
-from datetime import datetime
+
 
 app = Flask(__name__)
+
+@app.route("/", methods=["GET"])
+def render():
+    return render_template('form.html')
+
 
 @app.route("/form", methods=["POST"])
 def get_applicant():
@@ -14,7 +21,7 @@ def get_applicant():
                      email_address = request.form["email_address"],
                      city = request.form["city"],
                      registration_time = date)
-    return redirect(config.address +"menu")
+    return redirect(config.address)
 
 
 
