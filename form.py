@@ -10,6 +10,12 @@ class Form():
         self.email_address = request_form['email_address']
         self.city = request_form['city']
 
+    @staticmethod
+    def is_digit(string):
+        for char in list(string):
+            if char.isdigit():
+                return True
+
     def check(self):
         if self.first_name == "":
             return "Enter first name!"
@@ -21,6 +27,8 @@ class Form():
             return "Enter email address!"
         elif self.city == "":
             return "Select an option!"
+        elif self.is_digit(self.first_name) or self.is_digit(self.last_name) is True:
+            return "Your first name or last name contains a number, pls check it again!"
         else:
             now = datetime.datetime.now()
             date = str(now.year) + "-" + str(now.month) + "-" + str(now.day)
