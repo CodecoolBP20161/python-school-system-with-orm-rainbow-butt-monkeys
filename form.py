@@ -1,7 +1,8 @@
 from models import *
 import datetime
 
-class Form():
+
+class Form:
 
     def __init__(self, request_form):
         self.first_name = request_form['first_name']
