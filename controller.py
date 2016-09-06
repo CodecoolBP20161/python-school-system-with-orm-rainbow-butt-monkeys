@@ -21,12 +21,11 @@ def get_applicant():
     form = Form(request.form)
     check = form.check()
     if check == True:
-        return 'OKAY'
+        return 'Registration form uploaded to the database'
+        # return redirect(config.address)
     else:
         return check + "\n\n Please go back to the form"
 
-    input1 = input()
-    return redirect(config.address)
 
 
 @app.route('/admin', methods=['GET'])
