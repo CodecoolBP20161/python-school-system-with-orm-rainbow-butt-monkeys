@@ -15,7 +15,9 @@ def render():
 def form():
     return render_template('form.html')
 
+
 @app.route("/registration", methods=["POST"])
+
 def get_applicant():
     now = datetime.datetime.now()
     date = str(now.year) +"-" + str(now.month) +"-" + str(now.day)
