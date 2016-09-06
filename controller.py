@@ -8,10 +8,14 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
 def render():
+    return render_template('menu.html')
+
+
+@app.route("/form", methods=["GET"])
+def form():
     return render_template('form.html')
 
-
-@app.route("/form", methods=["POST"])
+@app.route("/registration", methods=["POST"])
 def get_applicant():
     now = datetime.datetime.now()
     date = str(now.year) +"-" + str(now.month) +"-" + str(now.day)
@@ -21,6 +25,7 @@ def get_applicant():
                      email_address = request.form["email_address"],
                      city = request.form["city"],
                      registration_time = date)
+    Applicant.check_app_code()
     return redirect(config.address)
 
 
