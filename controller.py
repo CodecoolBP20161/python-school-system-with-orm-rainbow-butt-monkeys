@@ -21,7 +21,7 @@ def get_applicant():
     form = Form(request.form)
     check = form.check()
     if check == True:
-        return 'OKAY'
+        return 'You are know registered to Codecool !'
     else:
         return check + "\n\n Please go back to the form"
 
