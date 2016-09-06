@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <title>Filter applicants</title>
+	</head>
+
+		<body>
+			<form action="/admin" method="post">
+				<select name = 'Filter By'>
+					  <option value="status">Status</option>
+					  <option value="time">Time</option>
+					  <option value="location">Location</option>
+					  <option value="personal data">Personal data</option>
+					  <option value="school">School</option>
+					  <option value="mentor name">Mentor name</option>
+				</select>
+
+				<textarea rows="1" cols="50" name="filter"></textarea>
+
+				<button type='submit'>Filter</button>
+
+			</form>
+
+		</body>
+
+</html>
