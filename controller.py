@@ -2,7 +2,7 @@ import config
 import datetime
 from flask import *
 from models import *
-
+from form import Form
 
 app = Flask(__name__)
 
@@ -17,17 +17,15 @@ def form():
 
 
 @app.route("/registration", methods=["POST"])
-
 def get_applicant():
-    now = datetime.datetime.now()
-    date = str(now.year) +"-" + str(now.month) +"-" + str(now.day)
-    Applicant.create(first_name = request.form["first_name"],
-                     last_name = request.form["last_name"],
-                     gender = request.form["gender"],
-                     email_address = request.form["email_address"],
-                     city = request.form["city"],
-                     registration_time = date)
-    Applicant.check_app_code()
+    form = Form(request.form)
+    check = form.check()
+    if check == True:
+        return 'OKAY'
+    else:
+        return check + "\n\n Please go back to the form"
+
+    input1 = input()
     return redirect(config.address)
 
 
