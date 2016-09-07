@@ -4,44 +4,57 @@
         <title>Applicant Registration</title>
         <meta charset="UTF-8">
     </head>
+    
 
-    <body>
+    <body style="background-color: burlywood">
         <form action="/registration" method="post">
-            <h2>Applicant Registration Form</h2>
+            <h2 align="center">Applicant Registration Form</h2>
 
-                <h3>First name</h3>
-                <input type="text" name="first_name"
-                             id="first_name">
+            <table style="background-color: cadetblue" border="1px" align="center" >
+                <tr>
+                    <td><h3>First name</h3></td>
+                    <td><input type="text" name="first_name" id="first_name"></td>
+                </tr>
+                <tr>
+                    <td><h3>Last name</h3></td>
+                    <td><input type="text" name="last_name" id="last_name"></td>
+                </tr>
+                <tr>
+                    <td><h3>Gender</h3></td>
+                    <td><p><select name="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                        </select></p></td>
+                </tr>
+                <tr>
+                    <td><h3>Email address</h3></td>
+                    <td><input type="email" name="email_address" id="email_address"></td>
+                </tr>
+                <tr>
+                    <td><h3>City</h3></td>
+                    <td><p><select name="city">
+                        <option value="sopron">Sopron</option>
+                        <option value="balatonlelle">Balatonlelle</option>
+                        <option value="pusztaszentjakab">Pusztaszentjakab</option>
+                        <option value="warsaw">Warsaw</option>
+                        <option value="budapest">Budapest</option></select></p></td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>
+                        <button type="submit"><img src="static/save-button.png" width="75" height="35"></button>
+                        </p>
+                    </td>
+                </tr>
 
-                <h3>Last name</h3>
-                <input type="text" name="last_name"
-                             id="last_name">
+            </table>
 
-                <h3>Gender</h3>
-                <p><select name="gender">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option></select></p>
-
-                <h3>Email address</h3>
-                <input type="email" name="email_address"
-                             id="email_address">
-
-                <h3>City</h3>
-                <p><select name="city">
-                    <option value="sopron">Sopron</option>
-                    <option value="balatonlelle">Balatonlelle</option>
-                    <option value="pusztaszentjakab">Pusztaszentjakab</option>
-                    <option value="warsaw">Warsaw</option>
-                    <option value="budapest">Budapest</option></select></p>
-
-
-
-
-                 <button type="submit">Save</button>
 
         </form>
-
+    <p>
+        <img src="static/giphy.gif" width="240" height="135" align="center">
+    </p>
     </body>
 
 </html>
