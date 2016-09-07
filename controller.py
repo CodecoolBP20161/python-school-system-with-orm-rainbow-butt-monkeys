@@ -1,13 +1,18 @@
 from flask import *
 from models import *
 from form import Form
-from flask.ext.login import LoginManager
 from user import *
+from flask_login import login_user , logout_user , current_user , login_required, LoginManager
+from flask.ext.session import Session
+
 
 app = Flask(__name__)
+SESSION_TYPE = 'memcache'
+
+sess = Session()
+
 
 # Log in logic
-login_manager = LoginManager()
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -15,7 +20,21 @@ login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return User.get(User.id==id)
+
+@app.route('/login',methods=['GET','POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('log_in.html')
+    username = request.form['username']
+    password = request.form['password']
+    registered_user = User.get(username==username, password==password)
+    return registered_user.username
+    '''if registered_user:
+        login_user(registered_user)
+        return redirect(config.address+'/admin')
+    else:
+        return 'Username or Password is invalid'''''
 
 @app.route("/", methods=["GET"])
 def render():
@@ -75,4 +94,8 @@ def list_applicants():
 
 
 if __name__ == '__main__':
+    app.secret_key = 'super secret key'
+    app.config['SESSION_TYPE'] = 'filesystem'
+
+    sess.init_app(app)
     app.run(debug=True)
