@@ -2,6 +2,7 @@ from flask import *
 from models import *
 from form import Form
 from flask.ext.login import LoginManager
+from user import *
 
 app = Flask(__name__)
 
