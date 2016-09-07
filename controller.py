@@ -32,9 +32,16 @@ def login():
         try:
             registered_user = User.get(User.username==username, User.password==password)
             login_user(registered_user)
-            return redirect('http://localhost:5000/admin')
+            return redirect(config.address + '/admin')
         except User.DoesNotExist:
             return 'Username or Password is invalid'
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(config.address + "/")
+
 
 @app.route("/", methods=["GET"])
 def render():
