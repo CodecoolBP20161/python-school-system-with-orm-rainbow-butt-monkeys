@@ -1,10 +1,20 @@
-import config
-import datetime
 from flask import *
 from models import *
 from form import Form
+from flask.ext.login import LoginManager
 
 app = Flask(__name__)
+
+# Log in logic
+login_manager = LoginManager()
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 @app.route("/", methods=["GET"])
 def render():
