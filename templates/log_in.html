@@ -4,11 +4,29 @@
     <meta charset="UTF-8">
     <title>Log in</title>
 </head>
+
+<style>
+		table, th, td {
+			border: 2px solid cornflowerblue;
+			text-align: center;
+		}
+</style>
+
+<h2 align="center">Log in</h2>
 <body>
-    <form action="/login" method="post">
-        <input type="text" id="username" name="username", value="User name">
-        <input type="password" id="password" name="password">
-        <button type="submit">Signin</button>
-    </form>
+    <table width="500px" align="center">
+        <tr>
+            <td>
+                <form action="/login" method="post">
+                    <p>
+                    <input type="text" style="border: 2px solid black" id="username" name="username" value="User name" required>
+                    <input type="password" style="border: 2px solid black" id="password" name="password" value="Password" required> </p>
+                    <p>
+                    <button type="submit"><img src="static/button.png" width="120" height="50"></button>
+                    </p>
+                </form>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
