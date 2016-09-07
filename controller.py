@@ -26,10 +26,10 @@ def get_applicant():
         return check + "\n\n Please go back to the form"
 
 
-
 @app.route('/admin', methods=['GET'])
 def empty_filter():
     return render_template('filter_menu.html')
+
 
 @app.route('/admin', methods=['POST'])
 def list_applicants():
@@ -54,8 +54,11 @@ def list_applicants():
         result = Applicant.filter_school(filter)
         return render_template('filter_result.html', result=result)
     elif option == 'Mentor name':
-        result = Applicant.filter_mentor(filter)
-        return render_template('filter_result.html', result=result)
+        result = Applicant.filter_mentor(filter.replace(" ", ""))
+        try:
+            return render_template('filter_result.html', result=result)
+        except:
+            return "Mentor not found! Please go back, and correct the name ! "
     else:
         return 'Not working'
 
