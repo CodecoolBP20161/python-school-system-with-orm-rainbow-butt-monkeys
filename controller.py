@@ -31,7 +31,6 @@ def login():
         password = request.form['password']
         try:
             registered_user = User.get(User.username==username, User.password==password)
-            login_user(registered_user)
             return redirect('http://localhost:5000/admin')
         except User.DoesNotExist:
             return 'Username or Password is invalid'
