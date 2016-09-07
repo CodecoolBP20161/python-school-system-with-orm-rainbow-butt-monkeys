@@ -26,15 +26,15 @@ def load_user(id):
 def login():
     if request.method == 'GET':
         return render_template('log_in.html')
-    username = request.form['username']
-    password = request.form['password']
-    registered_user = User.get(username==username, password==password)
-    return registered_user.username
-    '''if registered_user:
-        login_user(registered_user)
-        return redirect(config.address+'/admin')
-    else:
-        return 'Username or Password is invalid'''''
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        try:
+            registered_user = User.get(User.username==username, User.password==password)
+            login_user(registered_user)
+            return redirect('http://localhost:5000/admin')
+        except User.DoesNotExist:
+            return 'Username or Password is invalid'
 
 @app.route("/", methods=["GET"])
 def render():
