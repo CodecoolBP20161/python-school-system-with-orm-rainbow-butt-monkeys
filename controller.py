@@ -1,9 +1,12 @@
 from flask import *
 from models import *
 from form import Form
+from flask import session
 from user import *
 from flask_login import login_user , logout_user , current_user , login_required, LoginManager
 from flask.ext.session import Session
+from functools import wraps
+
 
 
 app = Flask(__name__)
@@ -18,19 +21,36 @@ login_manager.init_app(app)
 
 login_manager.login_view = 'login'
 
+
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'login' in session:
+            return f(*args, **kwargs)
+        else:
+            return redirect(url_for('login'))
+    return wrap
+
+
 @login_manager.user_loader
 def load_user(id):
     return User.get(User.id==id)
 
+
 @app.route('/login',methods=['GET','POST'])
 def login():
     if request.method == 'GET':
-        return render_template('log_in.html')
+        if session['login'] is True:
+            return render_template('filter_menu.html')
+        else:
+            return render_template('log_in.html')
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         try:
-            registered_user = User.get(User.username==username, User.password==password)
+            registered_user = User.get(User.username == username, User.password == password)
+            session['login'] = True
             return redirect(config.address + '/admin')
         except User.DoesNotExist:
             return 'Username or Password is invalid'
@@ -39,6 +59,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    session['login'] = False
     return redirect(config.address + "/")
 
 
@@ -63,6 +84,7 @@ def get_applicant():
 
 
 @app.route('/admin', methods=['GET'])
+@login_required
 def empty_filter():
     return render_template('filter_menu.html')
 
