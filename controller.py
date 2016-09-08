@@ -121,21 +121,26 @@ def list_applicants():
         return 'Not working'
 
 
+@app.route('/admin_int', methods=['POST'])
 def list_interviews():
     option = request.form['Filter By']
-    filter = request.form['filter']
+    filter = request.form['interview_filter']
     if option == 'School':
         result = Mentor.interview_details(filter)
-        return render_template('filter_result.html', result=result)
+        return render_template('filter_interviews.html', result=result)
     elif option == 'Applicant':
         result = Mentor.interview_details(filter)
-        return render_template('filter_result.html', result=result)
+        return render_template('filter_interviews.html', result=result)
     elif option == 'Mentor':
         result = Mentor.interview_details(filter)
-        return render_template('filter_result.html', result=result)
+        return render_template('filter_interviews.html', result=result)
     elif option == 'Date':
         result = Mentor.interview_details(filter)
-        return render_template('filter_result.html', result=result)
+        return render_template('filter_interviews.html', result=result)
+        try:
+            return render_template('filter_interviews.html', result=result)
+        except:
+            return "There are no interviews for this criteria, please try again!"
     else:
         return 'Not working!'
 
