@@ -121,26 +121,35 @@ def list_applicants():
 
 @app.route('/admin_int', methods=['POST'])
 def list_interviews():
-    option = request.form['Filter By']
-    filter = request.form['interview_filter']
+    option = request.form['interview_filter']
+    filter = request.form['Filter By']
     if option == 'School':
-        result = Mentor.interview_details(filter)
-        return render_template('filter_interviews.html', result=result)
-    elif option == 'Applicant':
-        result = Mentor.interview_details(filter)
-        return render_template('filter_interviews.html', result=result)
-    elif option == 'Mentor':
-        result = Mentor.interview_details(filter)
-        return render_template('filter_interviews.html', result=result)
-    elif option == 'Date':
-        result = Mentor.interview_details(filter)
-        return render_template('filter_interviews.html', result=result)
         try:
+            result = Interview.filter_by_school(filter)
             return render_template('filter_interviews.html', result=result)
         except:
-            return "There are no interviews for this criteria, please try again!"
+            return "invalid school location"
+    elif option == 'Applicant':
+        try:
+            result = Interview.filter_by_applicant(filter)
+            return render_template('filter_interviews.html', result=result)
+        except:
+            return "invalid applicant name"
+    elif option == 'Mentor':
+        try:
+            result = Interview.filter_by_mentor(filter)
+            return render_template('filter_interviews.html', result=result)
+        except:
+            return "invalid mentor name"
+    elif option == 'Date':
+        try:
+            result = Interview.filter_by_date(filter)
+            return render_template('filter_interviews.html', result=result)
+        except:
+            return "invalid date"
     else:
         return 'Not working!'
+
 
 if __name__ == '__main__':
     app.secret_key = 'secret'

@@ -229,6 +229,39 @@ class Interview(BaseModel):  # Stores reserved interview slots
     date = DateTimeField()
 
     @staticmethod
+    def filter_by_date(filter):
+        list = []
+        for interview in Interview.select().where(filter == Interview.date):
+            list.append(interview)
+        return list
+
+    @staticmethod
+    def filter_by_mentor(filter):
+        list = []
+        mentor = Mentor.get((Mentor.first_name == filter) | (Mentor.last_name == filter))
+        for mentorinterview in MentorInterview.select().where(mentor.id == MentorInterview.mentor):
+            interview = Interview.get(mentorinterview.interview.get_id() == Interview.id)
+            list.append(interview)
+        return list
+
+    @staticmethod
+    def filter_by_school(filter):
+        list = []
+        school = School.get(School.location == filter)
+        for applicant in Applicant.select().where(Applicant.school == school):
+            interview = Interview.get(applicant.interview == Interview.id)
+            list.append(interview)
+        return list
+
+    @staticmethod
+    def filter_by_applicant(filter):
+        list = []
+        for applicant in Applicant.select().where((Applicant.first_name == filter) | (Applicant.last_name == filter)):
+            interview = Interview.get(Interview.applicant == applicant)
+            list.append(interview)
+        return list
+
+    @staticmethod
     def give_interview_slot():
         interview_query = Applicant.select().where(Applicant.status == 'New')
 
