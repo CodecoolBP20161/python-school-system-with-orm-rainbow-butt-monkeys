@@ -71,20 +71,9 @@ def empty_filter():
 def list_applicants():
     option = request.form['Filter By']
     filter = request.form['filter']
-    if option == 'Status':
-        result = Applicant.filter_status(filter)
-        return render_template('filter_result.html', result=result)
-    elif option == 'Time':
-        result = Applicant.filter_reg_time(filter)
-        return render_template('filter_result.html', result=result)
-    elif option == 'Location':
-        result = Applicant.filter_location(filter)
-        return render_template('filter_result.html', result=result)
-    elif option == 'Name':
+
+    if option == 'Name':
         result = Applicant.filter_name(filter)
-        return render_template('filter_result.html', result=result)
-    elif option == 'Email':
-        result = Applicant.filter_email(filter)
         return render_template('filter_result.html', result=result)
     elif option == 'School':
         result = Applicant.filter_school(filter)
@@ -96,7 +85,8 @@ def list_applicants():
         except:
             return "Mentor not found! Please go back, and correct the name ! "
     else:
-        return 'Not working'
+        result = Applicant.filter_by(filter, option)
+        return render_template('filter_result.html', result=result)
 
 
 if __name__ == '__main__':

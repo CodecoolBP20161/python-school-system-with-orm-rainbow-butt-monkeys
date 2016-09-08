@@ -71,40 +71,13 @@ class Applicant(BaseModel):  # Main class, stores the data required.
                                                         interview.interview.applicant.first_name, interview.interview.date)
 
     @staticmethod
-    def filter_status(input_status):
-        counter = 0
+    def filter_by(input, option):
         list = []
-        print('\nThe result:')
-        for applicant in Applicant.select().where(Applicant.status == input_status):
+        value = getattr(Applicant, option) # Applicant.status
+        for applicant in Applicant.select().where(value == input):
             list.append(applicant)
-            counter +=1
-        if counter == 0:
-            print('\nNo result to show, try one more time\n')
         return list
 
-    @staticmethod
-    def filter_reg_time(reg_time):
-        counter = 0
-        list = []
-        print('\nThe result:')
-        for applicant in Applicant.select().where(Applicant.registration_time == reg_time):
-            list.append(applicant)
-            counter += 1
-        if counter == 0:
-            print('\nNo result to show, try one more time\n')
-        return list
-
-    @staticmethod
-    def filter_location(input_location):  # we are waiting for the city of the applicant
-        counter = 0
-        list = []
-        print('\n applicants from', input_location)
-        for applicant in Applicant.select().where(Applicant.city == input_location):
-            list.append(applicant)
-            counter += 1
-        if counter == 0:
-            print('\nNo result to show, try one more time\n')
-        return list
 
     @staticmethod
     def filter_name(input_name):
@@ -119,17 +92,6 @@ class Applicant(BaseModel):  # Main class, stores the data required.
             print('\nNo result to show, try one more time\n')
         return list
 
-    @staticmethod
-    def filter_email(input_email):
-        counter = 0
-        list = []
-        print("\n applicant with the folloring email:", input_email)
-        for applicant in Applicant.select().where(Applicant.email_address == input_email):
-            list.append(applicant)
-            counter += 1
-        if counter == 0:
-            print('\nNo result to show, try one more time\n')
-        return list
 
     @staticmethod
     def filter_school(input_school):
