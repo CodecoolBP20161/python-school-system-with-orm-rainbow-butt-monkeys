@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	    <title>Filter applicants</title>
+	    <title>Filter Menu</title>
 	</head>
 
 		<body style="background-color: bisque">
 			<table align="center">
 				<form action="/admin" method="post">
+					<tr>
+						<td>
+							<h3>Filter Applicants</h3>
+						</td>
+					</tr>
 				<tr>
 					<td>Filter by:</td>
 					<td>
@@ -20,6 +25,7 @@
 								  <option value="Mentor name">Mentor name</option>
 							</select>
 					</td>
+
 				</tr>
 				<p>
 				<tr>
@@ -34,6 +40,39 @@
 				</p>
 				</form>
 			</table>
+
+			<table align="center">
+				<form action="/admin_int" method="post">
+					<tr>
+						<td>
+							<h3>Filter Interviews</h3>
+						</td>
+					</tr>
+					<tr>
+						<td>Filter by:</td>
+						<td>
+						<select name="interview_filter">
+							<option value ="School">School</option>
+							<option value ="Applicant">Applicant</option>
+							<option value ="Mentor">Mentor</option>
+							<option value ="Date">Date</option>
+						</select>
+					</td>
+					</tr>
+					<p>
+					<tr>
+						<td>Data:</td>
+					<td><input name="filter"></td>
+					</tr>
+						<tr>
+					<td>
+						<td><button type='submit'>Filter</button></td>
+					</td>
+					</tr>
+					</p>
+					</form>
+				</table>
+
 			<form action="/logout", method="get">
 							<p>
 							<button type="submit"><img src="static/logout-button.png" width="75" height="35"></button>
