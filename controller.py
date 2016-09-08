@@ -8,9 +8,8 @@ from flask.ext.session import Session
 from functools import wraps
 
 
-
 app = Flask(__name__)
-SESSION_TYPE = 'memcache'
+SESSION_TYPE = 'filesystem'
 
 sess = Session()
 
@@ -22,44 +21,49 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 
+@login_manager.user_loader
+def load_user(id):
+    return User.get(User.id == id)
+
+
+@app.route('/admin', methods=['GET'])
+@login_required
+def empty_filter():
+    return render_template('filter_menu.html')
+
+
+@app.route('/login',methods=['GET','POST'])
+def login():
+    if request.method == 'GET':
+        if session['logged_in'] is False :
+            return render_template('log_in.html')
+        else:
+            return render_template('filter_menu.html')
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        try:
+            registered_user = User.get(User.username == username, User.password == password)
+            session['logged_in'] = True
+            return redirect(config.address + '/admin')
+        except User.DoesNotExist:
+            return 'Username or Password is invalid'
+
+
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if 'login' in session:
+        if 'logged_in' in session:
             return f(*args, **kwargs)
         else:
             return redirect(url_for('login'))
     return wrap
 
 
-@login_manager.user_loader
-def load_user(id):
-    return User.get(User.id==id)
-
-
-@app.route('/login',methods=['GET','POST'])
-def login():
-    if request.method == 'GET':
-        if session['login'] is True:
-            return render_template('filter_menu.html')
-        else:
-            return render_template('log_in.html')
-
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        try:
-            registered_user = User.get(User.username == username, User.password == password)
-            session['login'] = True
-            return redirect(config.address + '/admin')
-        except User.DoesNotExist:
-            return 'Username or Password is invalid'
-
-
 @app.route('/logout')
 def logout():
     logout_user()
-    session['login'] = False
+    session['logged_in'] = False
     return redirect(config.address + "/")
 
 
@@ -81,12 +85,6 @@ def get_applicant():
         return 'You are know registered to Codecool !'
     else:
         return check + "\n\n Please go back to the form"
-
-
-@app.route('/admin', methods=['GET'])
-@login_required
-def empty_filter():
-    return render_template('filter_menu.html')
 
 
 @app.route('/admin', methods=['POST'])
@@ -145,7 +143,7 @@ def list_interviews():
         return 'Not working!'
 
 if __name__ == '__main__':
-    app.secret_key = 'super secret key'
+    app.secret_key = 'secret'
     app.config['SESSION_TYPE'] = 'filesystem'
 
     sess.init_app(app)
