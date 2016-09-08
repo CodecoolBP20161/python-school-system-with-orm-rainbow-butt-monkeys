@@ -214,11 +214,13 @@ class Mentor(BaseModel):  # normal data, and their school
 
     @staticmethod
     def interview_details(mentor_id):
+        list = []
         query = MentorInterview.select(MentorInterview, Interview) \
             .join(Interview, on=Interview.id == MentorInterview.interview) \
             .where(MentorInterview.mentor == mentor_id)
         for interview in query:
-            return interview
+            list.append(interview)
+        return list
 
 
 class Interview(BaseModel):  # Stores reserved interview slots
