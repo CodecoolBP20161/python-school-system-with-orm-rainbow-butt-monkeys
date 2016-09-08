@@ -218,10 +218,7 @@ class Mentor(BaseModel):  # normal data, and their school
             .join(Interview, on=Interview.id == MentorInterview.interview) \
             .where(MentorInterview.mentor == mentor_id)
         for interview in query:
-            print("\nDate of interview: ", interview.interview.date, "\nName of applicant: ",
-                  interview.interview.applicant.first_name, "",
-                  interview.interview.applicant.last_name,
-                  "\nApplication code: ", interview.interview.applicant.application_code)
+            return interview
 
 
 class Interview(BaseModel):  # Stores reserved interview slots
