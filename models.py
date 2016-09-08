@@ -176,20 +176,52 @@ class Mentor(BaseModel):  # normal data, and their school
 
     @staticmethod
     def interview_details(mentor_id):
+        list = []
         query = MentorInterview.select(MentorInterview, Interview) \
             .join(Interview, on=Interview.id == MentorInterview.interview) \
             .where(MentorInterview.mentor == mentor_id)
         for interview in query:
-            print("\nDate of interview: ", interview.interview.date, "\nName of applicant: ",
-                  interview.interview.applicant.first_name, "",
-                  interview.interview.applicant.last_name,
-                  "\nApplication code: ", interview.interview.applicant.application_code)
+            list.append(interview)
+        return list
 
 
 class Interview(BaseModel):  # Stores reserved interview slots
     applicant = ForeignKeyField(Applicant, related_name='interview')
     # mentor = ForeignKeyField(Mentor, related_name='interviews')
     date = DateTimeField()
+
+    @staticmethod
+    def filter_by_date(filter):
+        list = []
+        for interview in Interview.select().where(filter == Interview.date):
+            list.append(interview)
+        return list
+
+    @staticmethod
+    def filter_by_mentor(filter):
+        list = []
+        mentor = Mentor.get((Mentor.first_name == filter) | (Mentor.last_name == filter))
+        for mentorinterview in MentorInterview.select().where(mentor.id == MentorInterview.mentor):
+            interview = Interview.get(mentorinterview.interview.get_id() == Interview.id)
+            list.append(interview)
+        return list
+
+    @staticmethod
+    def filter_by_school(filter):
+        list = []
+        school = School.get(School.location == filter)
+        for applicant in Applicant.select().where(Applicant.school == school):
+            interview = Interview.get(applicant.interview == Interview.id)
+            list.append(interview)
+        return list
+
+    @staticmethod
+    def filter_by_applicant(filter):
+        list = []
+        for applicant in Applicant.select().where((Applicant.first_name == filter) | (Applicant.last_name == filter)):
+            interview = Interview.get(Interview.applicant == applicant)
+            list.append(interview)
+        return list
 
     @staticmethod
     def give_interview_slot():

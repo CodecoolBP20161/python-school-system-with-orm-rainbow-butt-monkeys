@@ -1,13 +1,15 @@
 from flask import *
 from models import *
 from form import Form
+from flask import session
 from user import *
 from flask_login import login_user , logout_user , current_user , login_required, LoginManager
 from flask.ext.session import Session
+from functools import wraps
 
 
 app = Flask(__name__)
-SESSION_TYPE = 'memcache'
+SESSION_TYPE = 'filesystem'
 
 sess = Session()
 
@@ -18,9 +20,17 @@ login_manager.init_app(app)
 
 login_manager.login_view = 'login'
 
+
 @login_manager.user_loader
 def load_user(id):
-    return User.get(User.id==id)
+    return User.get(User.id == id)
+
+
+@app.route('/admin', methods=['GET'])
+@login_required
+def empty_filter():
+    return render_template('filter_menu.html')
+
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -30,15 +40,27 @@ def login():
         username = request.form['username']
         password = request.form['password']
         try:
-            registered_user = User.get(User.username==username, User.password==password)
+            registered_user = User.get(User.username == username, User.password == password)
+            session['logged_in'] = True
             return redirect(config.address + '/admin')
         except User.DoesNotExist:
             return 'Username or Password is invalid'
 
 
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            return redirect(url_for('login'))
+    return wrap
+
+
 @app.route('/logout')
 def logout():
     logout_user()
+    session['logged_in'] = False
     return redirect(config.address + "/")
 
 
@@ -60,11 +82,6 @@ def get_applicant():
         return 'You are know registered to Codecool !'
     else:
         return check + "\n\n Please go back to the form"
-
-
-@app.route('/admin', methods=['GET'])
-def empty_filter():
-    return render_template('filter_menu.html')
 
 
 @app.route('/admin', methods=['POST'])
@@ -89,8 +106,40 @@ def list_applicants():
         return render_template('filter_result.html', result=result)
 
 
+@app.route('/admin_int', methods=['POST'])
+def list_interviews():
+    option = request.form['interview_filter']
+    filter = request.form['Filter By']
+    if option == 'School':
+        try:
+            result = Interview.filter_by_school(filter)
+            return render_template('filter_interviews.html', result=result)
+        except:
+            return "invalid school location"
+    elif option == 'Applicant':
+        try:
+            result = Interview.filter_by_applicant(filter)
+            return render_template('filter_interviews.html', result=result)
+        except:
+            return "invalid applicant name"
+    elif option == 'Mentor':
+        try:
+            result = Interview.filter_by_mentor(filter)
+            return render_template('filter_interviews.html', result=result)
+        except:
+            return "invalid mentor name"
+    elif option == 'Date':
+        try:
+            result = Interview.filter_by_date(filter)
+            return render_template('filter_interviews.html', result=result)
+        except:
+            return "invalid date"
+    else:
+        return 'Not working!'
+
+
 if __name__ == '__main__':
-    app.secret_key = 'super secret key'
+    app.secret_key = 'secret'
     app.config['SESSION_TYPE'] = 'filesystem'
 
     sess.init_app(app)
