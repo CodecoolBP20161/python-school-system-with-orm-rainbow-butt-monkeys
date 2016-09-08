@@ -5,20 +5,43 @@
     <title>Codecool Menu</title>
 </head>
 
-<h2>Menu</h2>
+<style>
+		table, th, td {
+
+			text-align: center;
+		}
+</style>
 
 
-    <body background="kep.jpg">
+    <body style="background-color: bisque">
+        <table bgcolor="#C0C0C0" align="center">
 
-        <form action="http://localhost:5000/form">
+            <tr>
+                <td width="100%"><img src="static/codecool.jpg" width="300" height="175"/></td>
+            </tr>
+            <tr>
+                <td>
+                    Menu
+                </td>
+            </tr>
+            <tr>
+                <td width="20%">
+                    <form action="http://localhost:5000/form">
+                        <input type="submit" value="Applicant"/>
+                    </form>
+                </td>
+            </tr>
 
-            <input type="submit" value="Applicant"/>
-        </form>
-        <br>
-        <form action="http://127.0.0.1:5000/login">
-            <input type="submit" value="Admin"/>
-        </form>
+            <tr>
+                <td>
+                    <form action="http://127.0.0.1:5000/login">
+                        <input type="submit" value="Admin"/>
+                    </form>
+                </td>
+            </tr>
 
-   </body>
+        </table>
+
+   </>
 
 </html>

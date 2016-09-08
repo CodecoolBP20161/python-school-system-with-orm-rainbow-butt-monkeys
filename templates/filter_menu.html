@@ -4,25 +4,41 @@
 	    <title>Filter applicants</title>
 	</head>
 
-		<body>
-			<form action="/admin" method="post">
-				<select name = 'Filter By'>
-					  <option value="Status">Status</option>
-					  <option value="Time">Time</option>
-					  <option value="Location">Location</option>
-					  <option value="Name">Name</option>
-					  <option value="Email">Email</option>
-					  <option value="School">School</option>
-					  <option value="Mentor name">Mentor name</option>
-				</select>
-
-				<textarea rows="1" cols="50" name="filter"></textarea>
-
-				<button type='submit'>Filter</button>
+		<body style="background-color: bisque">
+			<table align="center">
+				<form action="/admin" method="post">
+				<tr>
+					<td>Filter by:</td>
+					<td>
+							<select name = 'Filter By'>
+								  <option value="Status">Status</option>
+								  <option value="Time">Time</option>
+								  <option value="Location">Location</option>
+								  <option value="Name">Name</option>
+								  <option value="Email">Email</option>
+								  <option value="School">School</option>
+								  <option value="Mentor name">Mentor name</option>
+							</select>
+					</td>
+				</tr>
+				<p>
+				<tr>
+					<td>Data:</td>
+					<td><input name="filter"></td>
+				</tr>
+				<tr>
+					<td>
+						<td><button type='submit'>Filter</button></td>
+					</td>
+				</tr>
+				</p>
+				</form>
+			</table>
+			<form action="/logout", method="get">
+							<p>
+							<button type="submit"><img src="static/logout-button.png" width="75" height="35"></button>
+							</p>
 			</form>
-            <form action="/logout", method="get">
-                <button type="submit">Logout</button>
-            </form>
 		</body>
 
 </html>
