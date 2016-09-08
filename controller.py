@@ -99,6 +99,24 @@ def list_applicants():
         return 'Not working'
 
 
+def list_interviews():
+    option = request.form['Filter By']
+    filter = request.form['filter']
+    if option == 'School':
+        result = Mentor.interview_details(filter)
+        return render_template('filter_result.html', result=result)
+    elif option == 'Applicant':
+        result = Mentor.interview_details(filter)
+        return render_template('filter_result.html', result=result)
+    elif option == 'Mentor':
+        result = Mentor.interview_details(filter)
+        return render_template('filter_result.html', result=result)
+    elif option == 'Date':
+        result = Mentor.interview_details(filter)
+        return render_template('filter_result.html', result=result)
+    else:
+        return 'Not working!'
+
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
     app.config['SESSION_TYPE'] = 'filesystem'
