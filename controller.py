@@ -35,10 +35,7 @@ def empty_filter():
 @app.route('/login',methods=['GET','POST'])
 def login():
     if request.method == 'GET':
-        if session['logged_in'] is False :
-            return render_template('log_in.html')
-        else:
-            return render_template('filter_menu.html')
+        return render_template('log_in.html')
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
