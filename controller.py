@@ -27,34 +27,28 @@ def load_user(id):
 
 
 @app.route('/admin', methods=['GET'])
-@login_required
 def empty_filter():
-    return render_template('filter_menu.html')
+    if session['logged_in']:
+        return render_template('filter_menu.html')
+    else:
+        return redirect(config.address + '/login')
 
 
-@app.route('/login',methods=['GET','POST'])
+@app.route('/login', methods=['GET'])
+def login_render():
+    return render_template('log_in.html')
+
+
+@app.route('/login', methods=['POST'])
 def login():
-    if request.method == 'GET':
-        return render_template('log_in.html')
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        try:
-            registered_user = User.get(User.username == username, User.password == password)
-            session['logged_in'] = True
-            return redirect(config.address + '/admin')
-        except User.DoesNotExist:
-            return 'Username or Password is invalid'
-
-
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            return redirect(url_for('login'))
-    return wrap
+    username = request.form['username']
+    password = request.form['password']
+    try:
+        registered_user = User.get(User.username == username, User.password == password)
+        session['logged_in'] = True
+        return redirect(config.address + '/admin')
+    except User.DoesNotExist:
+        return 'Username or Password is invalid'
 
 
 @app.route('/logout')
