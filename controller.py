@@ -5,7 +5,6 @@ from flask import session
 from user import *
 from flask_login import login_user , logout_user , current_user , login_required, LoginManager
 from flask.ext.session import Session
-from functools import wraps
 
 
 app = Flask(__name__)
@@ -28,10 +27,10 @@ def load_user(id):
 
 @app.route('/admin', methods=['GET'])
 def empty_filter():
-    if session['logged_in']:
+    if session["logged_in"] is True:
         return render_template('filter_menu.html')
     else:
-        return redirect(config.address + '/login')
+        return redirect(config.address + "/login")
 
 
 @app.route('/login', methods=['GET'])
@@ -53,7 +52,6 @@ def login():
 
 @app.route('/logout')
 def logout():
-    logout_user()
     session['logged_in'] = False
     return redirect(config.address + "/")
 
