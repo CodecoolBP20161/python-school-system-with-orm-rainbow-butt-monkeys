@@ -37,6 +37,9 @@ def empty_filter():
 def login_render():
     return render_template('log_in.html')
 
+@app.route('/bodajozsi')
+def bodajozsi():
+    return render_template('bodajozsi.html')
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -45,7 +48,7 @@ def login():
     try:
         registered_user = User.get(User.username == username, User.password == password)
         session['logged_in'] = True
-        return redirect(config.address + '/admin')
+        return redirect(config.address + '/bodajozsi')
     except User.DoesNotExist:
         return 'Username or Password is invalid'
 
