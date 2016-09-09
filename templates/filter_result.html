@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Filter result</title>
+</head>
+
+
+
+<style>
+		table, th, td {
+			border: 5px solid #000000;
+			text-align: center;
+		}
+</style>
+
+
+    <body bgcolor="#ffe4c4">
+
+            <div>
+
+				<ul>
+					<table style="width:50%" bgcolor="#C0C0C0" align="center">
+						<tr bgcolor="#00ffff">
+							<td>First name</td>
+							<td>Last name</td>
+							<td>Email address</td>
+							<td>Status</td>
+						</tr>
+						{% for n in result %}
+						<tr>
+							<td>{{n.first_name}}</td>
+							<td>{{n.last_name}}</td>
+							<td>{{n.email_address}}</td>
+							<td>{{n.status}}</td>
+						</tr>
+						{% endfor %}
+					</table>
+      			</ul>
+
+			</div>
+
+
+
+
+        <input type='button' value="Back" onclick="history.go(-1);return true;">
+
+   </body>
+
+</html>

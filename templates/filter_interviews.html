@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Filter interviews</title>
+</head>
+
+
+<style>
+		table, th, td {
+			border: 5px solid #000000;
+			text-align: center;
+		}
+</style>
+
+
+    <body bgcolor="#ffe4c4">
+
+            <div>
+
+				<ul>
+					<table style="width:50%" bgcolor="#C0C0C0" align="center">
+						<tr bgcolor="#00ffff">
+							<td>Date</td>
+							<td>Name of Applicant</td>
+							<td>Application Code</td>
+
+						</tr>
+						{% for n in result %}
+						<tr>
+							<td>{{n.date}}</td>
+							<td>{{n.applicant.first_name}} {{n.applicant.last_name}}</td>
+							<td>{{n.applicant.application_code}}</td>
+
+						</tr>
+						{% endfor %}
+					</table>
+      			</ul>
+
+			</div>
+
+
+
+
+        <input type='button' value="Back" onclick="history.go(-1);return true;">
+
+   </body>
+
+</html>

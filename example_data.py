@@ -1,6 +1,7 @@
 # This script will generate data for all tables
 
 from models import *
+from user import *
 
 # Fill School table with data
 codecool_bp = School.create(location='Budapest', name='Codecool_Budapest')
@@ -110,5 +111,12 @@ interview_slots = [{'mentor': mentors[0], 'start': '2016-08-01 12:00:00', 'end':
 
 for slot in interview_slots:
     InterviewSlot.create(**slot)
+
+# Fill User table with admin data
+admin_1 = User.create(id=1, username='admin_1', password='admin1', email='rbm.codecool+admin1@gmail.com', registered_on='2016-08-07')
+admin_2 = User.create(id=2, username='admin_2', password='admin2', email='rbm.codecool+admin2@gmail.com', registered_on='2016-08-09')
+admin_3 = User.create(id=3, username='admin_3', password='admin3', email='rbm.codecool+admin3@gmail.com', registered_on='2016-08-12')
+
+print("Admin users are created.")
 
 print("The tables are filled with data now.")

@@ -71,84 +71,60 @@ class Applicant(BaseModel):  # Main class, stores the data required.
                                                         interview.interview.applicant.first_name, interview.interview.date)
 
     @staticmethod
-    def filter_status(input_status):
-        counter = 0
-        print('\nThe result:')
-        for applicant in Applicant.select().where(Applicant.status == input_status):
-            print(applicant.first_name, applicant.last_name)
-            counter +=1
-        if counter == 0:
-            print('\nNo result to show, try one more time\n')
+    def filter_by(input, option):
+        list = []
+        value = getattr(Applicant, option) # Applicant.status
+        for applicant in Applicant.select().where(value == input):
+            list.append(applicant)
+        return list
 
-    @staticmethod
-    def filter_reg_time(reg_time):
-        counter = 0
-        print('\nThe result:')
-        for applicant in Applicant.select().where(Applicant.registration_time == reg_time):
-            print(applicant.first_name, applicant.last_name)
-            counter += 1
-        if counter == 0:
-            print('\nNo result to show, try one more time\n')
-
-    @staticmethod
-    def filter_location(input_location):  # we are waiting for the city of the applicant
-        counter = 0
-        print('\n applicants from', input_location)
-        for applicant in Applicant.select().where(Applicant.city == input_location):
-            print(applicant.first_name, applicant.last_name)
-            counter += 1
-        if counter == 0:
-            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_name(input_name):
         counter = 0
+        list = []
         print('\nThe result:')
         for applicant in Applicant.select().where((Applicant.first_name.contains(input_name) |
                                                        (Applicant.last_name.contains(input_name)))):
-            print(applicant.first_name, applicant.last_name)
+            list.append(applicant)
             counter += 1
         if counter == 0:
             print('\nNo result to show, try one more time\n')
+        return list
 
-    @staticmethod
-    def filter_email(input_email):
-        counter = 0
-        print("\n applicant with the folloring email:", input_email)
-        for applicant in Applicant.select().where(Applicant.email_address == input_email):
-            print(applicant.first_name, applicant.last_name)
-            counter += 1
-        if counter == 0:
-            print('\nNo result to show, try one more time\n')
 
     @staticmethod
     def filter_school(input_school):
         counter = 0
+        list = []
         print('\n Applicants from the following school:', input_school)
         try:
             look_for_school_id = School.get(School.location == input_school)
             for applicant in Applicant.select().where(Applicant.school == look_for_school_id.id):
-                print(applicant.first_name, applicant.last_name)
+                list.append(applicant)
                 counter += 1
             if counter == 0:
                 print('\nNo result to show, try one more time\n')
+            return list
         except:
             print('\nNot a valid school\n')
 
     @staticmethod
     def filter_mentor(input_mentor_lastname):
         counter = 0
+        list = []
         print('\n Applicants from interview with', input_mentor_lastname)
         try:
-            mentor = Mentor.get(Mentor.last_name == input_mentor_lastname)
+            mentor = Mentor.select().where(Mentor.first_name.concat(Mentor.last_name).contains(input_mentor_lastname)).get()
             query = MentorInterview.select(MentorInterview, Interview) \
                 .join(Interview, on=Interview.id == MentorInterview.interview) \
                 .where(MentorInterview.mentor == mentor.id)
             for interview in query:
-                print(interview.interview.applicant.first_name, interview.interview.applicant.last_name)
+                list.append(interview.interview.applicant)
                 counter += 1
             if counter == 0:
                 print('\nNo result to show, try one more time\n')
+            return list
         except:
             print('\nNot a valid mentor name\n')
 
@@ -200,20 +176,52 @@ class Mentor(BaseModel):  # normal data, and their school
 
     @staticmethod
     def interview_details(mentor_id):
+        list = []
         query = MentorInterview.select(MentorInterview, Interview) \
             .join(Interview, on=Interview.id == MentorInterview.interview) \
             .where(MentorInterview.mentor == mentor_id)
         for interview in query:
-            print("\nDate of interview: ", interview.interview.date, "\nName of applicant: ",
-                  interview.interview.applicant.first_name, "",
-                  interview.interview.applicant.last_name,
-                  "\nApplication code: ", interview.interview.applicant.application_code)
+            list.append(interview)
+        return list
 
 
 class Interview(BaseModel):  # Stores reserved interview slots
     applicant = ForeignKeyField(Applicant, related_name='interview')
     # mentor = ForeignKeyField(Mentor, related_name='interviews')
     date = DateTimeField()
+
+    @staticmethod
+    def filter_by_date(filter):
+        list = []
+        for interview in Interview.select().where(filter == Interview.date):
+            list.append(interview)
+        return list
+
+    @staticmethod
+    def filter_by_mentor(filter):
+        list = []
+        mentor = Mentor.get((Mentor.first_name == filter) | (Mentor.last_name == filter))
+        for mentorinterview in MentorInterview.select().where(mentor.id == MentorInterview.mentor):
+            interview = Interview.get(mentorinterview.interview.get_id() == Interview.id)
+            list.append(interview)
+        return list
+
+    @staticmethod
+    def filter_by_school(filter):
+        list = []
+        school = School.get(School.location == filter)
+        for applicant in Applicant.select().where(Applicant.school == school):
+            interview = Interview.get(applicant.interview == Interview.id)
+            list.append(interview)
+        return list
+
+    @staticmethod
+    def filter_by_applicant(filter):
+        list = []
+        for applicant in Applicant.select().where((Applicant.first_name == filter) | (Applicant.last_name == filter)):
+            interview = Interview.get(Interview.applicant == applicant)
+            list.append(interview)
+        return list
 
     @staticmethod
     def give_interview_slot():
