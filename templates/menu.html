@@ -1,49 +1,58 @@
 <!DOCTYPE html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Codecool Menu</title>
+    <meta charset="utf-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://bootswatch.com/sandstone/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <style>
-		table, th, td {
+    table, th, td {
 
-			text-align: center;
-		}
+        text-align: center;
+    }
 </style>
 
 
-    <body style="background-color: bisque">
-        <table bgcolor="#C0C0C0" align="center">
+<body style="padding-top: 70px">
 
-            <tr>
-                <td width="100%"><img src="static/codecool.jpg" width="300" height="175"/></td>
-            </tr>
-            <tr>
-                <td>
-                    Menu
-                </td>
-            </tr>
-            <tr>
-                <td width="20%">
-                    <form action="http://localhost:5000/form">
-                        <input type="submit" value="Applicant"/>
-                    </form>
-                </td>
-            </tr>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/about">About</a>
+            <a class="navbar-brand" href="/contact">Contact</a>
+        </div>
 
-            <tr>
-                <td>
-                    <form action="http://127.0.0.1:5000/login">
-                        <input type="submit" value="Admin"/>
-                    </form>
-                </td>
-            </tr>
+    </div>
+</nav>
 
-        </table>
-        <p>
-            <a href=https://www.youtube.com/watch?v=Fty5xF5Zw8A><input type="submit" value="Bonus :)"></a>
-        </p>
-   </>
+<table align="center">
+
+    <tr>
+        <td colspan="2" width="100%"><img src="static/codecool.jpg" width="300" height="175"/></td>
+    </tr>
+
+    <tr>
+        <td width="20%">
+            <form action="http://localhost:5000/form">
+                <input type="submit" value="Applicant"/>
+            </form>
+        </td>
+        <td>
+            <form action="http://127.0.0.1:5000/login">
+                <input type="submit" value="Admin"/>
+            </form>
+        </td>
+    </tr>
+
+</table>
+</body>
 
 </html>
