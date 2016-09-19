@@ -129,6 +129,15 @@ def list_interviews():
     else:
         return 'Not working!'
 
+@app.route("/about", methods=['GET'])
+def about():
+    return render_template('about.html')
+
+
+@app.route("/contact", methods=['GET'])
+def contact():
+    return render_template('contact.html')
+
 
 if __name__ == '__main__':
     app.secret_key = 'secret'
