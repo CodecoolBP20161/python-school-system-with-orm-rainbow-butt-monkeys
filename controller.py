@@ -50,6 +50,20 @@ def login():
         return 'Username or Password is invalid'
 
 
+@app.route('/login/applicant', methods=['POST'])
+def login_applicant():
+    e_mail = request.form['username']
+    registration_code = request.form['password']
+    try :
+        registered_applicant = Applicant.get(Applicant.email_address == e_mail,
+                                             Applicant.application_code == registration_code)
+        session['applicant_logged_in'] = True
+        return redirect(config.address + '/profil')
+    except User.DoesNotExist:
+        return 'E-mail or Password is invalid'
+
+
+
 @app.route('/logout')
 def logout():
     session['logged_in'] = False
