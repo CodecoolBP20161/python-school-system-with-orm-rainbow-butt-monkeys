@@ -37,9 +37,17 @@
         </td>
         <td width="50%">
             <form action="http://localhost:5000/form">
-                <button class="col-lg-10 btn btn-primary" type="submit" value="Applicant"> Applicant</button>
+                <div class="dropdown">
+                  <button class="col-lg-10 btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="False">Applicant
+                  </button>
+                  <ul class="dropdown-menu">
+                      <li><a href="http://localhost:5000/form">Registration</a></li>
+                      <li><a href="http://localhost:5000/login/applicant">My Profile</a></li>
+                  </ul>
+                </div>
             </form>
         </td>
+
     </tr>
 
 </table>

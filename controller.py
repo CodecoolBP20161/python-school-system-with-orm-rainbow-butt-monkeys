@@ -37,6 +37,10 @@ def empty_filter():
 def login_render():
     return render_template('log_in.html')
 
+@app.route('/login/applicant', methods=['GET'])
+def applicant_login_render():
+    return render_template('applicant_login.html')
+
 
 @app.route('/login', methods=['POST'])
 def login():
