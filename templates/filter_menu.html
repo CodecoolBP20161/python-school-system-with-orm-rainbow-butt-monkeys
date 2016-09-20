@@ -1,81 +1,109 @@
 <!DOCTYPE html>
 <html>
-	<head>
-	    <title>Filter Menu</title>
-	</head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap core CSS -->
+    <link href="https://bootswatch.com/sandstone/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+</head>
 
-		<body style="background-color: bisque">
-			<table align="center">
-				<form action="/admin" method="post">
-					<tr>
-						<td>
-							<h3>Filter Applicants</h3>
-						</td>
-					</tr>
-				<tr>
-					<td>Filter by:</td>
-					<td>
-							<select name = 'Filter By'>
-								  <option value="status">Status</option>
-								  <option value="registration_time">Time</option>
-								  <option value="location">Location</option>
-								  <option value="Name">Name</option>
-								  <option value="email_address">Email</option>
-								  <option value="School">School</option>
-								  <option value="Mentor name">Mentor name</option>
-							</select>
-					</td>
+<body style="padding-top: 100px">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/about">About</a>
+            <a class="navbar-brand" href="/contact">Contact</a>
+        </div>
 
-				</tr>
-				<p>
-				<tr>
-					<td>Data:</td>
-					<td><input name="filter"></td>
-				</tr>
-				<tr>
-					<td>
-						<td><button type='submit'>Filter</button></td>
-					</td>
-				</tr>
-				</p>
-				</form>
-			</table>
+    </div>
+</nav>
+<div class="row">
+    <div class="col-md-6">
+        <table align="center">
+            <form action="/admin" method="post">
+                <tr>
+                    <td>
+                        <h3>Filter Applicants</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Filter by:</td>
+                    <td>
+                        <select name='Filter By'>
+                            <option value="status">Status</option>
+                            <option value="registration_time">Time</option>
+                            <option value="location">Location</option>
+                            <option value="Name">Name</option>
+                            <option value="email_address">Email</option>
+                            <option value="School">School</option>
+                            <option value="Mentor name">Mentor name</option>
+                        </select>
+                    </td>
 
-			<table align="center">
-				<form action="/admin_int" method="post">
-					<tr>
-						<td>
-							<h3>Filter Interviews</h3>
-						</td>
-					</tr>
-					<tr>
-						<td>Filter by:</td>
-						<td>
-						<select name="interview_filter">
-							<option value ="School">School</option>
-							<option value ="Applicant">Applicant</option>
-							<option value ="Mentor">Mentor</option>
-							<option value ="Date">Date</option>
-						</select>
-					</td>
-					</tr>
-					<p>
-					<tr>
-						<td>Data:</td>
-					<td><input name="Filter By"></td>
-					</tr>
-						<tr>
-					<td>
-						<td><button type='submit'>Filter</button></td>
-					</td>
-					</tr>
-					</p>
-                </form>
-            </table>
+                </tr>
+                <p>
+                    <tr>
+                        <td>Data:</td>
+                        <td><input name="filter"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <td>
+                            <button type='submit'>Filter</button>
+                        </td>
+                        </td>
+                    </tr>
+                </p>
+            </form>
+        </table>
+    </div>
 
-							<p>
-							<a href="{{url_for('logout')}}"><img src="static/logout-button.png" width="75" height="35"></a></p>
-			</form>
-		</body>
+
+
+    <div class="col-md-6">
+        <table align="center">
+            <form action="/admin_int" method="post">
+                <tr>
+                    <td>
+                        <h3>Filter Interviews</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Filter by:</td>
+                    <td>
+                        <select name="interview_filter">
+                            <option value="School">School</option>
+                            <option value="Applicant">Applicant</option>
+                            <option value="Mentor">Mentor</option>
+                            <option value="Date">Date</option>
+                        </select>
+                    </td>
+                </tr>
+                <p>
+                    <tr>
+                        <td>Data:</td>
+                        <td><input name="Filter By"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <td>
+                            <button type='submit'>Filter</button>
+                        </td>
+                        </td>
+                    </tr>
+                </p>
+            </form>
+        </table>
+    </div>
+</div>
+<br>
+<br>
+<p>
+    <a href="{{url_for('logout')}}" class="btn btn-default col-lg-1">Log out</a></p>
+</form>
+</body>
 
 </html>
