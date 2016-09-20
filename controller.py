@@ -61,8 +61,10 @@ def login_applicant():
     try :
         registered_applicant = Applicant.get(Applicant.email_address == e_mail,
                                              Applicant.application_code == registration_code)
+        interview = Interview.get(Interview.applicant == registered_applicant.id)
         session['applicant_logged_in'] = True
-        return render_template('/profile.html', applicant = registered_applicant)
+        return render_template('/profile.html', applicant = registered_applicant,
+                               interview = interview,)
     except User.DoesNotExist:
         return 'E-mail or Password is invalid'
 

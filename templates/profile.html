@@ -17,16 +17,19 @@
 				<ul>
 					<table style="width:50%" bgcolor="#C0C0C0" align="center">
 						<tr bgcolor="#00ffff">
-							<td>First name</td>
-							<td>Last name</td>
+							<td>Name</td>
 							<td>Email address</td>
+                            <td>Interview</td>
+                            <td>School</td>
 							<td>Status</td>
+
 						</tr>
 
 						<tr>
-							<td>{{applicant.first_name}}</td>
-							<td>{{applicant.last_name}}</td>
+							<td>{{applicant.first_name}} {{applicant.last_name}}</td>
 							<td>{{applicant.email_address}}</td>
+                            <td>{{interview.date}}</td>
+                            <td>{{applicant.school.name}}</td>
 							<td>{{applicant.status}}</td>
 						</tr>
 
