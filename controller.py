@@ -62,11 +62,13 @@ def login_applicant():
         registered_applicant = Applicant.get(Applicant.email_address == e_mail,
                                              Applicant.application_code == registration_code)
         session['applicant_logged_in'] = True
-        return redirect(config.address + '/profil')
+        return render_template('/profile.html', applicant = registered_applicant)
     except User.DoesNotExist:
         return 'E-mail or Password is invalid'
 
-
+@app.route('/profile.html')
+def print_profile():
+    return
 
 @app.route('/logout')
 def logout():
