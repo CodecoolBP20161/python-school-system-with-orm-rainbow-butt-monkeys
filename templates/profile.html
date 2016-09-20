@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Log in</title>
+    <title>Profile</title>
     <!-- Bootstrap core CSS -->
     <link href="https://bootswatch.com/sandstone/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -24,17 +24,24 @@
 <div>
 				<ul>
 					<table align="center" class="table table-hover">
-						<tr>
+						<tr align = "center">
 							<td>Name</td>
 							<td>Email address</td>
                             <td>Interview</td>
+							<td>Mentors</td>
                             <td>School</td>
 							<td>Status</td>
 						</tr>
-						<tr>
+						<tr align = "center">
 							<td>{{applicant.first_name}} {{applicant.last_name}}</td>
 							<td>{{applicant.email_address}}</td>
                             <td>{{interview.date}}</td>
+
+							<td>{{mentors[0].mentor.first_name}} {{mentors[0].mentor.last_name}}
+								<br>
+								{{mentors[1].mentor.first_name}} {{mentors[1].mentor.last_name}}
+								</td>
+
                             <td>{{applicant.school.name}}</td>
 							<td>{{applicant.status}}</td>
 						</tr>
