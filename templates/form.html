@@ -37,7 +37,7 @@
         <tr>
             <td><h3>Gender</h3></td>
             <td>
-                <p><select name="gender" required>
+                <p><select name="gender" class="btn btn-default dropdown-toggle" required>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
@@ -51,7 +51,7 @@
         <tr>
             <td><h3>City</h3></td>
             <td>
-                <p><select name="city" required>
+                <p><select name="city" class="btn btn-default dropdown-toggle" required>
                     <option value="sopron">Sopron</option>
                     <option value="balatonlelle">Balatonlelle</option>
                     <option value="pusztaszentjakab">Pusztaszentjakab</option>
@@ -64,15 +64,19 @@
             <td>
                 <p>
                     <br>
-                    <button class="col-lg-10 btn btn-primary" type="submit">Save</button>
+                    <button class="col-lg-10 btn btn-default" type="submit">Save</button>
                 </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br>
+                <button class="col-lg-10 btn btn-default " onclick="history.go(-1);return true;">Back</button>
             </td>
         </tr>
 
     </table>
 </form>
-<br>
-<button class="col-lg-1 btn btn-primary " onclick="history.go(-1);return true;">Back</button>
 
 </body>
 
