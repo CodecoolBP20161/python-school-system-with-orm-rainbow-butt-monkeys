@@ -89,7 +89,7 @@ def get_applicant():
     form = Form(request.form)
     check = form.check()
     if check == True:
-        return 'You are know registered to Codecool !'
+        return redirect(config.address+'/')
     else:
         return check + "\n\n Please go back to the form"
 
