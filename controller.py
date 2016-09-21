@@ -70,6 +70,7 @@ def login_applicant():
         return render_template("applicant_login.html", data=data)
 
 
+
 @app.route('/profile')
 def print_profile():
     if session['applicant_logged_in'] == True:
