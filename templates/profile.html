@@ -7,12 +7,8 @@
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-<style>
-.textContainer h2 {
-    vertical-align: middle;
-    display: inline-block;
-}
-</style>
+    <link rel="stylesheet" href="static/design.css">
+
 </head>
 
 <body style="padding-top: 100px">
@@ -51,9 +47,13 @@
                 <p align="center"><b>Interview: </b> {{interview.date}}<br>
                     <b>Your Mentors: </b>{{mentors[0].mentor.first_name}} {{mentors[0].mentor.last_name}},
                     {{mentors[1].mentor.first_name}} {{mentors[1].mentor.last_name}}</p>
+            <div class="centered">
+                 <a class="btn btn-small btn-primary" type="button" href="{{url_for('logout')}}">Log out</a>
+            </div>
             </div>
         </div>
         </div>
     </div>
+
 </body>
 </html>

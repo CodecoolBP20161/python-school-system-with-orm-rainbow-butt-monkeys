@@ -1,3 +1,24 @@
-.logo{
-  font-size: 30px;
+.container-custom {
+  margin-top: 100px;
+  margin-left: 600px;
+  margin-right: 600px;
+        }
+
+h1 {
+  text-align: center;
+  font-weight: bold;
+        }
+
+p {
+  text-align: center;
+  font-size: larger;
+        }
+
+.textContainer h2 {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.centered {
+  text-align:center;
 }
