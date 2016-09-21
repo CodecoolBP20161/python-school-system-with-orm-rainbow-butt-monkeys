@@ -51,7 +51,8 @@ def login():
         session['logged_in'] = True
         return redirect(config.address + '/admin')
     except User.DoesNotExist:
-        return 'Username or Password is invalid'
+        data = "Your username or password is invalid !"
+        return render_template("log_in.html", data=data)
 
 
 @app.route('/login/applicant', methods=['POST'])
@@ -64,8 +65,9 @@ def login_applicant():
         session['applicant_logged_in'] = True
         session['app_id'] = registered_applicant.id
         return redirect(config.address + "/profile")
-    except User.DoesNotExist:
-        return 'E-mail or Password is invalid'
+    except:
+        data = "Your username or password is invalid !"
+        return render_template("applicant_login.html", data=data)
 
 
 @app.route('/profile')
