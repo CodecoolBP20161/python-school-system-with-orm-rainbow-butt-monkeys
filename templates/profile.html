@@ -7,15 +7,20 @@
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-
+<style>
+.textContainer h2 {
+    vertical-align: middle;
+    display: inline-block;
+}
+</style>
 </head>
 
 <body style="padding-top: 100px">
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="/about">Home</a>
+            <a class="navbar-brand" href="/">Home</a>
         </div>
 
     </div>
@@ -27,18 +32,28 @@
                 <img src="static/user.png" width="300" height="300">
             </div>
             <div class="col-lg-6">
-                <p>Name: {{applicant.first_name}} {{applicant.last_name}}<br>Email: {{applicant.email_address}}
-                    <br>School: {{applicant.school.name}}<br>Interview: {{interview.date}}
-                    <br>Your Mentors:{{mentors[0].mentor.first_name}} {{mentors[0].mentor.last_name}},
-                    {{mentors[1].mentor.first_name}} {{mentors[1].mentor.last_name}}
-                    <br>Your status: {{applicant.status}}</p>
+                <p><b>Name: </b>{{applicant.first_name}} {{applicant.last_name}}<br><b>Email: </b>{{applicant.email_address}}
+                    <br><b>School: </b>{{applicant.school.name}}
+                    <br><b>Your status: </b>{{applicant.status}}</p>
             </div>
-            <div class="col-lg-2" align="right">
-                <p style="font-size: 40px">{{applicant.application_code}}</p>
+            <div class="col-lg-2 textContainer" align="center">
+                <div style="background-color: #325d88; color:white; padding: 5px; border-radius: 6px;">
+                    <h2 class="text-left">{{applicant.application_code}}</h2>
+                </div>
             </div>
         </div>
         </div>
     </div>
-
+    <div class="container">
+        <div class="jumbotron">
+        <div class="row">
+            <div class="col-lg-12">
+                <p align="center"><b>Interview: </b> {{interview.date}}<br>
+                    <b>Your Mentors: </b>{{mentors[0].mentor.first_name}} {{mentors[0].mentor.last_name}},
+                    {{mentors[1].mentor.first_name}} {{mentors[1].mentor.last_name}}</p>
+            </div>
+        </div>
+        </div>
+    </div>
 </body>
 </html>
