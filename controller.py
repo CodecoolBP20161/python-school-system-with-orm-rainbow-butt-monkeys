@@ -3,7 +3,7 @@ from models import *
 from form import Form
 from flask import session
 from user import *
-from flask_login import login_user , logout_user , current_user , login_required, LoginManager
+from flask_login import login_user, logout_user, current_user, login_required, LoginManager
 from flask.ext.session import Session
 
 
@@ -37,6 +37,7 @@ def empty_filter():
 def login_render():
     return render_template('log_in.html')
 
+
 @app.route('/login/applicant', methods=['GET'])
 def applicant_login_render():
     return render_template('applicant_login.html')
@@ -59,7 +60,7 @@ def login():
 def login_applicant():
     e_mail = request.form['username']
     registration_code = request.form['password']
-    try :
+    try:
         registered_applicant = Applicant.get(Applicant.email_address == e_mail,
                                              Applicant.application_code == registration_code)
         session['applicant_logged_in'] = True
@@ -70,10 +71,9 @@ def login_applicant():
         return render_template("applicant_login.html", data=data)
 
 
-
 @app.route('/profile')
 def print_profile():
-    if session['applicant_logged_in'] == True:
+    if session['applicant_logged_in'] is True:
         registered_applicant = Applicant.get(Applicant.id == session['app_id'])
         interview = Interview.get(Interview.applicant == registered_applicant.id)
         mentors = MentorInterview.select() \
@@ -84,6 +84,7 @@ def print_profile():
                                interview=interview, mentors=mentors)
     else:
         return redirect(config.address + "/login/applicant")
+
 
 @app.route('/logout')
 def logout():
@@ -112,7 +113,7 @@ def form():
 def get_applicant():
     form = Form(request.form)
     check = form.check()
-    if check == True:
+    if check is True:
         return redirect(config.address+'/')
     else:
         return check + "\n\n Please go back to the form"
@@ -170,6 +171,7 @@ def list_interviews():
             return "invalid date"
     else:
         return 'Not working!'
+
 
 @app.route("/about", methods=['GET'])
 def about():
