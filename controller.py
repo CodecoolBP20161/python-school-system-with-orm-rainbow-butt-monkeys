@@ -61,20 +61,26 @@ def login_applicant():
     try :
         registered_applicant = Applicant.get(Applicant.email_address == e_mail,
                                              Applicant.application_code == registration_code)
-        interview = Interview.get(Interview.applicant == registered_applicant.id)
-        mentors = MentorInterview.select()\
-            .join(Mentor, on=Mentor.id == MentorInterview.mentor)\
-            .join(Interview, on=Interview.id == MentorInterview.interview)\
-            .where(registered_applicant.interview == MentorInterview.interview)
         session['applicant_logged_in'] = True
-        return render_template('/profile.html', applicant = registered_applicant,
-                               interview = interview, mentors = mentors)
+        session['app_id'] = registered_applicant.id
+        return redirect(config.address + "/profile")
     except User.DoesNotExist:
         return 'E-mail or Password is invalid'
 
-@app.route('/profile.html')
+
+@app.route('/profile')
 def print_profile():
-    return
+    if session['applicant_logged_in'] == True:
+        registered_applicant = Applicant.get(Applicant.id == session['app_id'])
+        interview = Interview.get(Interview.applicant == registered_applicant.id)
+        mentors = MentorInterview.select() \
+            .join(Mentor, on=Mentor.id == MentorInterview.mentor) \
+            .join(Interview, on=Interview.id == MentorInterview.interview) \
+            .where(registered_applicant.interview == MentorInterview.interview)
+        return render_template('/profile.html', applicant=registered_applicant,
+                               interview=interview, mentors=mentors)
+    else:
+        return redirect(config.address + "/login/applicant")
 
 @app.route('/logout')
 def logout():
@@ -82,8 +88,15 @@ def logout():
     return redirect(config.address + "/")
 
 
+@app.route('/app_logout')
+def app_logout():
+    return redirect(config.address + "/")
+
+
 @app.route("/", methods=["GET"])
 def render():
+    session['applicant_logged_in'] = False
+    session['app_id'] = None
     return render_template('menu.html')
 
 
