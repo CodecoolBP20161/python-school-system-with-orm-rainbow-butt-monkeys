@@ -58,6 +58,12 @@
                     </tr>
                 </p>
             </form>
+            <tr>
+                <td>
+                    <p>
+                        <a href="{{url_for('logout')}}" class="btn btn-default col-lg-5">Log out</a></p>
+                </td>
+            </tr>
         </table>
     </div>
 
@@ -97,14 +103,12 @@
                     </tr>
                 </p>
             </form>
+
         </table>
     </div>
 </div>
 {% block result %}{% endblock %}
-<br>
-<br>
-<p>
-    <a href="{{url_for('logout')}}" class="btn btn-default col-lg-1">Log out</a></p>
+
 </form>
 </body>
 
