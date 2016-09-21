@@ -64,7 +64,7 @@ def login_applicant():
         session['applicant_logged_in'] = True
         session['app_id'] = registered_applicant.id
         return redirect(config.address + "/profile")
-    except User.DoesNotExist:
+    except ValueError:
         return 'E-mail or Password is invalid'
 
 
