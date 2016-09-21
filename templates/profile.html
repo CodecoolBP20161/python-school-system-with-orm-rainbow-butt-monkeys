@@ -1,60 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profile</title>
+    <title>My Profile</title>
     <!-- Bootstrap core CSS -->
-    <link href="https://bootswatch.com/sandstone/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+
 </head>
 
-<h2 align="center">Your personal profile</h2>
 <body style="padding-top: 100px">
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-
+            <a class="navbar-brand" href="/about">Home</a>
         </div>
 
     </div>
 </nav>
-<div>
-				<ul>
-					<table align="center" class="table table-hover">
-						<tr align = "center">
-							<td>Name</td>
-							<td>Email address</td>
-                            <td>Interview</td>
-							<td>Mentors</td>
-                            <td>School</td>
-							<td>Status</td>
-						</tr>
-						<tr align = "center">
-							<td>{{applicant.first_name}} {{applicant.last_name}}</td>
-							<td>{{applicant.email_address}}</td>
-                            <td>{{interview.date}}</td>
+    <div class="container">
+        <div class="jumbotron">
+        <div class="row">
+            <div class="col-lg-4">
+                <img src="static/user.png" width="300" height="300">
+            </div>
+            <div class="col-lg-6">
+                <p>Name: {{applicant.first_name}} {{applicant.last_name}}<br>Email: {{applicant.email_address}}
+                    <br>School: {{applicant.school.name}}<br>Interview: {{interview.date}}
+                    <br>Your Mentors:{{mentors[0].mentor.first_name}} {{mentors[0].mentor.last_name}},
+                    {{mentors[1].mentor.first_name}} {{mentors[1].mentor.last_name}}
+                    <br>Your status: {{applicant.status}}</p>
+            </div>
+            <div class="col-lg-2" align="right">
+                <p style="font-size: 40px">{{applicant.application_code}}</p>
+            </div>
+        </div>
+        </div>
+    </div>
 
-							<td>{{mentors[0].mentor.first_name}} {{mentors[0].mentor.last_name}}
-								<br>
-								{{mentors[1].mentor.first_name}} {{mentors[1].mentor.last_name}}
-								</td>
-
-                            <td>{{applicant.school.name}}</td>
-							<td>{{applicant.status}}</td>
-						</tr>
-
-					</table>
-      			</ul>
-
-			</div>
-
-<br>
-<button class="col-lg-1 btn btn-default " onclick="history.go(-1);return true;">Back</button>
-<p>
-	<a href="http://localhost:5000/app_logout"><button class="col-lg-1 btn btn-default pull-right">Logout</button></a>
-</p>
 </body>
 </html>
