@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Profile</title>
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="static/design.css">
+
+</head>
+
+<body style="padding-top: 100px">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Home</a>
+        </div>
+
+    </div>
+</nav>
+    <div class="container">
+        <div class="jumbotron">
+        <div class="row">
+            <div class="col-lg-4">
+                <img src="static/user.png" width="300" height="300">
+            </div>
+            <div class="col-lg-6">
+                <p><b>Name: </b>{{applicant.first_name}} {{applicant.last_name}}<br><b>Email: </b>{{applicant.email_address}}
+                    {% if interview %}
+                    <br><b>School: </b>{{applicant.school.name}}
+                    {% else%}
+                    <p align="center"><b>You don't have any school assigned yet</p>
+                    {% endif %}
+                    <br><p align="center"><b>Your status: </b>{{applicant.status}}</p>
+            </div>
+            <div class="col-lg-2 textContainer" align="center">
+                <div style="background-color: #325d88; color:white; padding: 5px; border-radius: 6px;">
+                    <h2 class="text-left">{{applicant.application_code}}</h2>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="jumbotron">
+        <div class="row">
+            <div class="col-lg-12">
+                {% if interview %}
+                    <p align="center"><b>Interview: </b> {{interview.date}}<br>
+                        <b>Your Mentors: </b>{{mentors[0].mentor.first_name}} {{mentors[0].mentor.last_name}},
+                        {{mentors[1].mentor.first_name}} {{mentors[1].mentor.last_name}}</p>
+                {% else%}
+                    <p align="center"><b>You don't have any school assigned mentor yet!</p>
+                {% endif %}
+            <div class="centered">
+                 <a class="btn btn-small btn-primary" type="button" href="{{url_for('logout')}}">Log out</a>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</body>
+</html>

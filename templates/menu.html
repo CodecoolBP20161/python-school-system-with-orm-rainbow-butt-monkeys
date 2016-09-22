@@ -12,16 +12,8 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-<style>
-    table, th, td {
 
-        text-align: center;
-    }
-</style>
-
-
-<body style="padding-top: 70px">
-
+<body style="padding-top: 100px">
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -40,19 +32,28 @@
     </tr>
 
     <tr>
-        <td width="20%">
-            <form action="http://localhost:5000/form">
-                <input type="submit" value="Applicant"/>
+        <td width="50%">
+            <form action="/login" method="get">
+                <button class="col-lg-10 btn btn-primary " type="submit" value="Admin">Admin</button>
             </form>
         </td>
-        <td>
-            <form action="http://127.0.0.1:5000/login">
-                <input type="submit" value="Admin"/>
+        <td width="50%">
+            <form action="/form" method="get">
+                <div class="dropdown">
+                  <button class="col-lg-10 btn btn-primary dropdown-toggle pull-right" type="button" data-toggle="dropdown" aria-expanded="False">Applicant
+                  </button>
+                  <ul class="dropdown-menu">
+                      <li><a href="http://localhost:5000/form">Registration</a></li>
+                      <li><a href="http://localhost:5000/login/applicant">My Profile</a></li>
+                  </ul>
+                </div>
             </form>
         </td>
+
     </tr>
 
 </table>
+
 </body>
 
 </html>
