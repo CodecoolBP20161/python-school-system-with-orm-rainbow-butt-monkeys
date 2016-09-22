@@ -75,13 +75,16 @@ def login_applicant():
 def print_profile():
     if session['applicant_logged_in'] is True:
         registered_applicant = Applicant.get(Applicant.id == session['app_id'])
-        interview = Interview.get(Interview.applicant == registered_applicant.id)
-        mentors = MentorInterview.select() \
-            .join(Mentor, on=Mentor.id == MentorInterview.mentor) \
-            .join(Interview, on=Interview.id == MentorInterview.interview) \
-            .where(registered_applicant.interview == MentorInterview.interview)
-        return render_template('/profile.html', applicant=registered_applicant,
-                               interview=interview, mentors=mentors)
+        if registered_applicant.status == "New":
+            return render_template('/profile.html', applicant=registered_applicant, interview=False, mentors=False)
+        elif registered_applicant.status == "In progress":
+            interview = Interview.get(Interview.applicant == registered_applicant.id)
+            mentors = MentorInterview.select() \
+                .join(Mentor, on=Mentor.id == MentorInterview.mentor) \
+                .join(Interview, on=Interview.id == MentorInterview.interview) \
+                .where(registered_applicant.interview == MentorInterview.interview)
+            return render_template('/profile.html', applicant=registered_applicant,
+                                   interview=interview, mentors=mentors)
     else:
         return redirect(config.address + "/login/applicant")
 
@@ -101,6 +104,8 @@ def app_logout():
 def render():
     session['applicant_logged_in'] = False
     session['app_id'] = None
+    Applicant.check_for_school()
+    Applicant.check_app_code()
     return render_template('menu.html')
 
 
@@ -114,6 +119,7 @@ def get_applicant():
     form = Form(request.form)
     check = form.check()
     if check is True:
+        Applicant.check_app_code()
         return redirect(config.address+'/')
     else:
         return check + "\n\n Please go back to the form"

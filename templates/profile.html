@@ -29,8 +29,12 @@
             </div>
             <div class="col-lg-6">
                 <p><b>Name: </b>{{applicant.first_name}} {{applicant.last_name}}<br><b>Email: </b>{{applicant.email_address}}
+                    {% if interview %}
                     <br><b>School: </b>{{applicant.school.name}}
-                    <br><b>Your status: </b>{{applicant.status}}</p>
+                    {% else%}
+                    <p align="center"><b>You don't have any school assigned yet</p>
+                    {% endif %}
+                    <br><p align="center"><b>Your status: </b>{{applicant.status}}</p>
             </div>
             <div class="col-lg-2 textContainer" align="center">
                 <div style="background-color: #325d88; color:white; padding: 5px; border-radius: 6px;">
@@ -44,9 +48,13 @@
         <div class="jumbotron">
         <div class="row">
             <div class="col-lg-12">
-                <p align="center"><b>Interview: </b> {{interview.date}}<br>
-                    <b>Your Mentors: </b>{{mentors[0].mentor.first_name}} {{mentors[0].mentor.last_name}},
-                    {{mentors[1].mentor.first_name}} {{mentors[1].mentor.last_name}}</p>
+                {% if interview %}
+                    <p align="center"><b>Interview: </b> {{interview.date}}<br>
+                        <b>Your Mentors: </b>{{mentors[0].mentor.first_name}} {{mentors[0].mentor.last_name}},
+                        {{mentors[1].mentor.first_name}} {{mentors[1].mentor.last_name}}</p>
+                {% else%}
+                    <p align="center"><b>You don't have any school assigned mentor yet!</p>
+                {% endif %}
             <div class="centered">
                  <a class="btn btn-small btn-primary" type="button" href="{{url_for('logout')}}">Log out</a>
             </div>
