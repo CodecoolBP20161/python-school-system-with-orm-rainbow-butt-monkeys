@@ -1,7 +1,13 @@
 .container-custom {
+<<<<<<< HEAD
   margin-top: 100px;
   margin-left: 400px;
   margin-right: 400px;
+=======
+  margin-top: 10%;
+  margin-left: 25%;
+  margin-right: 25%;
+>>>>>>> 2d89bb05a9651d234fc461d2cbd0f083c8d96dcf
         }
 
 h1 {

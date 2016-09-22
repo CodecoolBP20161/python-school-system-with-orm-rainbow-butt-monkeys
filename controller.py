@@ -3,7 +3,7 @@ from models import *
 from form import Form
 from flask import session
 from user import *
-from flask_login import login_user, logout_user, current_user, login_required, LoginManager
+from flask_login import login_user , logout_user , current_user , login_required, LoginManager
 from flask.ext.session import Session
 
 
@@ -25,22 +25,18 @@ def load_user(id):
     return User.get(User.id == id)
 
 
-@app.route('/admin', methods=['GET'])
-def empty_filter():
-    if session["logged_in"] is True:
-        return render_template('filter_menu.html')
-    else:
-        return redirect(config.address + "/login")
+
+@app.route("/", methods=["GET"])
+def render():
+    return render_template('menu.html')
+
 
 
 @app.route('/login', methods=['GET'])
 def login_render():
+    session['admin_logged_in'] = False
     return render_template('log_in.html')
 
-
-@app.route('/login/applicant', methods=['GET'])
-def applicant_login_render():
-    return render_template('applicant_login.html')
 
 
 @app.route('/login', methods=['POST'])
@@ -49,80 +45,25 @@ def login():
     password = request.form['password']
     try:
         registered_user = User.get(User.username == username, User.password == password)
-        session['logged_in'] = True
+        session['admin_logged_in'] = True
         return redirect(config.address + '/admin')
     except User.DoesNotExist:
         data = "Your username or password is invalid !"
         return render_template("log_in.html", data=data)
 
 
-@app.route('/login/applicant', methods=['POST'])
-def login_applicant():
-    e_mail = request.form['username']
-    registration_code = request.form['password']
-    try:
-        registered_applicant = Applicant.get(Applicant.email_address == e_mail,
-                                             Applicant.application_code == registration_code)
-        session['applicant_logged_in'] = True
-        session['app_id'] = registered_applicant.id
-        return redirect(config.address + "/profile")
-    except:
-        data = "Your username or password is invalid !"
-        return render_template("applicant_login.html", data=data)
-
-
-@app.route('/profile')
-def print_profile():
-    if session['applicant_logged_in'] is True:
-        registered_applicant = Applicant.get(Applicant.id == session['app_id'])
-        if registered_applicant.status == "New":
-            return render_template('/profile.html', applicant=registered_applicant, interview=False, mentors=False)
-        elif registered_applicant.status == "In progress":
-            interview = Interview.get(Interview.applicant == registered_applicant.id)
-            mentors = MentorInterview.select() \
-                .join(Mentor, on=Mentor.id == MentorInterview.mentor) \
-                .join(Interview, on=Interview.id == MentorInterview.interview) \
-                .where(registered_applicant.interview == MentorInterview.interview)
-            return render_template('/profile.html', applicant=registered_applicant,
-                                   interview=interview, mentors=mentors)
-    else:
-        return redirect(config.address + "/login/applicant")
-
-
 @app.route('/logout')
 def logout():
-    session['logged_in'] = False
+    session.clear()
     return redirect(config.address + "/")
 
 
-@app.route('/app_logout')
-def app_logout():
-    return redirect(config.address + "/")
-
-
-@app.route("/", methods=["GET"])
-def render():
-    session['applicant_logged_in'] = False
-    session['app_id'] = None
-    Applicant.check_for_school()
-    Applicant.check_app_code()
-    return render_template('menu.html')
-
-
-@app.route("/form", methods=["GET"])
-def form():
-    return render_template('form.html')
-
-
-@app.route("/registration", methods=["POST"])
-def get_applicant():
-    form = Form(request.form)
-    check = form.check()
-    if check is True:
-        Applicant.check_app_code()
-        return redirect(config.address+'/')
+@app.route('/admin', methods=['GET'])
+def empty_filter():
+    if "admin_logged_in" in session.keys() and session["admin_logged_in"] is True:
+        return render_template('filter_menu.html')
     else:
-        return check + "\n\n Please go back to the form"
+        return redirect(config.address + "/login")
 
 
 @app.route('/admin', methods=['POST'])
@@ -145,6 +86,70 @@ def list_applicants():
     else:
         result = Applicant.filter_by(filter, option)
         return render_template('filter_result.html', result=result)
+
+
+
+@app.route('/login/applicant', methods=['GET'])
+def applicant_login_render():
+    return render_template('applicant_login.html')
+
+
+
+@app.route('/login/applicant', methods=['POST'])
+def login_applicant():
+    e_mail = request.form['username']
+    registration_code = request.form['password']
+    try :
+        registered_applicant = Applicant.get(Applicant.email_address == e_mail,
+                                             Applicant.application_code == registration_code)
+        session['applicant_logged_in'] = True
+        session['app_id'] = registered_applicant.id
+        return redirect(config.address + "/profile")
+    except:
+        data = "Your username or password is invalid !"
+        return render_template("applicant_login.html", data=data)
+
+
+@app.route('/app_logout')
+def app_logout():
+    return redirect(config.address + "/")
+
+
+@app.route('/profile')
+def print_profile():
+    if session['applicant_logged_in'] is True:
+        registered_applicant = Applicant.get(Applicant.id == session['app_id'])
+        if registered_applicant.status == "New":
+            return render_template('/profile.html', applicant=registered_applicant, interview=False, mentors=False)
+        elif registered_applicant.status == "In progress":
+            interview = Interview.get(Interview.applicant == registered_applicant.id)
+            mentors = MentorInterview.select() \
+                .join(Mentor, on=Mentor.id == MentorInterview.mentor) \
+                .join(Interview, on=Interview.id == MentorInterview.interview) \
+                .where(registered_applicant.interview == MentorInterview.interview)
+            return render_template('/profile.html', applicant=registered_applicant,
+                                   interview=interview, mentors=mentors)
+    else:
+        return redirect(config.address + "/login/applicant")
+
+
+
+@app.route("/form", methods=["GET"])
+def form():
+    return render_template('form.html')
+
+
+@app.route("/registration", methods=["POST"])
+def get_applicant():
+    form = Form(request.form)
+    check = form.check()
+    if check == True:
+        Applicant.check_app_code()
+        Applicant.check_for_school()
+        return redirect(config.address+'/')
+    else:
+        return check + "\n\n Please go back to the form"
+
 
 
 @app.route('/admin_int', methods=['POST'])
@@ -177,7 +182,6 @@ def list_interviews():
             return "invalid date"
     else:
         return 'Not working!'
-
 
 @app.route("/about", methods=['GET'])
 def about():
